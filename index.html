@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>幼儿趣味英语 · 卡片阅读本</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #1a1a2e;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ==================== 目录页 ==================== */
+  .catalog {
+    position: fixed; inset: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 20px 16px 40px;
+    transition: transform 0.4s ease;
+  }
+  .catalog.hidden { transform: translateX(-100%); }
+
+  .catalog-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 900;
+    margin: 20px 0 6px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .catalog-sub {
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 24px;
+  }
+
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .catalog-item {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .catalog-item:active { transform: scale(0.95); background: rgba(255,255,255,0.25); }
+  .catalog-item .icon { font-size: 36px; display: block; margin-bottom: 6px; }
+  .catalog-item .name { font-size: 15px; font-weight: 700; }
+  .catalog-item .count { font-size: 11px; opacity: 0.7; margin-top: 2px; }
+
+  /* ==================== 阅读器 ==================== */
+  .reader {
+    position: fixed; inset: 0;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+    z-index: 200;
+  }
+  .reader.active { transform: translateX(0); }
+
+  /* 顶部栏 */
+  .reader-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+    z-index: 10;
+  }
+  .btn-back {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .reader-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .page-indicator {
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  /* 卡片区域 */
+  .card-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 3 / 4;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    position: absolute;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .card.current { transform: translateX(0); opacity: 1; z-index: 2; }
+  .card.prev { transform: translateX(-120%); opacity: 0; z-index: 1; }
+  .card.next { transform: translateX(120%); opacity: 0; z-index: 1; }
+
+  .card .emoji {
+    font-size: clamp(80px, 25vw, 120px);
+    line-height: 1.2;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+  }
+  .card .word {
+    font-size: clamp(28px, 8vw, 40px);
+    font-weight: 900;
+    color: #333;
+    text-align: center;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .card .phonetic {
+    font-size: clamp(14px, 4vw, 18px);
+    color: #888;
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .card .cn {
+    font-size: clamp(20px, 6vw, 28px);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  /* 底部导航 */
+  .reader-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px 24px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+  }
+  .btn-nav {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .btn-nav:active { background: rgba(255,255,255,0.3); }
+  .btn-nav:disabled { opacity: 0.3; }
+
+  .progress-bar {
+    flex: 1;
+    margin: 0 16px;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.4s;
+  }
+
+  /* 序列切换按钮 */
+  .series-nav {
+    display: flex;
+    gap: 8px;
+    margin: 0 8px;
+  }
+  .btn-series {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-series:active { background: rgba(255,255,255,0.3); }
+
+  /* ==================== 动画 ==================== */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .card.current { animation: fadeIn 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- ==================== 目录页 ==================== -->
+<div class="catalog" id="catalog">
+  <div class="catalog-title">📚 幼儿趣味英语</div>
+  <div class="catalog-sub">卡片阅读本 · 点击开始阅读</div>
+  <div class="catalog-grid" id="catalogGrid"></div>
+</div>
+
+<!-- ==================== 阅读器 ==================== -->
+<div class="reader" id="reader">
+  <div class="reader-top">
+    <button class="btn-back" id="btnBack">← 返回</button>
+    <div class="reader-title" id="readerTitle"></div>
+    <div class="page-indicator" id="pageIndicator"></div>
+  </div>
+  <div class="card-area" id="cardArea">
+    <div class="card prev" id="cardPrev"></div>
+    <div class="card current" id="cardCurrent"></div>
+    <div class="card next" id="cardNext"></div>
+  </div>
+  <div class="reader-bottom">
+    <button class="btn-nav" id="btnPrev">◀</button>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="series-nav">
+      <button class="btn-series" id="btnPrevSeries">◀ 上一系列</button>
+      <button class="btn-series" id="btnNextSeries">下一系列 ▶</button>
+    </div>
+    <button class="btn-nav" id="btnNext">▶</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 数据
+// ============================================================
+const series = [
+  {
+    name: '动物', nameEn: 'Animals', icon: '🐾',
+    bg: '#e8f5e9', accent: '#4caf50',
+    cards: [
+      { emoji: '🐱', word: 'cat', phonetic: '/kæt/', cn: '猫' },
+      { emoji: '🐶', word: 'dog', phonetic: '/dɒɡ/', cn: '狗' },
+      { emoji: '🐟', word: 'fish', phonetic: '/fɪʃ/', cn: '鱼' },
+      { emoji: '🐦', word: 'bird', phonetic: '/bɜːd/', cn: '鸟' },
+      { emoji: '🐰', word: 'rabbit', phonetic: '/ˈræbɪt/', cn: '兔子' },
+      { emoji: '🐻', word: 'bear', phonetic: '/beə/', cn: '熊' },
+      { emoji: '🐘', word: 'elephant', phonetic: '/ˈelɪfənt/', cn: '大象' },
+      { emoji: '🐵', word: 'monkey', phonetic: '/ˈmʌŋki/', cn: '猴子' },
+      { emoji: '🦁', word: 'lion', phonetic: '/ˈlaɪən/', cn: '狮子' },
+      { emoji: '🐯', word: 'tiger', phonetic: '/ˈtaɪɡə/', cn: '老虎' },
+      { emoji: '🐸', word: 'frog', phonetic: '/frɒɡ/', cn: '青蛙' },
+      { emoji: '🦆', word: 'duck', phonetic: '/dʌk/', cn: '鸭子' },
+    ],
+  },
+  {
+    name: '颜色', nameEn: 'Colors', icon: '🎨',
+    bg: '#fff8e1', accent: '#ff9800',
+    cards: [
+      { emoji: '🔴', word: 'red', phonetic: '/red/', cn: '红色' },
+      { emoji: '🔵', word: 'blue', phonetic: '/bluː/', cn: '蓝色' },
+      { emoji: '🟡', word: 'yellow', phonetic: '/ˈjeləʊ/', cn: '黄色' },
+      { emoji: '🟢', word: 'green', phonetic: '/ɡriːn/', cn: '绿色' },
+      { emoji: '🟠', word: 'orange', phonetic: '/ˈɒrɪndʒ/', cn: '橙色' },
+      { emoji: '🩷', word: 'pink', phonetic: '/pɪŋk/', cn: '粉色' },
+      { emoji: '🟣', word: 'purple', phonetic: '/ˈpɜːpl/', cn: '紫色' },
+      { emoji: '⚪', word: 'white', phonetic: '/waɪt/', cn: '白色' },
+      { emoji: '⚫', word: 'black', phonetic: '/blæk/', cn: '黑色' },
+      { emoji: '🤎', word: 'brown', phonetic: '/braʊn/', cn: '棕色' },
+      { emoji: '🩶', word: 'gray', phonetic: '/ɡreɪ/', cn: '灰色' },
+      { emoji: '❤️', word: 'heart', phonetic: '/hɑːt/', cn: '爱心' },
+    ],
+  },
+  {
+    name: '数字', nameEn: 'Numbers', icon: '🔢',
+    bg: '#e3f2fd', accent: '#2196f3',
+    cards: [
+      { emoji: '1️⃣', word: 'one', phonetic: '/wʌn/', cn: '一' },
+      { emoji: '2️⃣', word: 'two', phonetic: '/tuː/', cn: '二' },
+      { emoji: '3️⃣', word: 'three', phonetic: '/θriː/', cn: '三' },
+      { emoji: '4️⃣', word: 'four', phonetic: '/fɔː/', cn: '四' },
+      { emoji: '5️⃣', word: 'five', phonetic: '/faɪv/', cn: '五' },
+      { emoji: '6️⃣', word: 'six', phonetic: '/sɪks/', cn: '六' },
+      { emoji: '7️⃣', word: 'seven', phonetic: '/ˈsevn/', cn: '七' },
+      { emoji: '8️⃣', word: 'eight', phonetic: '/eɪt/', cn: '八' },
+      { emoji: '9️⃣', word: 'nine', phonetic: '/naɪn/', cn: '九' },
+      { emoji: '🔟', word: 'ten', phonetic: '/ten/', cn: '十' },
+      { emoji: '💯', word: 'hundred', phonetic: '/ˈhʌndrəd/', cn: '一百' },
+      { emoji: '🔢', word: 'number', phonetic: '/ˈnʌmbə/', cn: '数字' },
+    ],
+  },
+  {
+    name: '水果', nameEn: 'Fruits', icon: '🍎',
+    bg: '#fce4ec', accent: '#e91e63',
+    cards: [
+      { emoji: '🍎', word: 'apple', phonetic: '/ˈæpl/', cn: '苹果' },
+      { emoji: '🍌', word: 'banana', phonetic: '/bəˈnɑːnə/', cn: '香蕉' },
+      { emoji: '🍊', word: 'orange', phonetic: '/ˈɒrɪndʒ/', cn: '橘子' },
+      { emoji: '🍇', word: 'grape', phonetic: '/ɡreɪp/', cn: '葡萄' },
+      { emoji: '🍓', word: 'strawberry', phonetic: '/ˈstrɔːbəri/', cn: '草莓' },
+      { emoji: '🍉', word: 'watermelon', phonetic: '/ˈwɔːtəmelən/', cn: '西瓜' },
+      { emoji: '🍑', word: 'peach', phonetic: '/piːtʃ/', cn: '桃子' },
+      { emoji: '🍐', word: 'pear', phonetic: '/peə/', cn: '梨' },
+      { emoji: '🍒', word: 'cherry', phonetic: '/ˈtʃeri/', cn: '樱桃' },
+      { emoji: '🍋', word: 'lemon', phonetic: '/ˈlemən/', cn: '柠檬' },
+      { emoji: '🥭', word: 'mango', phonetic: '/ˈmæŋɡəʊ/', cn: '芒果' },
+      { emoji: '🍍', word: 'pineapple', phonetic: '/ˈpaɪnæpl/', cn: '菠萝' },
+    ],
+  },
+  {
+    name: '家庭', nameEn: 'Family', icon: '👨‍👩‍👧',
+    bg: '#f3e5f5', accent: '#9c27b0',
+    cards: [
+      { emoji: '👩', word: 'mom', phonetic: '/mɒm/', cn: '妈妈' },
+      { emoji: '👨', word: 'dad', phonetic: '/dæd/', cn: '爸爸' },
+      { emoji: '👦', word: 'brother', phonetic: '/ˈbrʌðə/', cn: '兄弟' },
+      { emoji: '👧', word: 'sister', phonetic: '/ˈsɪstə/', cn: '姐妹' },
+      { emoji: '👶', word: 'baby', phonetic: '/ˈbeɪbi/', cn: '宝宝' },
+      { emoji: '👵', word: 'grandma', phonetic: '/ˈɡrænmɑː/', cn: '奶奶/外婆' },
+      { emoji: '👴', word: 'grandpa', phonetic: '/ˈɡrænpɑː/', cn: '爷爷/外公' },
+      { emoji: '🧑‍🤝‍🧑', word: 'friend', phonetic: '/frend/', cn: '朋友' },
+      { emoji: '👨‍👩‍👦', word: 'family', phonetic: '/ˈfæməli/', cn: '家庭' },
+      { emoji: '🧑', word: 'people', phonetic: '/ˈpiːpl/', cn: '人们' },
+      { emoji: '👩‍🏫', word: 'teacher', phonetic: '/ˈtiːtʃə/', cn: '老师' },
+      { emoji: '🧒', word: 'child', phonetic: '/tʃaɪld/', cn: '孩子' },
+    ],
+  },
+  {
+    name: '食物', nameEn: 'Food', icon: '🍕',
+    bg: '#fff3e0', accent: '#ff5722',
+    cards: [
+      { emoji: '🍞', word: 'bread', phonetic: '/bred/', cn: '面包' },
+      { emoji: '🥛', word: 'milk', phonetic: '/mɪlk/', cn: '牛奶' },
+      { emoji: '🥚', word: 'egg', phonetic: '/eɡ/', cn: '鸡蛋' },
+      { emoji: '🍚', word: 'rice', phonetic: '/raɪs/', cn: '米饭' },
+      { emoji: '🎂', word: 'cake', phonetic: '/keɪk/', cn: '蛋糕' },
+      { emoji: '🍪', word: 'cookie', phonetic: '/ˈkʊki/', cn: '饼干' },
+      { emoji: '🧃', word: 'juice', phonetic: '/dʒuːs/', cn: '果汁' },
+      { emoji: '💧', word: 'water', phonetic: '/ˈwɔːtə/', cn: '水' },
+      { emoji: '🍕', word: 'pizza', phonetic: '/ˈpiːtsə/', cn: '披萨' },
+      { emoji: '🍜', word: 'noodle', phonetic: '/ˈnuːdl/', cn: '面条' },
+      { emoji: '🍦', word: 'ice cream', phonetic: '/aɪs kriːm/', cn: '冰淇淋' },
+      { emoji: '🍫', word: 'chocolate', phonetic: '/ˈtʃɒklət/', cn: '巧克力' },
+    ],
+  },
+  {
+    name: '身体', nameEn: 'Body', icon: '🧒',
+    bg: '#e0f7fa', accent: '#00bcd4',
+    cards: [
+      { emoji: '👀', word: 'eye', phonetic: '/aɪ/', cn: '眼睛' },
+      { emoji: '👂', word: 'ear', phonetic: '/ɪə/', cn: '耳朵' },
+      { emoji: '👃', word: 'nose', phonetic: '/nəʊz/', cn: '鼻子' },
+      { emoji: '👄', word: 'mouth', phonetic: '/maʊθ/', cn: '嘴巴' },
+      { emoji: '🖐️', word: 'hand', phonetic: '/hænd/', cn: '手' },
+      { emoji: '🦶', word: 'foot', phonetic: '/fʊt/', cn: '脚' },
+      { emoji: '💪', word: 'arm', phonetic: '/ɑːm/', cn: '胳膊' },
+      { emoji: '🦵', word: 'leg', phonetic: '/leɡ/', cn: '腿' },
+      { emoji: '😊', word: 'face', phonetic: '/feɪs/', cn: '脸' },
+      { emoji: '🦷', word: 'tooth', phonetic: '/tuːθ/', cn: '牙齿' },
+      { emoji: '👅', word: 'tongue', phonetic: '/tʌŋ/', cn: '舌头' },
+      { emoji: '🫀', word: 'heart', phonetic: '/hɑːt/', cn: '心脏' },
+    ],
+  },
+  {
+    name: '衣物', nameEn: 'Clothes', icon: '👕',
+    bg: '#fce4ec', accent: '#ad1457',
+    cards: [
+      { emoji: '👕', word: 'shirt', phonetic: '/ʃɜːt/', cn: '衬衫' },
+      { emoji: '👖', word: 'pants', phonetic: '/pænts/', cn: '裤子' },
+      { emoji: '👗', word: 'dress', phonetic: '/dres/', cn: '连衣裙' },
+      { emoji: '👟', word: 'shoe', phonetic: '/ʃuː/', cn: '鞋子' },
+      { emoji: '🧦', word: 'sock', phonetic: '/sɒk/', cn: '袜子' },
+      { emoji: '🧥', word: 'coat', phonetic: '/kəʊt/', cn: '外套' },
+      { emoji: '🧢', word: 'hat', phonetic: '/hæt/', cn: '帽子' },
+      { emoji: '🧣', word: 'scarf', phonetic: '/skɑːf/', cn: '围巾' },
+      { emoji: '🧤', word: 'glove', phonetic: '/ɡlʌv/', cn: '手套' },
+      { emoji: '👙', word: 'shorts', phonetic: '/ʃɔːts/', cn: '短裤' },
+      { emoji: '👔', word: 'tie', phonetic: '/taɪ/', cn: '领带' },
+      { emoji: '🩴', word: 'slipper', phonetic: '/ˈslɪpə/', cn: '拖鞋' },
+    ],
+  },
+  {
+    name: '自然', nameEn: 'Nature', icon: '🌿',
+    bg: '#f1f8e9', accent: '#558b2f',
+    cards: [
+      { emoji: '☀️', word: 'sun', phonetic: '/sʌn/', cn: '太阳' },
+      { emoji: '🌙', word: 'moon', phonetic: '/muːn/', cn: '月亮' },
+      { emoji: '⭐', word: 'star', phonetic: '/stɑː/', cn: '星星' },
+      { emoji: '🌸', word: 'flower', phonetic: '/ˈflaʊə/', cn: '花' },
+      { emoji: '🌳', word: 'tree', phonetic: '/triː/', cn: '树' },
+      { emoji: '☁️', word: 'cloud', phonetic: '/klaʊd/', cn: '云' },
+      { emoji: '🌈', word: 'rainbow', phonetic: '/ˈreɪnbəʊ/', cn: '彩虹' },
+      { emoji: '🌧️', word: 'rain', phonetic: '/reɪn/', cn: '雨' },
+      { emoji: '❄️', word: 'snow', phonetic: '/snəʊ/', cn: '雪' },
+      { emoji: '🌊', word: 'sea', phonetic: '/siː/', cn: '大海' },
+      { emoji: '🏔️', word: 'mountain', phonetic: '/ˈmaʊntɪn/', cn: '山' },
+      { emoji: '🍃', word: 'leaf', phonetic: '/liːf/', cn: '树叶' },
+    ],
+  },
+  {
+    name: '动作', nameEn: 'Actions', icon: '🏃',
+    bg: '#fff9c4', accent: '#f9a825',
+    cards: [
+      { emoji: '🏃', word: 'run', phonetic: '/rʌn/', cn: '跑' },
+      { emoji: '🚶', word: 'walk', phonetic: '/wɔːk/', cn: '走' },
+      { emoji: '🤸', word: 'jump', phonetic: '/dʒʌmp/', cn: '跳' },
+      { emoji: '🏊', word: 'swim', phonetic: '/swɪm/', cn: '游泳' },
+      { emoji: '😴', word: 'sleep', phonetic: '/sliːp/', cn: '睡觉' },
+      { emoji: '😋', word: 'eat', phonetic: '/iːt/', cn: '吃' },
+      { emoji: '🥤', word: 'drink', phonetic: '/drɪŋk/', cn: '喝' },
+      { emoji: '📖', word: 'read', phonetic: '/riːd/', cn: '读' },
+      { emoji: '✍️', word: 'write', phonetic: '/raɪt/', cn: '写' },
+      { emoji: '🎵', word: 'sing', phonetic: '/sɪŋ/', cn: '唱歌' },
+      { emoji: '💃', word: 'dance', phonetic: '/dɑːns/', cn: '跳舞' },
+      { emoji: '🎨', word: 'draw', phonetic: '/drɔː/', cn: '画画' },
+    ],
+  },
+  {
+    name: '日常口语', nameEn: 'Daily Talk', icon: '💬',
+    bg: '#e8eaf6', accent: '#3f51b5',
+    cards: [
+      { emoji: '👋', word: 'Hello!', phonetic: '/həˈləʊ/', cn: '你好！' },
+      { emoji: '🌅', word: 'Good morning!', phonetic: '/ɡʊd ˈmɔːnɪŋ/', cn: '早上好！' },
+      { emoji: '🌙', word: 'Good night!', phonetic: '/ɡʊd naɪt/', cn: '晚安！' },
+      { emoji: '👋', word: 'Goodbye!', phonetic: '/ɡʊdˈbaɪ/', cn: '再见！' },
+      { emoji: '🙏', word: 'Thank you!', phonetic: '/θæŋk juː/', cn: '谢谢你！' },
+      { emoji: '😊', word: 'Sorry!', phonetic: '/ˈsɒri/', cn: '对不起！' },
+      { emoji: '🥺', word: 'Please!', phonetic: '/pliːz/', cn: '拜托！/请！' },
+      { emoji: '👍', word: 'Yes!', phonetic: '/jes/', cn: '是的！' },
+      { emoji: '🙅', word: 'No!', phonetic: '/nəʊ/', cn: '不！' },
+      { emoji: '❤️', word: 'I love you!', phonetic: '/aɪ lʌv juː/', cn: '我爱你！' },
+      { emoji: '😄', word: "I'm happy!", phonetic: '/aɪm ˈhæpi/', cn: '我很开心！' },
+      { emoji: '🤗', word: 'How are you?', phonetic: '/haʊ ɑː juː/', cn: '你好吗？' },
+      { emoji: '😊', word: "I'm fine!", phonetic: '/aɪm faɪn/', cn: '我很好！' },
+      { emoji: '🆘', word: 'Help me!', phonetic: '/help miː/', cn: '帮帮我！' },
+      { emoji: '🆕', word: "What's this?", phonetic: '/wɒts ðɪs/', cn: '这是什么？' },
+      { emoji: '🙋', word: "Let's go!", phonetic: '/lets ɡəʊ/', cn: '我们走吧！' },
+      { emoji: '⏸️', word: 'Wait for me!', phonetic: '/weɪt fɔː miː/', cn: '等等我！' },
+      { emoji: '🤗', word: 'Give me a hug!', phonetic: '/ɡɪv miː ə hʌɡ/', cn: '抱抱我！' },
+      { emoji: '👏', word: 'Good job!', phonetic: '/ɡʊd dʒɒb/', cn: '做得好！' },
+      { emoji: '🤔', word: "I don't know.", phonetic: '/aɪ dəʊnt nəʊ/', cn: '我不知道。' },
+      { emoji: '😋', word: 'Yummy!', phonetic: '/ˈjʌmi/', cn: '好吃！' },
+      { emoji: '😱', word: 'Oh no!', phonetic: '/əʊ nəʊ/', cn: '不好了！' },
+      { emoji: '🚾', word: 'I need the potty.', phonetic: '/aɪ niːðə ˈpɒti/', cn: '我要上厕所。' },
+      { emoji: '😴', word: "I'm sleepy.", phonetic: '/aɪm ˈsliːpi/', cn: '我困了。' },
+    ],
+  },
+  {
+    name: '交通工具', nameEn: 'Vehicles', icon: '🚗',
+    bg: '#e3f2fd', accent: '#1565c0',
+    cards: [
+      { emoji: '🚗', word: 'car', phonetic: '/kɑː/', cn: '汽车' },
+      { emoji: '🚌', word: 'bus', phonetic: '/bʌs/', cn: '公交车' },
+      { emoji: '🚂', word: 'train', phonetic: '/treɪn/', cn: '火车' },
+      { emoji: '✈️', word: 'plane', phonetic: '/pleɪn/', cn: '飞机' },
+      { emoji: '🚢', word: 'ship', phonetic: '/ʃɪp/', cn: '轮船' },
+      { emoji: '🚲', word: 'bike', phonetic: '/baɪk/', cn: '自行车' },
+      { emoji: '🚒', word: 'fire truck', phonetic: '/ˈfaɪə trʌk/', cn: '消防车' },
+      { emoji: '🚑', word: 'ambulance', phonetic: '/ˈæmbjələns/', cn: '救护车' },
+      { emoji: '🚕', word: 'taxi', phonetic: '/ˈtæksi/', cn: '出租车' },
+      { emoji: '🚀', word: 'rocket', phonetic: '/ˈrɒkɪt/', cn: '火箭' },
+      { emoji: '🚁', word: 'helicopter', phonetic: '/ˈhelɪkɒptə/', cn: '直升机' },
+      { emoji: '🛵', word: 'motorcycle', phonetic: '/ˈməʊtəsaɪkl/', cn: '摩托车' },
+    ],
+  },
+  {
+    name: '形状', nameEn: 'Shapes', icon: '🔷',
+    bg: '#fce4ec', accent: '#c62828',
+    cards: [
+      { emoji: '⭕', word: 'circle', phonetic: '/ˈsɜːkl/', cn: '圆形' },
+      { emoji: '⬜', word: 'square', phonetic: '/skweə/', cn: '正方形' },
+      { emoji: '🔺', word: 'triangle', phonetic: '/ˈtraɪæŋɡl/', cn: '三角形' },
+      { emoji: '⭐', word: 'star', phonetic: '/stɑː/', cn: '星星形' },
+      { emoji: '❤️', word: 'heart', phonetic: '/hɑːt/', cn: '心形' },
+      { emoji: '🔷', word: 'diamond', phonetic: '/ˈdaɪəmənd/', cn: '菱形' },
+      { emoji: '▬', word: 'rectangle', phonetic: '/ˈrektæŋɡl/', cn: '长方形' },
+      { emoji: '🥚', word: 'oval', phonetic: '/ˈəʊvl/', cn: '椭圆形' },
+      { emoji: '➡️', word: 'arrow', phonetic: '/ˈærəʊ/', cn: '箭头形' },
+      { emoji: '🌙', word: 'crescent', phonetic: '/ˈkresnt/', cn: '月牙形' },
+      { emoji: '💠', word: 'ring', phonetic: '/rɪŋ/', cn: '环形' },
+      { emoji: '➕', word: 'cross', phonetic: '/krɒs/', cn: '十字形' },
+    ],
+  },
+  {
+    name: '职业', nameEn: 'Jobs', icon: '👨‍⚕️',
+    bg: '#fff3e0', accent: '#e65100',
+    cards: [
+      { emoji: '👨‍⚕️', word: 'doctor', phonetic: '/ˈdɒktə/', cn: '医生' },
+      { emoji: '👩‍🏫', word: 'teacher', phonetic: '/ˈtiːtʃə/', cn: '老师' },
+      { emoji: '👮', word: 'police', phonetic: '/pəˈliːs/', cn: '警察' },
+      { emoji: '🧑‍🚒', word: 'firefighter', phonetic: '/ˈfaɪəfaɪtə/', cn: '消防员' },
+      { emoji: '👨‍🍳', word: 'chef', phonetic: '/ʃef/', cn: '厨师' },
+      { emoji: '👩‍⚕️', word: 'nurse', phonetic: '/nɜːs/', cn: '护士' },
+      { emoji: '👨‍🌾', word: 'farmer', phonetic: '/ˈfɑːmə/', cn: '农民' },
+      { emoji: '👨‍✈️', word: 'pilot', phonetic: '/ˈpaɪlət/', cn: '飞行员' },
+      { emoji: '🧑‍🎨', word: 'artist', phonetic: '/ˈɑːtɪst/', cn: '画家' },
+      { emoji: '🧑‍🎤', word: 'singer', phonetic: '/ˈsɪŋə/', cn: '歌手' },
+      { emoji: '👷', word: 'worker', phonetic: '/ˈwɜːkə/', cn: '工人' },
+      { emoji: '🧑‍💻', word: 'coder', phonetic: '/ˈkəʊdə/', cn: '程序员' },
+    ],
+  },
+  {
+    name: '季节天气', nameEn: 'Seasons', icon: '🌤️',
+    bg: '#e0f2f1', accent: '#00695c',
+    cards: [
+      { emoji: '🌸', word: 'spring', phonetic: '/sprɪŋ/', cn: '春天' },
+      { emoji: '☀️', word: 'summer', phonetic: '/ˈsʌmə/', cn: '夏天' },
+      { emoji: '🍂', word: 'autumn', phonetic: '/ˈɔːtəm/', cn: '秋天' },
+      { emoji: '❄️', word: 'winter', phonetic: '/ˈwɪntə/', cn: '冬天' },
+      { emoji: '☀️', word: 'sunny', phonetic: '/ˈsʌni/', cn: '晴天' },
+      { emoji: '☁️', word: 'cloudy', phonetic: '/ˈklaʊdi/', cn: '多云' },
+      { emoji: '🌧️', word: 'rainy', phonetic: '/ˈreɪni/', cn: '下雨' },
+      { emoji: '💨', word: 'windy', phonetic: '/ˈwɪndi/', cn: '刮风' },
+      { emoji: '🌨️', word: 'snowy', phonetic: '/ˈsnəʊi/', cn: '下雪' },
+      { emoji: '🌡️', word: 'hot', phonetic: '/hɒt/', cn: '热' },
+      { emoji: '🧊', word: 'cold', phonetic: '/kəʊld/', cn: '冷' },
+      { emoji: '🌡️', word: 'warm', phonetic: '/wɔːm/', cn: '温暖' },
+    ],
+  },
+  {
+    name: '反义词', nameEn: 'Opposites', icon: '🔀',
+    bg: '#f3e5f5', accent: '#6a1b9a',
+    cards: [
+      { emoji: '🐘🐁', word: 'big — small', phonetic: '/bɪɡ — smɔːl/', cn: '大 — 小' },
+      { emoji: '📏✂️', word: 'long — short', phonetic: '/lɒŋ — ʃɔːt/', cn: '长 — 短' },
+      { emoji: '🔥🧊', word: 'hot — cold', phonetic: '/hɒt — kəʊld/', cn: '热 — 冷' },
+      { emoji: '🐇🐢', word: 'fast — slow', phonetic: '/fɑːst — sləʊ/', cn: '快 — 慢' },
+      { emoji: '⬇️⬆️', word: 'up — down', phonetic: '/ʌp — daʊn/', cn: '上 — 下' },
+      { emoji: '🚪🔒', word: 'open — close', phonetic: '/ˈəʊpən — kləʊz/', cn: '开 — 关' },
+      { emoji: '😊😢', word: 'happy — sad', phonetic: '/ˈhæpi — sæd/', cn: '开心 — 难过' },
+      { emoji: '👴👶', word: 'old — young', phonetic: '/əʊld — jʌŋ/', cn: '老 — 年轻' },
+      { emoji: '📏🤏', word: 'tall — short', phonetic: '/tɔːl — ʃɔːt/', cn: '高 — 矮' },
+      { emoji: '☀️🌙', word: 'day — night', phonetic: '/deɪ — naɪt/', cn: '白天 — 黑夜' },
+      { emoji: '💧🏜️', word: 'wet — dry', phonetic: '/wet — draɪ/', cn: '湿 — 干' },
+      { emoji: '🔄', word: 'in — out', phonetic: '/ɪn — aʊt/', cn: '里 — 外' },
+    ],
+  },
+  {
+    name: '社交用语', nameEn: 'Making Friends', icon: '🤝',
+    bg: '#e8f5e9', accent: '#2e7d32',
+    cards: [
+      { emoji: '❓', word: "What's your name?", phonetic: '/wɒts jɔː neɪm/', cn: '你叫什么名字？' },
+      { emoji: '😊', word: 'My name is...', phonetic: '/maɪ neɪm ɪz/', cn: '我叫……' },
+      { emoji: '🤝', word: 'Nice to meet you!', phonetic: '/naɪs tə miːt juː/', cn: '认识你很高兴！' },
+      { emoji: '🎮', word: "Let's play together!", phonetic: '/lets pleɪ təˈɡeðə/', cn: '一起玩吧！' },
+      { emoji: '🙋', word: 'Can I join?', phonetic: '/kæn aɪ dʒɔɪn/', cn: '我可以加入吗？' },
+      { emoji: '💖', word: "You're my best friend!", phonetic: '/jɔː maɪ best frend/', cn: '你是我最好的朋友！' },
+      { emoji: '👋', word: 'See you tomorrow!', phonetic: '/siː juː təˈmɒrəʊ/', cn: '明天见！' },
+      { emoji: '👉', word: 'Come with me!', phonetic: '/kʌm wɪð miː/', cn: '跟我来！' },
+      { emoji: '🤲', word: 'Share with me!', phonetic: '/ʃeə wɪð miː/', cn: '和我分享！' },
+      { emoji: '🔄', word: 'Take turns!', phonetic: '/teɪk tɜːnz/', cn: '轮流来！' },
+      { emoji: '🤗', word: "You're so kind!", phonetic: '/jɔː səʊ kaɪnd/', cn: '你真好！' },
+      { emoji: '💪', word: "Let's help each other!", phonetic: '/lets help iːtʃ ˈʌðə/', cn: '我们互相帮助！' },
+    ],
+  },
+  {
+    name: '教室用语', nameEn: 'Classroom', icon: '🏫',
+    bg: '#fffde7', accent: '#f57f17',
+    cards: [
+      { emoji: '🧍', word: 'Stand up!', phonetic: '/stænd ʌp/', cn: '站起来！' },
+      { emoji: '🪑', word: 'Sit down!', phonetic: '/sɪt daʊn/', cn: '坐下！' },
+      { emoji: '👂', word: 'Listen to me!', phonetic: '/ˈlɪsn tə miː/', cn: '听我说！' },
+      { emoji: '👀', word: 'Look at me!', phonetic: '/lʊk æt miː/', cn: '看我！' },
+      { emoji: '✋', word: 'Raise your hand!', phonetic: '/reɪz jɔː hænd/', cn: '举手！' },
+      { emoji: '🤫', word: 'Be quiet!', phonetic: '/biː ˈkwaɪət/', cn: '安静！' },
+      { emoji: '👏', word: 'Well done!', phonetic: '/wel dʌn/', cn: '做得好！' },
+      { emoji: '📖', word: 'Open your book!', phonetic: '/ˈəʊpən jɔː bʊk/', cn: '打开书！' },
+      { emoji: '📏', word: 'Line up!', phonetic: '/laɪn ʌp/', cn: '排队！' },
+      { emoji: '🧹', word: 'Clean up!', phonetic: '/kliːn ʌp/', cn: '打扫！' },
+      { emoji: '❓', word: 'Ready?', phonetic: '/ˈredi/', cn: '准备好了吗？' },
+      { emoji: '🔔', word: 'Class begins!', phonetic: '/klɑːs bɪˈɡɪnz/', cn: '上课了！' },
+    ],
+  },
+];
+
+// ============================================================
+// 状态
+// ============================================================
+let currentSeries = 0;
+let currentCard = 0;
+let touchStartX = 0;
+let touchStartY = 0;
+
+const catalog = document.getElementById('catalog');
+const reader = document.getElementById('reader');
+const catalogGrid = document.getElementById('catalogGrid');
+const readerTitle = document.getElementById('readerTitle');
+const pageIndicator = document.getElementById('pageIndicator');
+const progressFill = document.getElementById('progressFill');
+const cardArea = document.getElementById('cardArea');
+const cardPrev = document.getElementById('cardPrev');
+const cardCurrent = document.getElementById('cardCurrent');
+const cardNext = document.getElementById('cardNext');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnBack = document.getElementById('btnBack');
+const btnPrevSeries = document.getElementById('btnPrevSeries');
+const btnNextSeries = document.getElementById('btnNextSeries');
+
+// ============================================================
+// 目录
+// ============================================================
+function renderCatalog() {
+  catalogGrid.innerHTML = series
+    .map(
+      (s, i) => `
+    <div class="catalog-item" onclick="openSeries(${i})">
+      <span class="icon">${s.icon}</span>
+      <div class="name">${s.name}</div>
+      <div class="count">${s.nameEn} · ${s.cards.length}词</div>
+    </div>`
+    )
+    .join('');
+}
+
+// ============================================================
+// 阅读器
+// ============================================================
+function openSeries(idx) {
+  currentSeries = idx;
+  currentCard = 0;
+  catalog.classList.add('hidden');
+  reader.classList.add('active');
+  renderCard();
+}
+
+function goBack() {
+  reader.classList.remove('active');
+  catalog.classList.remove('hidden');
+}
+
+function renderCard() {
+  const s = series[currentSeries];
+  const cards = s.cards;
+  const total = cards.length;
+
+  readerTitle.textContent = `${s.icon} ${s.name}`;
+  pageIndicator.textContent = `${currentCard + 1} / ${total}`;
+  progressFill.style.width = `${((currentCard + 1) / total) * 100}%`;
+  progressFill.style.background = s.accent;
+
+  // 渲染三张卡（前、当前、后）
+  const renderOne = (el, idx, cls) => {
+    if (idx < 0 || idx >= total) {
+      el.style.display = 'none';
+      return;
+    }
+    el.style.display = 'flex';
+    const c = cards[idx];
+    el.className = `card ${cls}`;
+    el.style.background = s.bg;
+    el.innerHTML = `
+      <div class="emoji">${c.emoji}</div>
+      <div class="word">${c.word}</div>
+      <div class="phonetic">${c.phonetic}</div>
+      <div class="cn" style="color:${s.accent}">${c.cn}</div>
+    `;
+  };
+
+  renderOne(cardPrev, currentCard - 1, 'prev');
+  renderOne(cardCurrent, currentCard, 'current');
+  renderOne(cardNext, currentCard + 1, 'next');
+
+  btnPrev.disabled = currentCard === 0;
+  btnNext.disabled = currentCard === total - 1;
+}
+
+function goPrev() {
+  if (currentCard > 0) {
+    currentCard--;
+    renderCard();
+  }
+}
+
+function goNext() {
+  if (currentCard < series[currentSeries].cards.length - 1) {
+    currentCard++;
+    renderCard();
+  }
+}
+
+function switchSeries(delta) {
+  const next = currentSeries + delta;
+  if (next >= 0 && next < series.length) {
+    currentSeries = next;
+    currentCard = 0;
+    renderCard();
+  }
+}
+
+// ============================================================
+// 触摸滑动
+// ============================================================
+cardArea.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+cardArea.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+    if (dx < 0) goNext();
+    else goPrev();
+  }
+}, { passive: true });
+
+// 键盘左右
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') goPrev();
+  if (e.key === 'ArrowRight') goNext();
+  if (e.key === 'Escape') goBack();
+});
+
+// 按钮
+btnPrev.addEventListener('click', goPrev);
+btnNext.addEventListener('click', goNext);
+btnBack.addEventListener('click', goBack);
+btnPrevSeries.addEventListener('click', () => switchSeries(-1));
+btnNextSeries.addEventListener('click', () => switchSeries(1));
+
+// ============================================================
+// 初始化
+// ============================================================
+renderCatalog();
+</script>
+</body>
+</html>
