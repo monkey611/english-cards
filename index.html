@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>幼儿趣味英语 · 卡片阅读本</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
-    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: #1a1a2e;
-    color: #fff;
+    font-family: 'Nunito', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #f0f4ff;
+    color: #333;
     overflow: hidden;
     height: 100vh;
     height: 100dvh;
@@ -21,40 +23,53 @@
   /* ==================== 目录页 ==================== */
   .catalog {
     position: fixed; inset: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(160deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     overflow-y: auto;
     z-index: 100;
-    padding: 16px 12px 60px;
-    transition: transform 0.4s ease;
+    padding: 10px 10px 60px;
+    transition: transform 0.35s ease;
   }
-  .catalog.hidden { transform: translateX(-100%); }
+  .catalog.hidden { transform: translateX(-110%); }
 
-  .catalog-title {
+  .catalog-header {
     text-align: center;
-    font-size: 26px;
+    padding: 24px 0 8px;
+    position: sticky; top: 0;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(102,126,234,0.95) 60%, transparent 100%);
+    padding-bottom: 20px;
+  }
+  .catalog-title {
+    font-size: 30px;
     font-weight: 900;
-    margin: 16px 0 4px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    color: #fff;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    letter-spacing: 2px;
   }
   .catalog-sub {
-    text-align: center;
-    font-size: 12px;
-    opacity: 0.75;
-    margin-bottom: 18px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    margin-top: 4px;
   }
+  .catalog-stats {
+    display: flex; justify-content: center; gap: 16px;
+    margin-top: 10px; font-size: 12px; color: rgba(255,255,255,0.7);
+  }
+  .catalog-stats span { background: rgba(255,255,255,0.15); padding: 2px 12px; border-radius: 20px; }
 
   /* 分类组 */
   .catalog-group {
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .catalog-group-title {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 800;
-    padding: 4px 10px;
-    margin: 0 4px 6px;
-    color: rgba(255,255,255,0.9);
-    border-left: 3px solid rgba(255,255,255,0.5);
-    text-transform: uppercase;
+    padding: 6px 14px;
+    margin: 0 8px 8px;
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+    border-radius: 20px;
+    display: inline-block;
     letter-spacing: 1px;
   }
 
@@ -64,62 +79,75 @@
     gap: 8px;
     max-width: 420px;
     margin: 0 auto;
-    padding: 0 4px;
+    padding: 0 6px;
   }
 
   .catalog-item {
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 10px 6px;
+    background: rgba(255,255,255,0.92);
+    border-radius: 16px;
+    padding: 12px 6px;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
-    border: 1px solid rgba(255,255,255,0.15);
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   }
-  .catalog-item:active { transform: scale(0.93); background: rgba(255,255,255,0.22); }
-  .catalog-item .icon { font-size: 28px; display: block; margin-bottom: 4px; }
-  .catalog-item .name { font-size: 13px; font-weight: 700; }
-  .catalog-item .count { font-size: 10px; opacity: 0.6; margin-top: 1px; }
+  .catalog-item:active { transform: scale(0.93); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .catalog-item .icon { font-size: 32px; display: block; margin-bottom: 3px; }
+  .catalog-item .name { font-size: 12px; font-weight: 800; color: #444; }
+  .catalog-item .count { font-size: 10px; color: #999; }
 
   /* ==================== 阅读器 ==================== */
   .reader {
     position: fixed; inset: 0;
     display: flex;
     flex-direction: column;
-    transform: translateX(100%);
-    transition: transform 0.4s ease;
+    transform: translateX(110%);
+    transition: transform 0.35s ease;
     z-index: 200;
   }
   .reader.active { transform: translateX(0); }
+
+  /* 阅读器背景遮罩 */
+  .reader-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.5);
+    transition: opacity 0.35s;
+  }
 
   /* 顶部栏 */
   .reader-top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
+    padding: 12px 14px;
     flex-shrink: 0;
     z-index: 10;
+    gap: 10px;
   }
   .btn-back {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.9);
     border: none;
-    color: #fff;
-    font-size: 14px;
-    padding: 6px 14px;
-    border-radius: 20px;
+    color: #555;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 22px;
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   .reader-title {
-    font-size: 16px;
-    font-weight: 700;
+    flex: 1;
+    font-size: 17px;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
   }
   .page-indicator {
     font-size: 13px;
-    opacity: 0.7;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.15);
+    padding: 4px 12px;
+    border-radius: 14px;
   }
 
   /* 卡片区域 */
@@ -128,64 +156,77 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 12px 16px;
     position: relative;
     overflow: hidden;
   }
 
+  /* 滑动提示 */
+  .swipe-hint {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    font-size: 11px; color: rgba(255,255,255,0.5); z-index: 5;
+    pointer-events: none; transition: opacity 0.5s;
+  }
+  .swipe-hint.hide { opacity: 0; }
+
   .card {
-    width: 100%;
-    max-width: 360px;
-    min-height: 70%;
-    border-radius: 24px;
+    width: 90%;
+    max-width: 340px;
+    min-height: 65%;
+    border-radius: 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px 20px 20px;
+    padding: 28px 18px 22px;
     position: absolute;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
   }
-  .card.current { transform: translateX(0); opacity: 1; z-index: 2; }
-  .card.prev { transform: translateX(-120%); opacity: 0; z-index: 1; }
-  .card.next { transform: translateX(120%); opacity: 0; z-index: 1; }
+  .card::after {
+    content: ''; position: absolute; inset: 6px; border-radius: 24px;
+    border: 2px dashed rgba(255,255,255,0.4); pointer-events: none;
+  }
+  .card.current { transform: translateX(0) scale(1); opacity: 1; z-index: 2; }
+  .card.prev { transform: translateX(-110%) scale(0.92); opacity: 0; z-index: 1; pointer-events: none; }
+  .card.next { transform: translateX(110%) scale(0.92); opacity: 0; z-index: 1; pointer-events: none; }
 
   .card .emoji {
-    font-size: clamp(80px, 25vw, 120px);
-    line-height: 1.2;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    font-size: clamp(90px, 28vw, 130px);
+    line-height: 1.1;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.08));
+    transition: transform 0.3s;
   }
   .card .word {
-    font-size: clamp(28px, 8vw, 40px);
+    font-size: clamp(30px, 8vw, 44px);
     font-weight: 900;
     color: #333;
     text-align: center;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     letter-spacing: 1px;
   }
   .card .phonetic {
-    font-size: clamp(14px, 4vw, 18px);
-    color: #888;
+    font-size: clamp(14px, 3.5vw, 17px);
+    color: #999;
     font-style: italic;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .card .cn {
     font-size: clamp(20px, 6vw, 28px);
-    font-weight: 700;
+    font-weight: 800;
     text-align: center;
   }
 
   /* 喇叭按钮 */
   .btn-speak {
-    margin-top: 8px;
-    width: 52px;
-    height: 52px;
+    margin-top: 10px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     border: none;
-    background: rgba(0,0,0,0.08);
-    font-size: 26px;
+    background: rgba(0,0,0,0.06);
+    font-size: 28px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -194,86 +235,100 @@
     -webkit-tap-highlight-color: transparent;
     flex-shrink: 0;
   }
-  .btn-speak:active { transform: scale(0.85); background: rgba(0,0,0,0.15); }
-  .btn-speak.speaking { animation: pulse 0.6s infinite; background: rgba(0,0,0,0.12); }
+  .btn-speak:active { transform: scale(0.82); background: rgba(0,0,0,0.12); }
+  .btn-speak.speaking { animation: pulse 0.5s infinite; background: rgba(255,100,100,0.12); }
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+    50% { transform: scale(1.12); }
   }
 
   /* 底部导航 */
   .reader-bottom {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px 24px;
-    background: rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
+    justify-content: center;
+    padding: 10px 16px 22px;
     flex-shrink: 0;
+    gap: 20px;
   }
   .btn-nav {
-    background: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.9);
     border: none;
-    color: #fff;
-    font-size: 20px;
-    width: 50px;
-    height: 50px;
+    color: #555;
+    font-size: 22px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    font-weight: 700;
   }
-  .btn-nav:active { background: rgba(255,255,255,0.3); }
-  .btn-nav:disabled { opacity: 0.3; }
+  .btn-nav:active { transform: scale(0.9); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .btn-nav:disabled { opacity: 0.25; transform: none; box-shadow: none; }
 
+  /* 进度圆点 */
   .progress-bar {
     flex: 1;
-    margin: 0 16px;
-    height: 4px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.4s;
-  }
-
-  /* 序列切换按钮 */
-  .series-nav {
     display: flex;
-    gap: 8px;
-    margin: 0 8px;
+    justify-content: center;
+    gap: 6px;
+    max-width: 200px;
   }
+  .progress-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .progress-dot.active { background: #fff; transform: scale(1.4); }
+
+  /* 系列切换按钮 */
   .btn-series {
     background: rgba(255,255,255,0.15);
     border: none;
     color: #fff;
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 16px;
     cursor: pointer;
     white-space: nowrap;
+    position: absolute;
+    bottom: 80px;
+    z-index: 5;
   }
   .btn-series:active { background: rgba(255,255,255,0.3); }
+  .btn-series-prev { left: 12px; }
+  .btn-series-next { right: 12px; }
 
   /* ==================== 动画 ==================== */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.85); }
     to { opacity: 1; transform: scale(1); }
   }
-  .card.current { animation: fadeIn 0.3s ease; }
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.95); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .card.current { animation: popIn 0.3s ease; }
+  .card.current .emoji { animation: bounceIn 0.5s ease; }
 </style>
 </head>
 <body>
 
 <!-- ==================== 目录页 ==================== -->
 <div class="catalog" id="catalog">
-  <div class="catalog-title">📚 幼儿趣味英语</div>
-  <div class="catalog-sub">卡片阅读本 · 点击开始阅读</div>
+  <div class="catalog-header">
+    <div class="catalog-title">📚 幼儿趣味英语</div>
+    <div class="catalog-sub">点一点 · 翻一翻 · 学英语</div>
+    <div class="catalog-stats"><span>60+系列</span><span>990+卡片</span></div>
+  </div>
   <div id="catalogGrid"></div>
 </div>
 
@@ -288,14 +343,13 @@
     <div class="card prev" id="cardPrev"></div>
     <div class="card current" id="cardCurrent"></div>
     <div class="card next" id="cardNext"></div>
+    <div class="swipe-hint" id="swipeHint">👈 左右滑动翻页 👉</div>
   </div>
+  <button class="btn-series btn-series-prev" id="btnPrevSeries">◀ 上一个系列</button>
+  <button class="btn-series btn-series-next" id="btnNextSeries">下一个系列 ▶</button>
   <div class="reader-bottom">
     <button class="btn-nav" id="btnPrev">◀</button>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="series-nav">
-      <button class="btn-series" id="btnPrevSeries">◀ 上一系列</button>
-      <button class="btn-series" id="btnNextSeries">下一系列 ▶</button>
-    </div>
+    <div class="progress-bar" id="progressBar"></div>
     <button class="btn-nav" id="btnNext">▶</button>
   </div>
 </div>
@@ -1677,7 +1731,8 @@ const reader = document.getElementById('reader');
 const catalogGrid = document.getElementById('catalogGrid');
 const readerTitle = document.getElementById('readerTitle');
 const pageIndicator = document.getElementById('pageIndicator');
-const progressFill = document.getElementById('progressFill');
+const progressBar = document.getElementById('progressBar');
+const swipeHint = document.getElementById('swipeHint');
 const cardArea = document.getElementById('cardArea');
 const cardPrev = document.getElementById('cardPrev');
 const cardCurrent = document.getElementById('cardCurrent');
@@ -1745,9 +1800,24 @@ function renderCard() {
   const total = cards.length;
 
   readerTitle.textContent = `${s.icon} ${s.name}`;
-  pageIndicator.textContent = `${currentCard + 1} / ${total}`;
-  progressFill.style.width = `${((currentCard + 1) / total) * 100}%`;
-  progressFill.style.background = s.accent;
+
+  // 背景色跟随主题
+  reader.style.background = s.bg;
+  cardArea.style.background = s.bg;
+  pageIndicator.textContent = `${currentCard + 1}/${total}`;
+
+  // 进度圆点
+  const dotsPerPage = Math.min(total, 20);
+  const step = Math.max(1, Math.floor(total / dotsPerPage));
+  let dotsHTML = '';
+  for (let i = 0; i < total; i += step) {
+    const active = (currentCard >= i && currentCard < i + step) ? ' active' : '';
+    dotsHTML += `<div class="progress-dot${active}"></div>`;
+  }
+  progressBar.innerHTML = dotsHTML;
+
+  // 滑动提示3秒后消失
+  swipeHint.classList.add('hide');
 
   // 渲染三张卡（前、当前、后）
   const renderOne = (el, idx, cls) => {
