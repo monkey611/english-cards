@@ -1,0 +1,12 @@
+{
+  "name": "幼儿趣味英语卡片",
+  "version": "1.0.0",
+  "description": "4岁幼儿启蒙英语卡片阅读本生成器",
+  "main": "generate.js",
+  "scripts": {
+    "generate": "node generate.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}
