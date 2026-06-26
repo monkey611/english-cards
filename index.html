@@ -122,6 +122,7 @@
     flex-shrink: 0;
     z-index: 10;
     gap: 10px;
+    transition: background 0.4s;
   }
   .btn-back {
     background: rgba(255,255,255,0.9);
@@ -1733,6 +1734,8 @@ const readerTitle = document.getElementById('readerTitle');
 const pageIndicator = document.getElementById('pageIndicator');
 const progressBar = document.getElementById('progressBar');
 const swipeHint = document.getElementById('swipeHint');
+const readerTop = document.querySelector('.reader-top');
+const readerBottom = document.querySelector('.reader-bottom');
 const cardArea = document.getElementById('cardArea');
 const cardPrev = document.getElementById('cardPrev');
 const cardCurrent = document.getElementById('cardCurrent');
@@ -1801,9 +1804,11 @@ function renderCard() {
 
   readerTitle.textContent = `${s.icon} ${s.name}`;
 
-  // 背景色跟随主题
+  // 背景用淡彩，卡片纯白，顶栏强调色
   reader.style.background = s.bg;
   cardArea.style.background = s.bg;
+  readerTop.style.background = s.accent;
+  readerBottom.style.background = 'rgba(255,255,255,0.5)';
   pageIndicator.textContent = `${currentCard + 1}/${total}`;
 
   // 进度圆点
@@ -1828,7 +1833,7 @@ function renderCard() {
     el.style.display = 'flex';
     const c = cards[idx];
     el.className = `card ${cls}`;
-    el.style.background = s.bg;
+    el.style.background = '#ffffff';
     el.innerHTML = `
       <div class="emoji">${c.emoji}</div>
       <div class="word">${c.word}</div>
