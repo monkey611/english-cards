@@ -161,6 +161,31 @@
     text-align: center;
   }
 
+  /* 喇叭按钮 */
+  .btn-speak {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.08);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-speak:active { transform: scale(0.85); background: rgba(0,0,0,0.15); }
+  .btn-speak.speaking { animation: pulse 0.6s infinite; background: rgba(0,0,0,0.12); }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
   /* 底部导航 */
   .reader-bottom {
     display: flex;
@@ -684,6 +709,7 @@ function renderCard() {
       <div class="word">${c.word}</div>
       <div class="phonetic">${c.phonetic}</div>
       <div class="cn" style="color:${s.accent}">${c.cn}</div>
+      <button class="btn-speak" onclick="speak('${c.word.replace(/'/g, "\\'")}', this)">🔊</button>
     `;
   };
 
@@ -693,6 +719,25 @@ function renderCard() {
 
   btnPrev.disabled = currentCard === 0;
   btnNext.disabled = currentCard === total - 1;
+}
+
+// ============================================================
+// 语音朗读
+// ============================================================
+function speak(text, btn) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.85;
+  utter.pitch = 1.1;
+
+  btn.classList.add('speaking');
+  utter.onend = () => btn.classList.remove('speaking');
+  utter.onerror = () => btn.classList.remove('speaking');
+
+  window.speechSynthesis.speak(utter);
 }
 
 function goPrev() {
