@@ -518,6 +518,7 @@
   .card-theme-jobs { border-top: 5px solid var(--primary); }
   .card-theme-stories { border-top: 5px solid var(--yellow); }
   .card-theme-listening { border-top: 5px solid var(--accent2); }
+  .card-theme-listening .card-english { font-size: 22px; }
   .card-theme-phonetics .card-english { font-size: 28px; letter-spacing: 2px; }
 
   /* ========== 朗读按钮 ========== */
@@ -1243,6 +1244,26 @@ const THEMES = [
       { en: 'The Dog and the Bone', zh: '狗和骨头', emoji: '🐶🦴', sentence: 'Be happy with what you have.', sentenceZh: '对你拥有的感到满足。' },
       { en: 'The Wind and the Sun', zh: '风和太阳', emoji: '💨☀️', sentence: 'Gentleness wins over force.', sentenceZh: '温柔胜过力量。' },
     ]
+  },
+  {
+    id: 'listening', name: '👂 听力练习', icon: '👂',
+    items: [
+      { en: 'Morning Routine', zh: '早上起床', emoji: '🌅', story: 'Good morning! Time to wake up. Open your eyes, stretch your arms, and get out of bed. Let\'s wash your face and brush your teeth. Now put on your clothes. What a nice day! Let\'s have breakfast. Eat your bread and drink your milk. Yummy! Now let\'s go to school!', storyZh: '早上好！该起床了。睁开眼睛，伸个懒腰，下床吧。我们洗脸刷牙。穿上衣服。多好的天气！吃早餐吧。吃面包喝牛奶。好吃！现在我们去上学吧！', duration: '3分钟' },
+      { en: 'At the Park', zh: '在公园', emoji: '🌳', story: 'Let\'s go to the park! Look at the green trees and beautiful flowers. The birds are singing in the sky. I see a dog running on the grass. Children are playing on the swings and slides. Let\'s fly a kite! The wind is blowing gently. Oh, look! A butterfly is flying around. What a happy day at the park!', storyZh: '我们去公园吧！看绿色的树和美丽的花。鸟儿在天空中歌唱。我看到一只狗在草地上跑。孩子们在荡秋千和滑滑梯。我们放风筝吧！风轻轻地吹。哦，看！一只蝴蝶在飞。在公园真开心！', duration: '3分钟' },
+      { en: 'My Family', zh: '我的家人', emoji: '👨‍👩‍👧‍👦', story: 'This is my family. I love my family. My daddy is tall and strong. He reads stories to me every night. My mommy is kind and beautiful. She cooks yummy food for me. I have a little brother. We play together every day. We also have a pet cat. Its name is Mimi. I love my family very much!', storyZh: '这是我的家人。我爱我的家人。我爸爸又高又强壮，他每天晚上给我读故事。我妈妈温柔又漂亮，她给我做好吃的。我有一个小弟弟，我们每天一起玩。我们还有一只宠物猫，它叫咪咪。我非常爱我的家人！', duration: '3分钟' },
+      { en: 'A Day at School', zh: '在学校的一天', emoji: '🏫', story: 'Hello! Welcome to my school. My school is big and beautiful. We have a big playground. I like to play there. In the morning, we read books and sing songs. My teacher is very nice. She teaches us many things. At lunch time, I eat with my friends. We share our food. In the afternoon, we draw pictures and play games. School is so much fun!', storyZh: '你好！欢迎来到我的学校。我的学校又大又漂亮。我们有一个大操场，我喜欢在那里玩。早上我们读书唱歌。我的老师非常好，她教我们很多东西。午饭时间，我和朋友们一起吃。我们分享食物。下午我们画画做游戏。学校真好玩！', duration: '3分钟' },
+      { en: 'Let\'s Count Together', zh: '一起数数', emoji: '🔢', story: 'Let\'s count together! One, two, three, four, five. Five little ducks went out to play. Six, seven, eight, nine, ten. Ten little stars are shining bright. I have two eyes, one nose, and ten fingers. How many apples? One, two, three! How many birds? One, two, three, four! Counting is so much fun! Can you count with me?', storyZh: '我们一起数数！一二三四五。五只小鸭出去玩。六七八九十。十颗小星星在闪耀。我有两只眼睛、一个鼻子和十根手指。有多少个苹果？一二三！有多少只鸟？一二三四！数数真好玩！你能和我一起数吗？', duration: '3分钟' },
+      { en: 'Weather and Seasons', zh: '天气和季节', emoji: '🌤️', story: 'Let\'s talk about the weather. Today is a sunny day. The sun is warm and bright. In spring, flowers bloom and birds sing. In summer, we go swimming and eat ice cream. In autumn, leaves turn yellow and red. In winter, it snows and we play in the snow. I like all four seasons. Every season is beautiful!', storyZh: '我们来聊聊天气。今天是晴天，太阳温暖又明亮。春天，花儿开放，鸟儿歌唱。夏天，我们去游泳，吃冰淇淋。秋天，树叶变黄变红。冬天，下雪了，我们在雪地里玩。我喜欢四个季节。每个季节都很美丽！', duration: '3分钟' },
+      { en: 'Animal Friends', zh: '动物朋友', emoji: '🐾', story: 'Animals are our friends. Look at the dog. It says woof woof! The cat says meow meow. The cow says moo moo. The duck says quack quack. The pig says oink oink. The sheep says baa baa. What does the lion say? Roar! What does the bird say? Tweet tweet! Animals make different sounds. Can you make animal sounds too? Let\'s try together!', storyZh: '动物是我们的朋友。看小狗，它叫汪汪！小猫叫喵喵。奶牛叫哞哞。鸭子叫嘎嘎。猪叫哼哼。羊叫咩咩。狮子怎么叫？吼！小鸟怎么叫？叽叽喳喳！动物发出不同的声音。你也能学动物叫吗？我们一起试试吧！', duration: '3分钟' },
+      { en: 'Colors Around Us', zh: '身边的颜色', emoji: '🎨', story: 'Colors are everywhere! The sky is blue. The sun is yellow. The grass is green. The flower is red. The cloud is white. The night is black. The grape is purple. The orange is orange! What color is your shirt? What color is your bag? Look around you. How many colors can you see? Red, blue, yellow, green... The world is so colorful!', storyZh: '颜色无处不在！天空是蓝色的。太阳是黄色的。草是绿色的。花是红色的。云是白色的。夜晚是黑色的。葡萄是紫色的。橙子是橙色的！你的衬衫是什么颜色？你的书包是什么颜色？看看周围。你能看到多少种颜色？红、蓝、黄、绿……世界真多彩！', duration: '3分钟' },
+      { en: 'Good Habits', zh: '好习惯', emoji: '🌟', story: 'Good habits make us healthy! Wake up early every morning. Wash your hands before eating. Brush your teeth twice a day. Eat lots of fruits and vegetables. Drink plenty of water. Exercise every day. Go to bed early at night. Share your toys with friends. Say please and thank you. Always be kind to others. These good habits will make you a great kid!', storyZh: '好习惯让我们健康！每天早上早起。饭前洗手。每天刷两次牙。多吃水果蔬菜。多喝水。每天锻炼。晚上早睡。和朋友分享玩具。说请和谢谢。对别人友善。这些好习惯会让你成为很棒的孩子！', duration: '3分钟' },
+      { en: 'Bedtime Story', zh: '睡前故事', emoji: '🌙', story: 'The moon is shining bright. The stars are twinkling in the sky. It\'s time to go to bed. Close your eyes, my little one. Dream of beautiful butterflies and friendly animals. Imagine you are flying on a cloud. You are swimming in a river of stars. The night is gentle and quiet. Tomorrow will be a wonderful day. Good night, sleep tight, sweet dreams!', storyZh: '月亮明亮地照耀着。星星在天空中闪烁。该睡觉了。闭上眼睛，我的小宝贝。梦见美丽的蝴蝶和友好的动物。想象你飞在云朵上。你在星星的河流中游泳。夜晚温柔而安静。明天将是美好的一天。晚安，睡个好觉，做个好梦！', duration: '3分钟' },
+      { en: 'At the Zoo', zh: '在动物园', emoji: '🦁', story: 'Welcome to the zoo! Look at the big elephant. It has a long nose. The giraffe has a very long neck. The monkey is jumping and playing. The penguins are walking funny. The polar bear likes cold water. The snake is sleeping. The parrot can talk! Hello! What does it say? The zoo is full of amazing animals. Every animal is special. Which animal do you like best?', storyZh: '欢迎来到动物园！看大象，它有个长鼻子。长颈鹿有非常长的脖子。猴子在跳来跳去玩耍。企鹅走路很有趣。北极熊喜欢冷水。蛇在睡觉。鹦鹉会说话！你好！它说什么了？动物园里充满了神奇的动物。每种动物都很特别。你最喜欢哪种动物？', duration: '3分钟' },
+      { en: 'My Body', zh: '我的身体', emoji: '👶', story: 'This is my body! I have a head on top. I have two eyes to see. I have two ears to hear. I have one nose to smell. I have one mouth to eat and talk. I have two shoulders, two arms, and two hands. I have ten fingers! I have two legs and two feet. I have ten toes! I can run, jump, clap, and dance. My body is amazing!', storyZh: '这是我的身体！我上面有个头。我有两只眼睛看东西。我有两只耳朵听声音。我有一个鼻子闻气味。我有一张嘴吃东西和说话。我有两个肩膀、两条胳膊和两只手。我有十根手指！我有两条腿和两只脚。我有十个脚趾！我会跑、跳、拍手和跳舞。我的身体太棒了！', duration: '3分钟' },
+      { en: 'Let\'s Go Shopping', zh: '我们去购物', emoji: '🛒', story: 'Let\'s go shopping! We go to the supermarket. We need to buy some food. Let\'s get some apples and bananas. We also need milk and bread. Look at the cookies! Can we buy some? Okay, let\'s get some cookies too. We pay at the cashier. Thank you! Now we carry our bags home. Shopping is fun!', storyZh: '我们去购物！我们去超市。我们需要买一些食物。我们买一些苹果和香蕉吧。我们还需要牛奶和面包。看那些饼干！我们能买一些吗？好吧，我们也买一些饼干。我们在收银台付钱。谢谢！现在我们提着袋子回家。购物真好玩！', duration: '3分钟' },
+      { en: 'Playing with Friends', zh: '和朋友玩', emoji: '🤝', story: 'Playing with friends is fun! Let\'s play together. We can play hide and seek. You hide, I will find you! We can play ball. Throw the ball to me! Catch! We can build blocks. Let\'s make a tall tower. We can draw pictures. I draw a rainbow. You draw a flower. Sharing and playing together makes us happy. Friends are the best!', storyZh: '和朋友玩真开心！我们一起玩吧。我们可以玩捉迷藏。你藏起来，我来找你！我们可以玩球。把球扔给我！接住！我们可以搭积木。我们来搭一个高塔。我们可以画画。我画一道彩虹。你画一朵花。一起分享和玩耍让我们快乐。朋友最棒了！', duration: '3分钟' },
+      { en: 'Yummy Food', zh: '好吃的食物', emoji: '🍽️', story: 'I like yummy food! For breakfast, I eat bread and eggs. I drink a glass of milk. For lunch, I have rice, chicken, and vegetables. For dinner, I eat noodles and soup. I like fruits too. Apples, bananas, grapes, and strawberries. Eating healthy food makes me strong. Let\'s eat together! What\'s your favorite food?', storyZh: '我喜欢好吃的食物！早餐我吃面包和鸡蛋，喝一杯牛奶。午餐我吃米饭、鸡肉和蔬菜。晚餐我吃面条和汤。我也喜欢水果。苹果、香蕉、葡萄和草莓。吃健康的食物让我强壮。我们一起吃吧！你最喜欢的食物是什么？', duration: '3分钟' },
+    ]
   }
 ];
 
@@ -1596,11 +1617,27 @@ function showCard(animate) {
     cardEnglish.className = 'card-english';
     cardEnglish.innerHTML = `${item.en} <span style="font-size:0.55em;font-weight:600;color:var(--text-light);display:block;margin-top:2px">${item.phonetic || ''}</span>`;
     cardChinese.innerHTML = `${item.zh}<br><span style="font-size:0.85em;color:var(--text-light)">${item.sentenceZh}</span>`;
-    // 音标模块显示口型提示
     const mouthHint = document.createElement('div');
     mouthHint.style.cssText = 'font-size:13px;color:var(--text-light);margin-top:4px;padding:4px 12px;background:var(--primary-light);border-radius:12px;';
     mouthHint.textContent = '👄 ' + (item.sentenceZh || '');
     cardChinese.appendChild(mouthHint);
+  }
+
+  // 听力练习模块特别处理
+  if (currentTheme.id === 'listening') {
+    cardContent.style.display = 'block';
+    dialogueArea.style.display = 'none';
+    cardImage.style.fontSize = '60px';
+    cardImage.innerHTML = item.emoji;
+    cardEnglish.className = 'card-english sentence';
+    cardEnglish.textContent = item.en;
+    cardChinese.innerHTML = `<div style="font-size:16px;line-height:1.6;margin-bottom:6px">${item.storyZh}</div>
+      <div style="font-size:14px;line-height:1.5;color:var(--text-light);border-top:1px solid var(--primary-light);padding-top:6px;margin-top:4px">${item.story}</div>`;
+    // 显示时长标签
+    const durationTag = document.createElement('div');
+    durationTag.style.cssText = 'font-size:12px;color:var(--text-light);background:var(--primary-light);padding:2px 12px;border-radius:12px;display:inline-block;margin-top:4px;';
+    durationTag.textContent = `⏱ ${item.duration || '3分钟'}`;
+    cardChinese.appendChild(durationTag);
   }
 
   // 卡片主题色
@@ -1650,6 +1687,10 @@ function speak() {
     parts.push({ text: item.en, lang: 'en-US', label: 'A英文' });
     parts.push({ text: item.sentenceZh, lang: 'zh-CN', label: 'B中文' });
     parts.push({ text: item.sentence, lang: 'en-US', label: 'B英文' });
+  } else if (isListening) {
+    // 听力练习：先读中文再读英文的长篇内容
+    parts.push({ text: item.storyZh, lang: 'zh-CN' });
+    parts.push({ text: item.story, lang: 'en-US' });
   } else {
     parts.push({ text: item.zh, lang: 'zh-CN' });
     parts.push({ text: item.en, lang: 'en-US' });
@@ -1664,8 +1705,9 @@ function speak() {
   function speakNext() {
     if (partIndex >= parts.length) {
       finishSpeak();
-      // 如果正在自动播放，朗读结束后再翻页
+      // 自动播放（听力模块自动播放逻辑不变）
       if (isAutoPlaying) {
+        const autoDelay = isListening ? 1000 : 800;
         autoTimer = setTimeout(() => {
           if (currentIndex < currentTheme.items.length - 1) {
             goNext();
@@ -1786,6 +1828,9 @@ function stopAutoPlay() {
     clearTimeout(autoTimer);
     autoTimer = null;
   }
+  // 停止朗读
+  window.speechSynthesis.cancel();
+  finishSpeak();
 }
 
 // ========== 鼠标悬浮光效 ==========
