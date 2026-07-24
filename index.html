@@ -1720,8 +1720,7 @@ function speak() {
     // 听力练习：只朗读英文
     parts.push({ text: item.story, lang: 'en-US' });
   } else if (isStories) {
-    // 寓言故事：先读中文故事再读英文故事
-    if (item.storyZh) parts.push({ text: item.storyZh, lang: 'zh-CN' });
+    // 寓言故事：只读英文故事
     if (item.story) parts.push({ text: item.story, lang: 'en-US' });
   } else {
     parts.push({ text: item.zh, lang: 'zh-CN' });
