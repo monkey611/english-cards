@@ -107,6 +107,7 @@
     padding: 0;
     transition: transform 0.3s ease;
     margin-bottom: 0;
+    min-height: 42px;
   }
   .catalog-nav.hide-nav {
     transform: translateX(-100%);
@@ -127,17 +128,14 @@
     overflow: hidden;
     max-width: 0;
   }
-  .catalog-nav-inner {
-    display: inline-flex;
-    gap: 6px;
-    padding: 0 8px;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    flex: 1;
+  .catalog-nav-toggle-wrap {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
   }
-  .catalog-nav-inner::-webkit-scrollbar { display: none; }
   .catalog-nav-toggle {
     display: flex;
     align-items: center;
@@ -153,7 +151,7 @@
     cursor: pointer;
     border-radius: 0 14px 14px 0;
     flex-shrink: 0;
-    z-index: 1;
+    z-index: 2;
     transition: all 0.3s;
     box-shadow: 2px 0 6px var(--shadow);
     margin-top: 6px;
@@ -691,8 +689,10 @@
     </div>
   </div>
   <div class="catalog-nav" id="catalogNav">
-    <div class="catalog-nav-bar" id="catalogNavBar">
+    <div class="catalog-nav-toggle-wrap">
       <button class="catalog-nav-toggle" id="navToggle">◀</button>
+    </div>
+    <div class="catalog-nav-bar" id="catalogNavBar">
       <div class="catalog-nav-inner" id="catalogNavInner"></div>
     </div>
   </div>
@@ -1645,6 +1645,18 @@ function showCard(animate) {
     mouthHint.style.cssText = 'font-size:13px;color:var(--text-light);margin-top:4px;padding:4px 12px;background:var(--primary-light);border-radius:12px;';
     mouthHint.textContent = '👄 ' + (item.sentenceZh || '');
     cardChinese.appendChild(mouthHint);
+  }
+
+  // 寓言故事模块特别处理
+  if (currentTheme.id === 'stories') {
+    cardContent.style.display = 'block';
+    dialogueArea.style.display = 'none';
+    cardImage.style.fontSize = '60px';
+    cardImage.innerHTML = item.emoji;
+    cardEnglish.className = 'card-english sentence';
+    cardEnglish.textContent = item.en;
+    cardChinese.innerHTML = '<div style="font-size:15px;line-height:1.6;margin-bottom:4px">' + (item.storyZh || '') + '</div>' +
+      '<div style="font-size:13px;line-height:1.5;color:var(--text-light);border-top:1px solid var(--primary-light);padding-top:6px;margin-top:4px">' + (item.story || '') + '</div>';
   }
 
   // 听力练习模块特别处理
