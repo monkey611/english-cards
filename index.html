@@ -99,6 +99,47 @@
     color: var(--text);
   }
 
+  /* ========== 分类导航 ========== */
+  .catalog-nav {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg);
+    padding: 6px 0 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .catalog-nav::-webkit-scrollbar { display: none; }
+  .catalog-nav-inner {
+    display: inline-flex;
+    gap: 6px;
+    padding: 0 12px;
+  }
+  .catalog-nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-light);
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px var(--shadow);
+    border: 2px solid transparent;
+    flex-shrink: 0;
+  }
+  .catalog-nav-item:active { transform: scale(0.93); }
+  .catalog-nav-item.active {
+    background: var(--primary-light);
+    color: var(--text);
+    border-color: var(--primary);
+  }
+
+  .catalog-nav-item .nav-icon { font-size: 16px; }
+
   .catalog-group { margin-bottom: 14px; }
   .catalog-group-title {
     font-size: 15px; font-weight: 800;
@@ -184,11 +225,24 @@
     overflow: hidden;
     padding: 10px 16px 16px;
   }
+  .card-container::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(92, 78, 61, 0.4);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+    border-radius: 0;
+  }
+  .card-container.overlay::before {
+    opacity: 1;
+  }
   .card-wrapper {
     position: absolute; inset: 10px 16px 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
   }
 
   /* ========== 卡片基础 ========== */
@@ -393,6 +447,8 @@
   .card-theme-shapes { border-top: 5px solid var(--yellow); }
   .card-theme-opposites { border-top: 5px solid var(--secondary); }
   .card-theme-jobs { border-top: 5px solid var(--primary); }
+  .card-theme-phonetics { border-top: 5px solid var(--accent); }
+  .card-theme-phonetics .card-english { font-size: 28px; letter-spacing: 2px; }
 
   /* ========== 朗读按钮 ========== */
   .btn-speak {
@@ -542,6 +598,9 @@
       <span id="totalPhrases">0 个短句</span>
       <span id="totalDialogues">0 组对话</span>
     </div>
+  </div>
+  <div class="catalog-nav" id="catalogNav">
+    <div class="catalog-nav-inner" id="catalogNavInner"></div>
   </div>
   <div id="catalogContent"></div>
 </div>
@@ -1038,11 +1097,149 @@ const THEMES = [
       { en: 'I want to go out.', zh: '我想出去。', emoji: '🚪', sentence: 'Put on your shoes.', sentenceZh: '穿上鞋子。', roleA: '宝宝', roleB: '妈妈' },
       { en: 'Happy Birthday!', zh: '生日快乐！', emoji: '🎂', sentence: 'Thank you! I\'m so happy!', sentenceZh: '谢谢！我好开心！', roleA: '大家', roleB: '宝宝' },
     ]
+  },
+  {
+    id: 'phonetics', name: '🔊 音标入门', icon: '🔊',
+    items: [
+      // ===== 元音 (Vowels) =====
+      { en: '/iː/', zh: '长音 i', emoji: '🐑', phonetic: 'iː', sentence: 'Sheep /ʃiːp/', sentenceZh: '绵羊，长音 i 的发音' },
+      { en: '/ɪ/', zh: '短音 i', emoji: '🐷', phonetic: 'ɪ', sentence: 'Pig /pɪg/', sentenceZh: '猪，短音 i 的发音' },
+      { en: '/e/', zh: '短音 e', emoji: '🥚', phonetic: 'e', sentence: 'Egg /eg/', sentenceZh: '鸡蛋，短音 e 的发音' },
+      { en: '/æ/', zh: '梅花音 æ', emoji: '🐱', phonetic: 'æ', sentence: 'Cat /kæt/', sentenceZh: '猫，嘴巴张大发的音' },
+      { en: '/ɑː/', zh: '长音 a', emoji: '🚗', phonetic: 'ɑː', sentence: 'Car /kɑːr/', sentenceZh: '汽车，嘴巴张大' },
+      { en: '/ʌ/', zh: '短音 a', emoji: '🦆', phonetic: 'ʌ', sentence: 'Duck /dʌk/', sentenceZh: '鸭子，短促的音' },
+      { en: '/ɔː/', zh: '长音 o', emoji: '🚪', phonetic: 'ɔː', sentence: 'Door /dɔːr/', sentenceZh: '门，圆唇长音' },
+      { en: '/ɒ/', zh: '短音 o', emoji: '🐶', phonetic: 'ɒ', sentence: 'Dog /dɒg/', sentenceZh: '狗，短促圆唇' },
+      { en: '/uː/', zh: '长音 u', emoji: '🌙', phonetic: 'uː', sentence: 'Moon /muːn/', sentenceZh: '月亮，长音 u' },
+      { en: '/ʊ/', zh: '短音 u', emoji: '📖', phonetic: 'ʊ', sentence: 'Book /bʊk/', sentenceZh: '书，短音 u' },
+      { en: '/ɜː/', zh: '长音 er', emoji: '🐦', phonetic: 'ɜː', sentence: 'Bird /bɜːd/', sentenceZh: '鸟，卷舌长音' },
+      { en: '/ə/', zh: '弱音 schwa', emoji: '🐼', phonetic: 'ə', sentence: 'Panda /ˈpændə/', sentenceZh: '熊猫，最轻松的音' },
+      // ===== 双元音 (Diphthongs) =====
+      { en: '/eɪ/', zh: '双元音 ei', emoji: '🐍', phonetic: 'eɪ', sentence: 'Snake /sneɪk/', sentenceZh: '蛇，由 e 滑向 i' },
+      { en: '/aɪ/', zh: '双元音 ai', emoji: '🪁', phonetic: 'aɪ', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，由 a 滑向 i' },
+      { en: '/ɔɪ/', zh: '双元音 oi', emoji: '🧸', phonetic: 'ɔɪ', sentence: 'Toy /tɔɪ/', sentenceZh: '玩具，由 o 滑向 i' },
+      { en: '/aʊ/', zh: '双元音 au', emoji: '🐭', phonetic: 'aʊ', sentence: 'Mouse /maʊs/', sentenceZh: '老鼠，由 a 滑向 u' },
+      { en: '/əʊ/', zh: '双元音 əʊ', emoji: '☎️', phonetic: 'əʊ', sentence: 'Phone /fəʊn/', sentenceZh: '电话，由 ə 滑向 u' },
+      { en: '/ɪə/', zh: '双元音 iə', emoji: '🦌', phonetic: 'ɪə', sentence: 'Deer /dɪər/', sentenceZh: '鹿，由 i 滑向 ə' },
+      { en: '/eə/', zh: '双元音 eə', emoji: '🐻', phonetic: 'eə', sentence: 'Bear /beər/', sentenceZh: '熊，由 e 滑向 ə' },
+      { en: '/ʊə/', zh: '双元音 uə', emoji: '💊', phonetic: 'ʊə', sentence: 'Cure /kjʊər/', sentenceZh: '治愈，由 u 滑向 ə' },
+      // ===== 辅音 (Consonants) =====
+      { en: '/p/', zh: '清辅音 p', emoji: '🐧', phonetic: 'p', sentence: 'Penguin /ˈpeŋɡwɪn/', sentenceZh: '企鹅，双唇爆破' },
+      { en: '/b/', zh: '浊辅音 b', emoji: '🐰', phonetic: 'b', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，双唇爆破' },
+      { en: '/t/', zh: '清辅音 t', emoji: '🐯', phonetic: 't', sentence: 'Tiger /ˈtaɪɡər/', sentenceZh: '老虎，舌尖爆破' },
+      { en: '/d/', zh: '浊辅音 d', emoji: '🐬', phonetic: 'd', sentence: 'Dolphin /ˈdɒlfɪn/', sentenceZh: '海豚，舌尖爆破' },
+      { en: '/k/', zh: '清辅音 k', emoji: '🪁', phonetic: 'k', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，舌根爆破' },
+      { en: '/ɡ/', zh: '浊辅音 g', emoji: '🦒', phonetic: 'ɡ', sentence: 'Giraffe /dʒɪˈrɑːf/', sentenceZh: '长颈鹿，舌根爆破' },
+      { en: '/f/', zh: '清辅音 f', emoji: '🐟', phonetic: 'f', sentence: 'Fish /fɪʃ/', sentenceZh: '鱼，上齿咬下唇' },
+      { en: '/v/', zh: '浊辅音 v', emoji: '🚐', phonetic: 'v', sentence: 'Van /væn/', sentenceZh: '面包车，上齿咬下唇' },
+      { en: '/θ/', zh: '清辅音 th', emoji: '👍', phonetic: 'θ', sentence: 'Thank /θæŋk/', sentenceZh: '谢谢，舌尖轻触上齿' },
+      { en: '/ð/', zh: '浊辅音 th', emoji: '👨‍👩‍👧', phonetic: 'ð', sentence: 'Mother /ˈmʌðər/', sentenceZh: '妈妈，舌尖轻触上齿' },
+      { en: '/s/', zh: '清辅音 s', emoji: '☀️', phonetic: 's', sentence: 'Sun /sʌn/', sentenceZh: '太阳，舌尖靠近上齿龈' },
+      { en: '/z/', zh: '浊辅音 z', emoji: '🦓', phonetic: 'z', sentence: 'Zebra /ˈziːbrə/', sentenceZh: '斑马，舌尖靠近上齿龈' },
+      { en: '/ʃ/', zh: '清辅音 sh', emoji: '👟', phonetic: 'ʃ', sentence: 'Shoe /ʃuː/', sentenceZh: '鞋子，嘴巴撅起' },
+      { en: '/ʒ/', zh: '浊辅音 zh', emoji: '🎱', phonetic: 'ʒ', sentence: 'Measure /ˈmeʒər/', sentenceZh: '测量，嘴巴撅起' },
+      { en: '/h/', zh: '清辅音 h', emoji: '🐎', phonetic: 'h', sentence: 'Horse /hɔːrs/', sentenceZh: '马，轻轻哈气' },
+      { en: '/m/', zh: '鼻音 m', emoji: '🐵', phonetic: 'm', sentence: 'Monkey /ˈmʌŋki/', sentenceZh: '猴子，双唇闭拢' },
+      { en: '/n/', zh: '鼻音 n', emoji: '👃', phonetic: 'n', sentence: 'Nose /nəʊz/', sentenceZh: '鼻子，舌尖抵上齿龈' },
+      { en: '/ŋ/', zh: '后鼻音 ng', emoji: '🎵', phonetic: 'ŋ', sentence: 'Song /sɒŋ/', sentenceZh: '歌曲，舌根抬起' },
+      { en: '/l/', zh: '舌侧音 l', emoji: '🦁', phonetic: 'l', sentence: 'Lion /ˈlaɪən/', sentenceZh: '狮子，舌尖抵上齿龈' },
+      { en: '/r/', zh: '卷舌音 r', emoji: '🐰', phonetic: 'r', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，舌尖卷起' },
+      { en: '/j/', zh: '半元音 y', emoji: '🟡', phonetic: 'j', sentence: 'Yellow /ˈjeləʊ/', sentenceZh: '黄色，像发 i 但更短' },
+      { en: '/w/', zh: '半元音 w', emoji: '🌊', phonetic: 'w', sentence: 'Water /ˈwɔːtər/', sentenceZh: '水，像发 u 但更短' },
+      { en: '/tʃ/', zh: '清辅音 ch', emoji: '🧀', phonetic: 'tʃ', sentence: 'Cheese /tʃiːz/', sentenceZh: '奶酪，像吃' },
+      { en: '/dʒ/', zh: '浊辅音 j', emoji: '🍊', phonetic: 'dʒ', sentence: 'Juice /dʒuːs/', sentenceZh: '果汁，像知' },
+      { en: '/tr/', zh: '清辅音 tr', emoji: '🚂', phonetic: 'tr', sentence: 'Train /treɪn/', sentenceZh: '火车，像踹' },
+      { en: '/dr/', zh: '浊辅音 dr', emoji: '🥁', phonetic: 'dr', sentence: 'Drum /drʌm/', sentenceZh: '鼓，像抓' },
+      { en: '/ts/', zh: '清辅音 ts', emoji: '🐱', phonetic: 'ts', sentence: 'Cats /kæts/', sentenceZh: '猫们，像刺' },
+      { en: '/dz/', zh: '浊辅音 dz', emoji: '✋', phonetic: 'dz', sentence: 'Hands /hændz/', sentenceZh: '手们，像子' },
+    ]
   }
 ];
 
+// ========== 音标数据映射（给其他模块单词加音标）==========
+const PHONETICS_MAP = {
+  'sheep': '/ʃiːp/', 'pig': '/pɪg/', 'egg': '/eg/', 'cat': '/kæt/',
+  'car': '/kɑːr/', 'duck': '/dʌk/', 'dog': '/dɒg/', 'moon': '/muːn/',
+  'book': '/bʊk/', 'bird': '/bɜːd/', 'panda': '/ˈpændə/', 'snake': '/sneɪk/',
+  'kite': '/kaɪt/', 'toy': '/tɔɪ/', 'mouse': '/maʊs/', 'phone': '/fəʊn/',
+  'deer': '/dɪər/', 'bear': '/beər/', 'penguin': '/ˈpeŋɡwɪn/',
+  'rabbit': '/ˈræbɪt/', 'tiger': '/ˈtaɪɡər/', 'dolphin': '/ˈdɒlfɪn/',
+  'giraffe': '/dʒɪˈrɑːf/', 'fish': '/fɪʃ/', 'sun': '/sʌn/', 'zebra': '/ˈziːbrə/',
+  'shoe': '/ʃuː/', 'horse': '/hɔːrs/', 'monkey': '/ˈmʌŋki/', 'nose': '/nəʊz/',
+  'song': '/sɒŋ/', 'lion': '/ˈlaɪən/', 'yellow': '/ˈjeləʊ/', 'water': '/ˈwɔːtər/',
+  'cheese': '/tʃiːz/', 'juice': '/dʒuːs/', 'train': '/treɪn/', 'drum': '/drʌm/',
+  'apple': '/ˈæpl/', 'banana': '/bəˈnɑːnə/', 'orange': '/ˈɒrɪndʒ/', 'grape': '/ɡreɪp/',
+  'watermelon': '/ˈwɔːtəmelən/', 'strawberry': '/ˈstrɔːbəri/', 'peach': '/piːtʃ/',
+  'pear': '/peər/', 'cherry': '/ˈtʃeri/', 'lemon': '/ˈlemən/', 'mango': '/ˈmæŋɡəʊ/',
+  'pineapple': '/ˈpaɪnæpl/', 'kiwi': '/ˈkiːwiː/', 'blueberry': '/ˈbluːbəri/',
+  'coconut': '/ˈkəʊkənʌt/', 'carrot': '/ˈkærət/', 'broccoli': '/ˈbrɒkəli/',
+  'tomato': '/təˈmɑːtəʊ/', 'potato': '/pəˈteɪtəʊ/', 'corn': '/kɔːn/',
+  'cucumber': '/ˈkjuːkʌmbər/', 'mushroom': '/ˈmʌʃruːm/', 'onion': '/ˈʌnjən/',
+  'garlic': '/ˈɡɑːlɪk/', 'pumpkin': '/ˈpʌmpkɪn/', 'cabbage': '/ˈkæbɪdʒ/',
+  'eggplant': '/ˈeɡplɑːnt/', 'celery': '/ˈseləri/', 'bread': '/bred/',
+  'rice': '/raɪs/', 'noodles': '/ˈnuːdlz/', 'milk': '/mɪlk/',
+  'cake': '/keɪk/', 'cookie': '/ˈkʊki/', 'candy': '/ˈkændi/',
+  'pizza': '/ˈpiːtsə/', 'hamburger': '/ˈhæmbɜːɡər/', 'sandwich': '/ˈsænwɪtʃ/',
+  'soup': '/suːp/', 'chips': '/tʃɪps/', 'donut': '/ˈdəʊnət/',
+  'head': '/hed/', 'hair': '/heər/', 'eye': '/aɪ/', 'ear': '/ɪər/',
+  'mouth': '/maʊθ/', 'teeth': '/tiːθ/', 'tongue': '/tʌŋ/', 'hand': '/hænd/',
+  'finger': '/ˈfɪŋɡər/', 'arm': '/ɑːrm/', 'leg': '/leɡ/', 'foot': '/fʊt/',
+  'knee': '/niː/', 'shoulder': '/ˈʃəʊldər/', 'face': '/feɪs/',
+  'cheek': '/tʃiːk/', 'run': '/rʌn/', 'jump': '/dʒʌmp/', 'walk': '/wɔːk/',
+  'sit': '/sɪt/', 'stand': '/stænd/', 'sleep': '/sliːp/', 'eat': '/iːt/',
+  'drink': '/drɪŋk/', 'cry': '/kraɪ/', 'laugh': '/lɑːf/', 'smile': '/smaɪl/',
+  'dance': '/dɑːns/', 'sing': '/sɪŋ/', 'clap': '/klæp/', 'wave': '/weɪv/',
+  'kick': '/kɪk/', 'throw': '/θrəʊ/', 'catch': '/kætʃ/', 'push': '/pʊʃ/',
+  'pull': '/pʊl/', 'open': '/ˈəʊpən/', 'close': '/kləʊz/', 'read': '/riːd/',
+  'write': '/raɪt/', 'draw': '/drɔː/', 'play': '/pleɪ/', 'swim': '/swɪm/',
+  'fly': '/flaɪ/', 'crawl': '/krɔːl/', 'hug': '/hʌɡ/', 'kiss': '/kɪs/',
+  'wash': '/wɒʃ/', 'brush': '/brʌʃ/', 'comb': '/kəʊm/', 'cook': '/kʊk/',
+  'clean': '/kliːn/', 'help': '/help/', 'share': '/ʃeər/', 'wait': '/weɪt/',
+  'circle': '/ˈsɜːkl/', 'square': '/skweər/', 'triangle': '/ˈtraɪæŋɡl/',
+  'heart': '/hɑːrt/', 'diamond': '/ˈdaɪəmənd/', 'oval': '/ˈəʊvl/',
+  'rectangle': '/ˈrekˌtæŋɡl/', 'arrow': '/ˈærəʊ/',
+  'doctor': '/ˈdɒktər/', 'nurse': '/nɜːrs/', 'teacher': '/ˈtiːtʃər/',
+  'pilot': '/ˈpaɪlət/', 'police': '/pəˈliːs/', 'farmer': '/ˈfɑːrmər/',
+  'artist': '/ˈɑːrtɪst/', 'singer': '/ˈsɪŋər/', 'dancer': '/ˈdɑːnsər/',
+  'astronaut': '/ˈæstrənɔːt/', 'happy': '/ˈhæpi/', 'sad': '/sæd/',
+  'big': '/bɪɡ/', 'small': '/smɔːl/', 'hot': '/hɒt/', 'cold': '/kəʊld/',
+  'fast': '/fɑːst/', 'slow': '/sləʊ/', 'new': '/njuː/', 'old': '/əʊld/',
+  'long': '/lɒŋ/', 'short': '/ʃɔːrt/', 'tall': '/tɔːl/',
+  'hard': '/hɑːrd/', 'soft': '/sɒft/',
+  'full': '/fʊl/', 'empty': '/ˈempti/', 'wet': '/wet/', 'dry': '/draɪ/',
+  'day': '/deɪ/', 'night': '/naɪt/',
+  'bus': '/bʌs/', 'bike': '/baɪk/', 'plane': '/pleɪn/', 'boat': '/bəʊt/',
+  'truck': '/trʌk/', 'ship': '/ʃɪp/', 'star': '/stɑːr/', 'rain': '/reɪn/',
+  'snow': '/snəʊ/', 'cloud': '/klaʊd/', 'wind': '/wɪnd/',
+  'rainbow': '/ˈreɪnbəʊ/',
+  'ball': '/bɔːl/', 'doll': '/dɒl/',
+  'puzzle': '/ˈpʌzl/', 'robot': '/ˈrəʊbɒt/', 'swing': '/swɪŋ/',
+  'slide': '/slaɪd/', 'hat': '/hæt/', 'shoes': '/ʃuːz/',
+  'socks': '/sɒks/', 'pants': '/pænts/', 'shirt': '/ʃɜːrt/',
+  'dress': '/dres/', 'jacket': '/ˈdʒækɪt/', 'scarf': '/skɑːrf/',
+  'gloves': '/ɡlʌvz/', 'sweater': '/ˈswetər/', 'belt': '/belt/',
+  'boots': '/buːts/', 'slippers': '/ˈslɪpərz/', 'pajamas': '/pəˈdʒɑːməz/',
+  'door': '/dɔːr/', 'window': '/ˈwɪndəʊ/', 'bed': '/bed/',
+  'table': '/ˈteɪbl/', 'chair': '/tʃeər/', 'sofa': '/ˈsəʊfə/',
+  'lamp': '/læmp/', 'clock': '/klɒk/', 'mirror': '/ˈmɪrər/',
+  'cup': '/kʌp/', 'plate': '/pleɪt/', 'spoon': '/spuːn/',
+  'fork': '/fɔːrk/', 'knife': '/naɪf/', 'bowl': '/bəʊl/',
+  'key': '/kiː/', 'pillow': '/ˈpɪləʊ/',
+  'blanket': '/ˈblæŋkɪt/',
+  'one': '/wʌn/', 'two': '/tuː/', 'three': '/θriː/', 'four': '/fɔːr/',
+  'five': '/faɪv/', 'six': '/sɪks/', 'seven': '/ˈsevn/', 'eight': '/eɪt/',
+  'nine': '/naɪn/', 'ten': '/ten/',
+  'red': '/red/', 'blue': '/bluː/', 'green': '/ɡriːn/',
+  'purple': '/ˈpɜːpl/', 'pink': '/pɪŋk/', 'white': '/waɪt/', 'black': '/blæk/',
+  'brown': '/braʊn/', 'gray': '/ɡreɪ/', 'gold': '/ɡəʊld/', 'silver': '/ˈsɪlvər/',
+};
+
+function getPhonetic(word) {
+  const key = word.toLowerCase().replace(/[^a-z]/g, '');
+  return PHONETICS_MAP[key] || '';
+}
+
 // ============================================================
-// 应用逻辑
 // ============================================================
 let currentTheme = null;
 let currentIndex = 0;
@@ -1091,6 +1288,39 @@ function calcStats() {
 
 // ========== 渲染目录 ==========
 function renderCatalog() {
+  // 渲染导航
+  const navInner = document.getElementById('catalogNavInner');
+  let navHtml = '';
+  THEMES.forEach((theme, ti) => {
+    const icon = theme.icon || theme.name.match(/^\S+/)?.[0] || '📚';
+    navHtml += `<div class="catalog-nav-item" data-nav-theme="${ti}">
+      <span class="nav-icon">${icon.replace(/[^\p{Emoji}]/gu, '').trim() || '📚'}</span>
+      <span>${theme.name.replace(/^[\p{Emoji}\s]+/u, '').trim()}</span>
+    </div>`;
+  });
+  navInner.innerHTML = navHtml;
+
+  // 导航点击滚动到对应分类
+  navInner.querySelectorAll('.catalog-nav-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const ti = parseInt(el.dataset.navTheme);
+      const group = catalogContent.querySelectorAll('.catalog-group')[ti];
+      if (group) {
+        // 高亮当前导航
+        navInner.querySelectorAll('.catalog-nav-item').forEach(n => n.classList.remove('active'));
+        el.classList.add('active');
+        // 滚动到对应分类（考虑导航高度）
+        const navHeight = document.getElementById('catalogNav').offsetHeight;
+        const top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
+        catalog.scrollTo({ top, behavior: 'smooth' });
+        // 滚动后自动取消高亮
+        setTimeout(() => {
+          navInner.querySelectorAll('.catalog-nav-item').forEach(n => n.classList.remove('active'));
+        }, 1500);
+      }
+    });
+  });
+
   let html = '';
   THEMES.forEach((theme, ti) => {
     html += `<div class="catalog-group">`;
@@ -1226,6 +1456,14 @@ function showCard(animate) {
     cardEnglish.textContent = item.en;
     cardEnglish.className = 'card-english' + (item.sentence ? ' sentence' : '');
 
+    // 显示音标（非音标模块的单词也显示）
+    const phonetic = item.phonetic || getPhonetic(item.en);
+    if (phonetic && currentTheme.id !== 'phonetics') {
+      cardEnglish.innerHTML = `${item.en} <span style="font-size:0.5em;font-weight:600;color:var(--text-light);display:block;margin-top:2px">${phonetic}</span>`;
+    } else if (currentTheme.id === 'phonetics') {
+      cardEnglish.innerHTML = `${item.en} <span style="font-size:0.55em;font-weight:600;color:var(--text-light);display:block;margin-top:2px">${item.phonetic || ''}</span>`;
+    }
+
     cardChinese.textContent = item.zh;
     cardChinese.className = 'card-chinese' + (item.sentence ? ' sentence' : '');
 
@@ -1233,6 +1471,20 @@ function showCard(animate) {
     if (item.sentence) {
       cardChinese.innerHTML = `${item.zh}<br><span style="font-size:0.85em;color:var(--text-light)">${item.sentenceZh}</span>`;
     }
+  }
+
+  // 音标模块特别处理
+  if (currentTheme.id === 'phonetics') {
+    cardImage.style.fontSize = '72px';
+    cardImage.innerHTML = item.emoji;
+    cardEnglish.className = 'card-english';
+    cardEnglish.innerHTML = `${item.en} <span style="font-size:0.55em;font-weight:600;color:var(--text-light);display:block;margin-top:2px">${item.phonetic || ''}</span>`;
+    cardChinese.innerHTML = `${item.zh}<br><span style="font-size:0.85em;color:var(--text-light)">${item.sentenceZh}</span>`;
+    // 音标模块显示口型提示
+    const mouthHint = document.createElement('div');
+    mouthHint.style.cssText = 'font-size:13px;color:var(--text-light);margin-top:4px;padding:4px 12px;background:var(--primary-light);border-radius:12px;';
+    mouthHint.textContent = '👄 ' + (item.sentenceZh || '');
+    cardChinese.appendChild(mouthHint);
   }
 
   // 卡片主题色
