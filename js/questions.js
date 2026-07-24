@@ -10,13 +10,18 @@ function seededRandom(seed) {
 }
 
 // 构建题库池：{ words:[{themeId,en,zh,emoji,phonetic}], sentences:[{themeId,en,zh,emoji}] }
+// 词汇按 en 去重（忽略大小写），避免跨主题重复词导致总数虚高 / 与已掌握数不一致
 function buildQuestionPool() {
   const words = [];
   const sentences = [];
+  const seenWord = {};
   THEMES.forEach(theme => {
     if (VOCAB_THEME_IDS.indexOf(theme.id) >= 0) {
       theme.items.forEach(item => {
         if (item.en && item.zh) {
+          const key = String(item.en).toLowerCase();
+          if (seenWord[key]) return; // 跨主题重复词只保留首次
+          seenWord[key] = true;
           words.push({
             themeId: theme.id,
             en: item.en,

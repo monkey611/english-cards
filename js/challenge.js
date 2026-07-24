@@ -31,12 +31,10 @@ function playText(text, lang) {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang || 'en-US';
-    u.rate = stt.speechRate; u.pitch = 1.1; u.volume = 1.0;
+    u.rate = stt.speechRate; u.pitch = speechPitch(); u.volume = 1.0;
     try {
-      const voices = window.speechSynthesis.getVoices();
-      const prefix = (lang && lang.indexOf('zh') === 0) ? 'zh' : 'en';
-      const v = voices.find(function (vx) { return vx.lang.indexOf(prefix) === 0; });
-      if (v) u.voice = v;
+      const v = selectVoice(lang || 'en-US');
+      if (v) { u.voice = v; u.lang = v.lang; }
     } catch (e) {}
     window.speechSynthesis.speak(u);
   } catch (e) {}

@@ -1,10 +1,15 @@
 // ========== 统计 ==========
+// 词汇数 = 词汇主题(VOCAB_THEME_IDS)内按 en 去重后的数量，与闯关题库/我的页保持一致
 function calcStats() {
   let words = 0, phrases = 0, dialogues = 0;
+  const seen = {};
   THEMES.forEach(t => {
-    if (t.id === 'phrases') phrases += t.items.length;
+    if (VOCAB_THEME_IDS.indexOf(t.id) >= 0) {
+      t.items.forEach(it => {
+        if (it.en) { const k = String(it.en).toLowerCase(); if (!seen[k]) { seen[k] = true; words++; } }
+      });
+    } else if (t.id === 'phrases') phrases += t.items.length;
     else if (t.id === 'dialogue') dialogues += t.items.length;
-    else words += t.items.length;
   });
   totalWords.textContent = `${words} 个词汇`;
   totalPhrases.textContent = `${phrases} 个短句`;

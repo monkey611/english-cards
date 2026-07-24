@@ -22,7 +22,8 @@ function runTests() {
 
     log.push('[2] buildQuestionPool 题库');
     const pool = buildQuestionPool();
-    ok('词汇题库 > 100', pool.words.length > 100, 'words=' + pool.words.length);
+    ok('词汇量 >= 800', pool.words.length >= 800, 'words=' + pool.words.length);
+    ok('词汇按 en 去重', new Set(pool.words.map(function (w) { return w.en.toLowerCase(); })).size === pool.words.length, 'distinct=' + new Set(pool.words.map(function (w) { return w.en.toLowerCase(); })).size);
     ok('句子题库 > 20', pool.sentences.length > 20, 'sentences=' + pool.sentences.length);
     ok('词汇项含 en/zh 字段', pool.words.every(function (w) { return w.en && w.zh; }), 'sample=' + pool.words[0].en + '/' + pool.words[0].zh);
     ok('排除 stories/listening/dialogue/phonetics', !pool.words.some(function (w) { return w.themeId === 'stories' || w.themeId === 'listening'; }) && !pool.sentences.some(function (s) { return s.themeId === 'dialogue'; }), '');

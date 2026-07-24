@@ -80,6 +80,22 @@ function renderSettings() {
   h += '<div class="pf-setting-label"><span>📳 振动反馈</span></div>';
   h += '<label class="pf-switch"><input type="checkbox" id="setVibrate" ' + (stt.vibrateOn ? 'checked' : '') + '><span class="pf-slider"></span></label>';
   h += '</div>';
+  // 朗读音色（女声/男声）
+  h += '<div class="pf-setting-row">';
+  h += '<div class="pf-setting-label"><span>🗣️ 朗读音色</span></div>';
+  h += '<div class="pf-seg" data-key="voiceGender">';
+  h += '<button type="button" class="pf-seg-btn' + (stt.voiceGender !== 'male' ? ' active' : '') + '" data-val="female">女声</button>';
+  h += '<button type="button" class="pf-seg-btn' + (stt.voiceGender === 'male' ? ' active' : '') + '" data-val="male">男声</button>';
+  h += '</div>';
+  h += '</div>';
+  // 中文方言（普通话/粤语）
+  h += '<div class="pf-setting-row">';
+  h += '<div class="pf-setting-label"><span>🇨🇳 中文方言</span></div>';
+  h += '<div class="pf-seg" data-key="zhDialect">';
+  h += '<button type="button" class="pf-seg-btn' + (stt.zhDialect !== 'cantonese' ? ' active' : '') + '" data-val="mandarin">普通话</button>';
+  h += '<button type="button" class="pf-seg-btn' + (stt.zhDialect === 'cantonese' ? ' active' : '') + '" data-val="cantonese">粤语</button>';
+  h += '</div>';
+  h += '</div>';
   return h;
 }
 
@@ -117,6 +133,21 @@ function bindSettings() {
       if (stt.vibrateOn) vibrate(30);
     });
   }
+  // 音色 / 方言分段控件
+  profileContent.querySelectorAll('.pf-seg').forEach(function (seg) {
+    const key = seg.dataset.key;
+    seg.querySelectorAll('.pf-seg-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const stt = loadSettings();
+        stt[key] = btn.dataset.val;
+        saveSettings();
+        seg.querySelectorAll('.pf-seg-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        // 试听：方言切换试听中文，音色切换试听英文
+        if (stt.soundOn) playText(key === 'zhDialect' ? '你好，你好' : 'Hello', key === 'zhDialect' ? 'zh-CN' : 'en-US');
+      });
+    });
+  });
 }
 
 // ========== 自定义长按确认重置弹窗（B1）==========

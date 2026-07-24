@@ -1,17 +1,17 @@
 // ========== 数据层（localStorage + 词汇抽取）==========
 const STORAGE_KEY = 'ec_progress';
 // 词汇题库主题（排除 phonetics 音标 / dialogue / stories / listening 长内容）
-const VOCAB_THEME_IDS = ['pronouns','time','emotions','places','animals','fruits','vegetables','colors','numbers','toys','clothes','home','transport','food','body','weather','actions','shapes','opposites','jobs'];
+const VOCAB_THEME_IDS = ['pronouns','time','emotions','places','animals','fruits','vegetables','colors','numbers','toys','clothes','home','transport','food','body','weather','actions','shapes','opposites','jobs','family','school','nature','sports','insects','sea','birds','drinks','snacks','music','furniture','plants','adjectives','verbs2','tools','classroom','space','tableware'];
 // 句子题库主题
 const SENTENCE_THEME_IDS = ['phrases'];
 // 每日题数与题型分配
 const DAILY_WORD_COUNT = 10;
 const DAILY_SENT_COUNT = 5;
 
-// ========== 设置（语速 / 音效 / 振动）==========
+// ========== 设置（语速 / 音效 / 振动 / 音色 / 中文方言）==========
 const SETTINGS_KEY = 'ec_settings';
 function defaultSettings() {
-  return { speechRate: 0.85, soundOn: true, vibrateOn: true };
+  return { speechRate: 0.85, soundOn: true, vibrateOn: true, voiceGender: 'female', zhDialect: 'mandarin' };
 }
 let _settings = null;
 function loadSettings() {
