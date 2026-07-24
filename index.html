@@ -1530,7 +1530,6 @@ function speak() {
   const parts = [];
 
   if (isDialogue) {
-    // 对话：先中文再英文，A说完说B
     parts.push({ text: item.zh, lang: 'zh-CN', label: 'A中文' });
     parts.push({ text: item.en, lang: 'en-US', label: 'A英文' });
     parts.push({ text: item.sentenceZh, lang: 'zh-CN', label: 'B中文' });
@@ -1549,6 +1548,17 @@ function speak() {
   function speakNext() {
     if (partIndex >= parts.length) {
       finishSpeak();
+      // 如果正在自动播放，朗读结束后再翻页
+      if (isAutoPlaying) {
+        autoTimer = setTimeout(() => {
+          if (currentIndex < currentTheme.items.length - 1) {
+            goNext();
+            if (isAutoPlaying) startAutoPlay();
+          } else {
+            stopAutoPlay();
+          }
+        }, 800);
+      }
       return;
     }
 
@@ -1577,7 +1587,6 @@ function speak() {
         setTimeout(speakNext, isDialogue ? 600 : 300);
       };
       utterance.onerror = (e) => {
-        // 出错也继续下一段
         partIndex++;
         setTimeout(speakNext, 200);
       };
@@ -1648,20 +1657,8 @@ function startAutoPlay() {
   if (autoTimer) clearTimeout(autoTimer);
   if (!isAutoPlaying || !currentTheme) return;
 
+  // 自动播放：先朗读，朗读结束后自动翻页（在 speak 的 finishSpeak 里处理翻页）
   speak();
-
-  const item = currentTheme.items[currentIndex];
-  const isDialogue = currentTheme.id === 'dialogue';
-  const delay = isDialogue ? 7000 : (item.sentence ? 5000 : 3500);
-
-  autoTimer = setTimeout(() => {
-    if (currentIndex < currentTheme.items.length - 1) {
-      goNext();
-      if (isAutoPlaying) startAutoPlay();
-    } else {
-      stopAutoPlay();
-    }
-  }, delay);
 }
 
 function stopAutoPlay() {
