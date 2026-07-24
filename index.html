@@ -108,12 +108,45 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .catalog-nav.hide-nav {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .catalog-nav.collapsed .catalog-nav-inner {
+    opacity: 0;
+    pointer-events: none;
   }
   .catalog-nav::-webkit-scrollbar { display: none; }
   .catalog-nav-inner {
     display: inline-flex;
     gap: 6px;
     padding: 0 12px;
+    transition: opacity 0.2s;
+  }
+  .catalog-nav-toggle {
+    position: sticky; left: 12px; z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-light);
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px var(--shadow);
+    border: none;
+    flex-shrink: 0;
+  }
+  .catalog-nav-toggle:active { transform: scale(0.93); }
+  .catalog-nav-toggle.pinned {
+    background: var(--primary-light);
+    color: var(--text);
   }
   .catalog-nav-item {
     display: inline-flex;
@@ -228,15 +261,51 @@
   .card-container::before {
     content: '';
     position: absolute; inset: 0;
-    background: rgba(92, 78, 61, 0.4);
+    background: rgba(92, 78, 61, 0.5);
     opacity: 0;
     transition: opacity 0.5s ease;
     z-index: 0;
-    border-radius: 0;
+    pointer-events: none;
   }
   .card-container.overlay::before {
     opacity: 1;
   }
+  .card-header-btns {
+    position: absolute;
+    top: 8px; left: 12px; right: 12px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .card-header-btns .btn-back,
+  .card-header-btns .btn-auto {
+    pointer-events: auto;
+  }
+  .card-header-btns .btn-back {
+    background: var(--card-bg);
+    border: none; color: var(--text);
+    font-size: 12px; font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px var(--shadow-strong);
+    transition: transform 0.15s;
+  }
+  .card-header-btns .btn-back:active { transform: scale(0.93); }
+  .card-header-btns .btn-auto {
+    background: var(--card-bg);
+    border: none;
+    color: var(--text-light);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px var(--shadow-strong);
+    transition: all 0.2s;
+  }
+  .card-header-btns .btn-auto.active { background: var(--secondary); color: #fff; }
   .card-wrapper {
     position: absolute; inset: 10px 16px 16px;
     display: flex;
@@ -447,7 +516,8 @@
   .card-theme-shapes { border-top: 5px solid var(--yellow); }
   .card-theme-opposites { border-top: 5px solid var(--secondary); }
   .card-theme-jobs { border-top: 5px solid var(--primary); }
-  .card-theme-phonetics { border-top: 5px solid var(--accent); }
+  .card-theme-stories { border-top: 5px solid var(--yellow); }
+  .card-theme-listening { border-top: 5px solid var(--accent2); }
   .card-theme-phonetics .card-english { font-size: 28px; letter-spacing: 2px; }
 
   /* ========== 朗读按钮 ========== */
@@ -607,13 +677,15 @@
 
 <div class="reader" id="reader">
   <div class="reader-top">
-    <button class="btn-back" id="btnBack">← 返回</button>
     <div class="reader-title" id="readerTitle">动物</div>
-    <button class="btn-auto" id="btnAuto">▶ 自动</button>
     <div class="page-indicator" id="pageIndicator">1/10</div>
   </div>
 
-  <div class="card-container">
+  <div class="card-container" id="cardContainer">
+    <div class="card-header-btns">
+      <button class="btn-back" id="btnBack">← 返回</button>
+      <button class="btn-auto" id="btnAuto">▶ 自动</button>
+    </div>
     <div class="card-wrapper" id="cardWrapper">
       <div class="card" id="card">
         <div class="particles" id="particles"></div>
@@ -644,6 +716,59 @@
 // 词库数据
 // ============================================================
 const THEMES = [
+  {
+    id: 'phonetics', name: '🔊 音标入门', icon: '🔊',
+    items: [
+      { en: '/iː/', zh: '长音 i', emoji: '🐑', phonetic: 'iː', sentence: 'Sheep /ʃiːp/', sentenceZh: '绵羊，长音 i 的发音' },
+      { en: '/ɪ/', zh: '短音 i', emoji: '🐷', phonetic: 'ɪ', sentence: 'Pig /pɪg/', sentenceZh: '猪，短音 i 的发音' },
+      { en: '/e/', zh: '短音 e', emoji: '🥚', phonetic: 'e', sentence: 'Egg /eg/', sentenceZh: '鸡蛋，短音 e 的发音' },
+      { en: '/æ/', zh: '梅花音 æ', emoji: '🐱', phonetic: 'æ', sentence: 'Cat /kæt/', sentenceZh: '猫，嘴巴张大发的音' },
+      { en: '/ɑː/', zh: '长音 a', emoji: '🚗', phonetic: 'ɑː', sentence: 'Car /kɑːr/', sentenceZh: '汽车，嘴巴张大' },
+      { en: '/ʌ/', zh: '短音 a', emoji: '🦆', phonetic: 'ʌ', sentence: 'Duck /dʌk/', sentenceZh: '鸭子，短促的音' },
+      { en: '/ɔː/', zh: '长音 o', emoji: '🚪', phonetic: 'ɔː', sentence: 'Door /dɔːr/', sentenceZh: '门，圆唇长音' },
+      { en: '/ɒ/', zh: '短音 o', emoji: '🐶', phonetic: 'ɒ', sentence: 'Dog /dɒg/', sentenceZh: '狗，短促圆唇' },
+      { en: '/uː/', zh: '长音 u', emoji: '🌙', phonetic: 'uː', sentence: 'Moon /muːn/', sentenceZh: '月亮，长音 u' },
+      { en: '/ʊ/', zh: '短音 u', emoji: '📖', phonetic: 'ʊ', sentence: 'Book /bʊk/', sentenceZh: '书，短音 u' },
+      { en: '/ɜː/', zh: '长音 er', emoji: '🐦', phonetic: 'ɜː', sentence: 'Bird /bɜːd/', sentenceZh: '鸟，卷舌长音' },
+      { en: '/ə/', zh: '弱音 schwa', emoji: '🐼', phonetic: 'ə', sentence: 'Panda /ˈpændə/', sentenceZh: '熊猫，最轻松的音' },
+      { en: '/eɪ/', zh: '双元音 ei', emoji: '🐍', phonetic: 'eɪ', sentence: 'Snake /sneɪk/', sentenceZh: '蛇，由 e 滑向 i' },
+      { en: '/aɪ/', zh: '双元音 ai', emoji: '🪁', phonetic: 'aɪ', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，由 a 滑向 i' },
+      { en: '/ɔɪ/', zh: '双元音 oi', emoji: '🧸', phonetic: 'ɔɪ', sentence: 'Toy /tɔɪ/', sentenceZh: '玩具，由 o 滑向 i' },
+      { en: '/aʊ/', zh: '双元音 au', emoji: '🐭', phonetic: 'aʊ', sentence: 'Mouse /maʊs/', sentenceZh: '老鼠，由 a 滑向 u' },
+      { en: '/əʊ/', zh: '双元音 əʊ', emoji: '☎️', phonetic: 'əʊ', sentence: 'Phone /fəʊn/', sentenceZh: '电话，由 ə 滑向 u' },
+      { en: '/ɪə/', zh: '双元音 iə', emoji: '🦌', phonetic: 'ɪə', sentence: 'Deer /dɪər/', sentenceZh: '鹿，由 i 滑向 ə' },
+      { en: '/eə/', zh: '双元音 eə', emoji: '🐻', phonetic: 'eə', sentence: 'Bear /beər/', sentenceZh: '熊，由 e 滑向 ə' },
+      { en: '/ʊə/', zh: '双元音 uə', emoji: '💊', phonetic: 'ʊə', sentence: 'Cure /kjʊər/', sentenceZh: '治愈，由 u 滑向 ə' },
+      { en: '/p/', zh: '清辅音 p', emoji: '🐧', phonetic: 'p', sentence: 'Penguin /ˈpeŋɡwɪn/', sentenceZh: '企鹅，双唇爆破' },
+      { en: '/b/', zh: '浊辅音 b', emoji: '🐰', phonetic: 'b', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，双唇爆破' },
+      { en: '/t/', zh: '清辅音 t', emoji: '🐯', phonetic: 't', sentence: 'Tiger /ˈtaɪɡər/', sentenceZh: '老虎，舌尖爆破' },
+      { en: '/d/', zh: '浊辅音 d', emoji: '🐬', phonetic: 'd', sentence: 'Dolphin /ˈdɒlfɪn/', sentenceZh: '海豚，舌尖爆破' },
+      { en: '/k/', zh: '清辅音 k', emoji: '🪁', phonetic: 'k', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，舌根爆破' },
+      { en: '/ɡ/', zh: '浊辅音 g', emoji: '🦒', phonetic: 'ɡ', sentence: 'Giraffe /dʒɪˈrɑːf/', sentenceZh: '长颈鹿，舌根爆破' },
+      { en: '/f/', zh: '清辅音 f', emoji: '🐟', phonetic: 'f', sentence: 'Fish /fɪʃ/', sentenceZh: '鱼，上齿咬下唇' },
+      { en: '/v/', zh: '浊辅音 v', emoji: '🚐', phonetic: 'v', sentence: 'Van /væn/', sentenceZh: '面包车，上齿咬下唇' },
+      { en: '/θ/', zh: '清辅音 th', emoji: '👍', phonetic: 'θ', sentence: 'Thank /θæŋk/', sentenceZh: '谢谢，舌尖轻触上齿' },
+      { en: '/ð/', zh: '浊辅音 th', emoji: '👨‍👩‍👧', phonetic: 'ð', sentence: 'Mother /ˈmʌðər/', sentenceZh: '妈妈，舌尖轻触上齿' },
+      { en: '/s/', zh: '清辅音 s', emoji: '☀️', phonetic: 's', sentence: 'Sun /sʌn/', sentenceZh: '太阳，舌尖靠近上齿龈' },
+      { en: '/z/', zh: '浊辅音 z', emoji: '🦓', phonetic: 'z', sentence: 'Zebra /ˈziːbrə/', sentenceZh: '斑马，舌尖靠近上齿龈' },
+      { en: '/ʃ/', zh: '清辅音 sh', emoji: '👟', phonetic: 'ʃ', sentence: 'Shoe /ʃuː/', sentenceZh: '鞋子，嘴巴撅起' },
+      { en: '/ʒ/', zh: '浊辅音 zh', emoji: '🎱', phonetic: 'ʒ', sentence: 'Measure /ˈmeʒər/', sentenceZh: '测量，嘴巴撅起' },
+      { en: '/h/', zh: '清辅音 h', emoji: '🐎', phonetic: 'h', sentence: 'Horse /hɔːrs/', sentenceZh: '马，轻轻哈气' },
+      { en: '/m/', zh: '鼻音 m', emoji: '🐵', phonetic: 'm', sentence: 'Monkey /ˈmʌŋki/', sentenceZh: '猴子，双唇闭拢' },
+      { en: '/n/', zh: '鼻音 n', emoji: '👃', phonetic: 'n', sentence: 'Nose /nəʊz/', sentenceZh: '鼻子，舌尖抵上齿龈' },
+      { en: '/ŋ/', zh: '后鼻音 ng', emoji: '🎵', phonetic: 'ŋ', sentence: 'Song /sɒŋ/', sentenceZh: '歌曲，舌根抬起' },
+      { en: '/l/', zh: '舌侧音 l', emoji: '🦁', phonetic: 'l', sentence: 'Lion /ˈlaɪən/', sentenceZh: '狮子，舌尖抵上齿龈' },
+      { en: '/r/', zh: '卷舌音 r', emoji: '🐰', phonetic: 'r', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，舌尖卷起' },
+      { en: '/j/', zh: '半元音 y', emoji: '🟡', phonetic: 'j', sentence: 'Yellow /ˈjeləʊ/', sentenceZh: '黄色，像发 i 但更短' },
+      { en: '/w/', zh: '半元音 w', emoji: '🌊', phonetic: 'w', sentence: 'Water /ˈwɔːtər/', sentenceZh: '水，像发 u 但更短' },
+      { en: '/tʃ/', zh: '清辅音 ch', emoji: '🧀', phonetic: 'tʃ', sentence: 'Cheese /tʃiːz/', sentenceZh: '奶酪，像吃' },
+      { en: '/dʒ/', zh: '浊辅音 j', emoji: '🍊', phonetic: 'dʒ', sentence: 'Juice /dʒuːs/', sentenceZh: '果汁，像知' },
+      { en: '/tr/', zh: '清辅音 tr', emoji: '🚂', phonetic: 'tr', sentence: 'Train /treɪn/', sentenceZh: '火车，像踹' },
+      { en: '/dr/', zh: '浊辅音 dr', emoji: '🥁', phonetic: 'dr', sentence: 'Drum /drʌm/', sentenceZh: '鼓，像抓' },
+      { en: '/ts/', zh: '清辅音 ts', emoji: '🐱', phonetic: 'ts', sentence: 'Cats /kæts/', sentenceZh: '猫们，像刺' },
+      { en: '/dz/', zh: '浊辅音 dz', emoji: '✋', phonetic: 'dz', sentence: 'Hands /hændz/', sentenceZh: '手们，像子' },
+    ]
+  },
   {
     id: 'animals', name: '🐾 动物', icon: '🐾',
     items: [
@@ -1099,61 +1224,27 @@ const THEMES = [
     ]
   },
   {
-    id: 'phonetics', name: '🔊 音标入门', icon: '🔊',
+    id: 'stories', name: '📖 寓言故事', icon: '📖',
     items: [
-      // ===== 元音 (Vowels) =====
-      { en: '/iː/', zh: '长音 i', emoji: '🐑', phonetic: 'iː', sentence: 'Sheep /ʃiːp/', sentenceZh: '绵羊，长音 i 的发音' },
-      { en: '/ɪ/', zh: '短音 i', emoji: '🐷', phonetic: 'ɪ', sentence: 'Pig /pɪg/', sentenceZh: '猪，短音 i 的发音' },
-      { en: '/e/', zh: '短音 e', emoji: '🥚', phonetic: 'e', sentence: 'Egg /eg/', sentenceZh: '鸡蛋，短音 e 的发音' },
-      { en: '/æ/', zh: '梅花音 æ', emoji: '🐱', phonetic: 'æ', sentence: 'Cat /kæt/', sentenceZh: '猫，嘴巴张大发的音' },
-      { en: '/ɑː/', zh: '长音 a', emoji: '🚗', phonetic: 'ɑː', sentence: 'Car /kɑːr/', sentenceZh: '汽车，嘴巴张大' },
-      { en: '/ʌ/', zh: '短音 a', emoji: '🦆', phonetic: 'ʌ', sentence: 'Duck /dʌk/', sentenceZh: '鸭子，短促的音' },
-      { en: '/ɔː/', zh: '长音 o', emoji: '🚪', phonetic: 'ɔː', sentence: 'Door /dɔːr/', sentenceZh: '门，圆唇长音' },
-      { en: '/ɒ/', zh: '短音 o', emoji: '🐶', phonetic: 'ɒ', sentence: 'Dog /dɒg/', sentenceZh: '狗，短促圆唇' },
-      { en: '/uː/', zh: '长音 u', emoji: '🌙', phonetic: 'uː', sentence: 'Moon /muːn/', sentenceZh: '月亮，长音 u' },
-      { en: '/ʊ/', zh: '短音 u', emoji: '📖', phonetic: 'ʊ', sentence: 'Book /bʊk/', sentenceZh: '书，短音 u' },
-      { en: '/ɜː/', zh: '长音 er', emoji: '🐦', phonetic: 'ɜː', sentence: 'Bird /bɜːd/', sentenceZh: '鸟，卷舌长音' },
-      { en: '/ə/', zh: '弱音 schwa', emoji: '🐼', phonetic: 'ə', sentence: 'Panda /ˈpændə/', sentenceZh: '熊猫，最轻松的音' },
-      // ===== 双元音 (Diphthongs) =====
-      { en: '/eɪ/', zh: '双元音 ei', emoji: '🐍', phonetic: 'eɪ', sentence: 'Snake /sneɪk/', sentenceZh: '蛇，由 e 滑向 i' },
-      { en: '/aɪ/', zh: '双元音 ai', emoji: '🪁', phonetic: 'aɪ', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，由 a 滑向 i' },
-      { en: '/ɔɪ/', zh: '双元音 oi', emoji: '🧸', phonetic: 'ɔɪ', sentence: 'Toy /tɔɪ/', sentenceZh: '玩具，由 o 滑向 i' },
-      { en: '/aʊ/', zh: '双元音 au', emoji: '🐭', phonetic: 'aʊ', sentence: 'Mouse /maʊs/', sentenceZh: '老鼠，由 a 滑向 u' },
-      { en: '/əʊ/', zh: '双元音 əʊ', emoji: '☎️', phonetic: 'əʊ', sentence: 'Phone /fəʊn/', sentenceZh: '电话，由 ə 滑向 u' },
-      { en: '/ɪə/', zh: '双元音 iə', emoji: '🦌', phonetic: 'ɪə', sentence: 'Deer /dɪər/', sentenceZh: '鹿，由 i 滑向 ə' },
-      { en: '/eə/', zh: '双元音 eə', emoji: '🐻', phonetic: 'eə', sentence: 'Bear /beər/', sentenceZh: '熊，由 e 滑向 ə' },
-      { en: '/ʊə/', zh: '双元音 uə', emoji: '💊', phonetic: 'ʊə', sentence: 'Cure /kjʊər/', sentenceZh: '治愈，由 u 滑向 ə' },
-      // ===== 辅音 (Consonants) =====
-      { en: '/p/', zh: '清辅音 p', emoji: '🐧', phonetic: 'p', sentence: 'Penguin /ˈpeŋɡwɪn/', sentenceZh: '企鹅，双唇爆破' },
-      { en: '/b/', zh: '浊辅音 b', emoji: '🐰', phonetic: 'b', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，双唇爆破' },
-      { en: '/t/', zh: '清辅音 t', emoji: '🐯', phonetic: 't', sentence: 'Tiger /ˈtaɪɡər/', sentenceZh: '老虎，舌尖爆破' },
-      { en: '/d/', zh: '浊辅音 d', emoji: '🐬', phonetic: 'd', sentence: 'Dolphin /ˈdɒlfɪn/', sentenceZh: '海豚，舌尖爆破' },
-      { en: '/k/', zh: '清辅音 k', emoji: '🪁', phonetic: 'k', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，舌根爆破' },
-      { en: '/ɡ/', zh: '浊辅音 g', emoji: '🦒', phonetic: 'ɡ', sentence: 'Giraffe /dʒɪˈrɑːf/', sentenceZh: '长颈鹿，舌根爆破' },
-      { en: '/f/', zh: '清辅音 f', emoji: '🐟', phonetic: 'f', sentence: 'Fish /fɪʃ/', sentenceZh: '鱼，上齿咬下唇' },
-      { en: '/v/', zh: '浊辅音 v', emoji: '🚐', phonetic: 'v', sentence: 'Van /væn/', sentenceZh: '面包车，上齿咬下唇' },
-      { en: '/θ/', zh: '清辅音 th', emoji: '👍', phonetic: 'θ', sentence: 'Thank /θæŋk/', sentenceZh: '谢谢，舌尖轻触上齿' },
-      { en: '/ð/', zh: '浊辅音 th', emoji: '👨‍👩‍👧', phonetic: 'ð', sentence: 'Mother /ˈmʌðər/', sentenceZh: '妈妈，舌尖轻触上齿' },
-      { en: '/s/', zh: '清辅音 s', emoji: '☀️', phonetic: 's', sentence: 'Sun /sʌn/', sentenceZh: '太阳，舌尖靠近上齿龈' },
-      { en: '/z/', zh: '浊辅音 z', emoji: '🦓', phonetic: 'z', sentence: 'Zebra /ˈziːbrə/', sentenceZh: '斑马，舌尖靠近上齿龈' },
-      { en: '/ʃ/', zh: '清辅音 sh', emoji: '👟', phonetic: 'ʃ', sentence: 'Shoe /ʃuː/', sentenceZh: '鞋子，嘴巴撅起' },
-      { en: '/ʒ/', zh: '浊辅音 zh', emoji: '🎱', phonetic: 'ʒ', sentence: 'Measure /ˈmeʒər/', sentenceZh: '测量，嘴巴撅起' },
-      { en: '/h/', zh: '清辅音 h', emoji: '🐎', phonetic: 'h', sentence: 'Horse /hɔːrs/', sentenceZh: '马，轻轻哈气' },
-      { en: '/m/', zh: '鼻音 m', emoji: '🐵', phonetic: 'm', sentence: 'Monkey /ˈmʌŋki/', sentenceZh: '猴子，双唇闭拢' },
-      { en: '/n/', zh: '鼻音 n', emoji: '👃', phonetic: 'n', sentence: 'Nose /nəʊz/', sentenceZh: '鼻子，舌尖抵上齿龈' },
-      { en: '/ŋ/', zh: '后鼻音 ng', emoji: '🎵', phonetic: 'ŋ', sentence: 'Song /sɒŋ/', sentenceZh: '歌曲，舌根抬起' },
-      { en: '/l/', zh: '舌侧音 l', emoji: '🦁', phonetic: 'l', sentence: 'Lion /ˈlaɪən/', sentenceZh: '狮子，舌尖抵上齿龈' },
-      { en: '/r/', zh: '卷舌音 r', emoji: '🐰', phonetic: 'r', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，舌尖卷起' },
-      { en: '/j/', zh: '半元音 y', emoji: '🟡', phonetic: 'j', sentence: 'Yellow /ˈjeləʊ/', sentenceZh: '黄色，像发 i 但更短' },
-      { en: '/w/', zh: '半元音 w', emoji: '🌊', phonetic: 'w', sentence: 'Water /ˈwɔːtər/', sentenceZh: '水，像发 u 但更短' },
-      { en: '/tʃ/', zh: '清辅音 ch', emoji: '🧀', phonetic: 'tʃ', sentence: 'Cheese /tʃiːz/', sentenceZh: '奶酪，像吃' },
-      { en: '/dʒ/', zh: '浊辅音 j', emoji: '🍊', phonetic: 'dʒ', sentence: 'Juice /dʒuːs/', sentenceZh: '果汁，像知' },
-      { en: '/tr/', zh: '清辅音 tr', emoji: '🚂', phonetic: 'tr', sentence: 'Train /treɪn/', sentenceZh: '火车，像踹' },
-      { en: '/dr/', zh: '浊辅音 dr', emoji: '🥁', phonetic: 'dr', sentence: 'Drum /drʌm/', sentenceZh: '鼓，像抓' },
-      { en: '/ts/', zh: '清辅音 ts', emoji: '🐱', phonetic: 'ts', sentence: 'Cats /kæts/', sentenceZh: '猫们，像刺' },
-      { en: '/dz/', zh: '浊辅音 dz', emoji: '✋', phonetic: 'dz', sentence: 'Hands /hændz/', sentenceZh: '手们，像子' },
+      { en: 'The Tortoise and the Hare', zh: '龟兔赛跑', emoji: '🐢🐰', sentence: 'Slow and steady wins the race.', sentenceZh: '慢而稳，赢得比赛。' },
+      { en: 'The Lion and the Mouse', zh: '狮子和老鼠', emoji: '🦁🐭', sentence: 'Even the strong need help sometimes.', sentenceZh: '即使是强者有时也需要帮助。' },
+      { en: 'The Ant and the Grasshopper', zh: '蚂蚁和蚱蜢', emoji: '🐜🦗', sentence: 'Work today so you can rest tomorrow.', sentenceZh: '今天努力工作，明天才能休息。' },
+      { en: 'The Boy Who Cried Wolf', zh: '狼来了', emoji: '👦🐺', sentence: 'Nobody believes a liar, even when they tell the truth.', sentenceZh: '没有人相信说谎者，即使他们说真话。' },
+      { en: 'The Fox and the Grapes', zh: '狐狸和葡萄', emoji: '🦊🍇', sentence: 'It\'s easy to despise what you cannot have.', sentenceZh: '得不到的东西最容易说它不好。' },
+      { en: 'The Crow and the Pitcher', zh: '乌鸦喝水', emoji: '🐦🫗', sentence: 'Little by little does the trick.', sentenceZh: '一点一点地，就能成功。' },
+      { en: 'The Sun and the Wind', zh: '太阳和风', emoji: '☀️💨', sentence: 'Kindness is more powerful than force.', sentenceZh: '友善比暴力更有力量。' },
+      { en: 'The Little Red Hen', zh: '小红母鸡', emoji: '🐔🌾', sentence: 'If you want something done, do it yourself.', sentenceZh: '如果你想要完成某事，就自己做。' },
+      { en: 'The Golden Eggs', zh: '金蛋', emoji: '🥚✨', sentence: 'Greed destroys what it wants.', sentenceZh: '贪婪毁掉了它想要的东西。' },
+      { en: 'The City Mouse and the Country Mouse', zh: '城市老鼠和乡下老鼠', emoji: '🐭🏙️🌾', sentence: 'A simple life in peace is better than a rich life in fear.', sentenceZh: '平静的简单生活胜过恐惧的富足生活。' },
+      { en: 'The Three Little Pigs', zh: '三只小猪', emoji: '🐷🐷🐷🐺', sentence: 'Hard work and planning keep you safe.', sentenceZh: '努力工作和规划让你安全。' },
+      { en: 'The Ugly Duckling', zh: '丑小鸭', emoji: '🦆🦢', sentence: 'You are beautiful just the way you are.', sentenceZh: '你本来的样子就很美。' },
+      { en: 'The Thirsty Crow', zh: '口渴的乌鸦', emoji: '🐦💧', sentence: 'Think before you act.', sentenceZh: '三思而后行。' },
+      { en: 'The Farmer and the Snake', zh: '农夫和蛇', emoji: '👨‍🌾🐍', sentence: 'Kindness to the wicked is never wasted? Actually it can be dangerous.', sentenceZh: '对恶人仁慈可能带来危险。' },
+      { en: 'The Dog and the Bone', zh: '狗和骨头', emoji: '🐶🦴', sentence: 'Be happy with what you have.', sentenceZh: '对你拥有的感到满足。' },
+      { en: 'The Wind and the Sun', zh: '风和太阳', emoji: '💨☀️', sentence: 'Gentleness wins over force.', sentenceZh: '温柔胜过力量。' },
     ]
   }
+];
 ];
 
 // ========== 音标数据映射（给其他模块单词加音标）==========
@@ -1289,8 +1380,10 @@ function calcStats() {
 // ========== 渲染目录 ==========
 function renderCatalog() {
   // 渲染导航
+  const nav = document.getElementById('catalogNav');
   const navInner = document.getElementById('catalogNavInner');
   let navHtml = '';
+  navHtml += `<button class="catalog-nav-toggle" id="navToggle">📌 收起</button>`;
   THEMES.forEach((theme, ti) => {
     const icon = theme.icon || theme.name.match(/^\S+/)?.[0] || '📚';
     navHtml += `<div class="catalog-nav-item" data-nav-theme="${ti}">
@@ -1300,20 +1393,41 @@ function renderCatalog() {
   });
   navInner.innerHTML = navHtml;
 
+  // 导航折叠按钮
+  const navToggle = document.getElementById('navToggle');
+  let navPinned = false;
+
+  // 滑动自动隐藏
+  let lastScrollTop = 0;
+  catalog.addEventListener('scroll', () => {
+    const scrollTop = catalog.scrollTop;
+    if (scrollTop > 60 && scrollTop > lastScrollTop + 10 && !navPinned) {
+      nav.classList.add('hide-nav');
+    } else if (scrollTop < lastScrollTop - 10 || scrollTop < 60) {
+      nav.classList.remove('hide-nav');
+    }
+    lastScrollTop = scrollTop;
+  });
+
+  // 点击折叠/展开
+  navToggle.addEventListener('click', () => {
+    navPinned = !navPinned;
+    nav.classList.toggle('hide-nav', navPinned);
+    navToggle.classList.toggle('pinned', navPinned);
+    navToggle.textContent = navPinned ? '📌 展开' : '📌 收起';
+  });
+
   // 导航点击滚动到对应分类
   navInner.querySelectorAll('.catalog-nav-item').forEach(el => {
     el.addEventListener('click', () => {
       const ti = parseInt(el.dataset.navTheme);
       const group = catalogContent.querySelectorAll('.catalog-group')[ti];
       if (group) {
-        // 高亮当前导航
         navInner.querySelectorAll('.catalog-nav-item').forEach(n => n.classList.remove('active'));
         el.classList.add('active');
-        // 滚动到对应分类（考虑导航高度）
         const navHeight = document.getElementById('catalogNav').offsetHeight;
         const top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
         catalog.scrollTo({ top, behavior: 'smooth' });
-        // 滚动后自动取消高亮
         setTimeout(() => {
           navInner.querySelectorAll('.catalog-nav-item').forEach(n => n.classList.remove('active'));
         }, 1500);
@@ -1414,6 +1528,12 @@ function showCard(animate) {
 
   // 重置卡片
   card.classList.remove('show', 'hide-out', 'shine');
+
+  // 显示蒙层
+  if (animate) {
+    document.getElementById('cardContainer').classList.add('overlay');
+    setTimeout(() => document.getElementById('cardContainer').classList.remove('overlay'), 800);
+  }
 
   if (isDialogue) {
     // 对话模式
