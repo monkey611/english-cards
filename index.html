@@ -1245,7 +1245,6 @@ const THEMES = [
     ]
   }
 ];
-];
 
 // ========== 音标数据映射（给其他模块单词加音标）==========
 const PHONETICS_MAP = {
@@ -1529,11 +1528,8 @@ function showCard(animate) {
   // 重置卡片
   card.classList.remove('show', 'hide-out', 'shine');
 
-  // 显示蒙层
-  if (animate) {
-    document.getElementById('cardContainer').classList.add('overlay');
-    setTimeout(() => document.getElementById('cardContainer').classList.remove('overlay'), 800);
-  }
+  // 显示蒙层 — 卡片出现时页面加蒙层，一直保持到关闭阅读器
+  document.getElementById('cardContainer').classList.add('overlay');
 
   if (isDialogue) {
     // 对话模式
@@ -1757,6 +1753,7 @@ function closeReader() {
   window.speechSynthesis.cancel();
   finishSpeak();
   reader.classList.remove('active');
+  document.getElementById('cardContainer').classList.remove('overlay');
   currentTheme = null;
   currentIndex = 0;
 }
