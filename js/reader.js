@@ -11,6 +11,133 @@ function calcStats() {
   totalDialogues.textContent = `${dialogues} 组对话`;
 }
 
+// ========== 主题掌握进度（C1）==========
+function themeMastery(theme) {
+  if (VOCAB_THEME_IDS.indexOf(theme.id) < 0) return null; // 非词汇主题不统计
+  const total = theme.items.length;
+  let mastered = 0;
+  theme.items.forEach(function (it) { if (it.en && isMastered(it.en)) mastered++; });
+  return { mastered: mastered, total: total, pct: total > 0 ? mastered / total : 0 };
+}
+
+// ========== 推荐下一个主题（C2）==========
+// 优先推荐"已开始且最接近完成"的主题，其次推荐第一个未开始主题
+function recommendTheme() {
+  let started = null;
+  let fresh = null;
+  let allDone = true;
+  let hasVocab = false;
+  THEMES.forEach(function (t) {
+    const m = themeMastery(t);
+    if (!m) return;
+    hasVocab = true;
+    if (m.pct < 1) {
+      allDone = false;
+      if (m.pct > 0) {
+        if (!started || m.pct > started.pct) started = { theme: t, mastered: m.mastered, total: m.total, pct: m.pct };
+      } else if (!fresh) {
+        fresh = { theme: t, mastered: 0, total: m.total, pct: 0 };
+      }
+    }
+  });
+  if (!hasVocab) return null;
+  if (allDone) return { allDone: true };
+  return started || fresh;
+}
+
+function cleanThemeName(name) {
+  return String(name).replace(/[^一-龥A-Za-z0-9\s]/g, '').trim();
+}
+
+function recommendBannerHtml() {
+  const rec = recommendTheme();
+  if (!rec) return '';
+  if (rec.allDone) {
+    return '<div class="catalog-recommend done"><span class="cr-icon">🏆</span><span class="cr-text">太棒了！所有主题都掌握啦！</span></div>';
+  }
+  const ti = THEMES.indexOf(rec.theme);
+  const remain = rec.total - rec.mastered;
+  const name = cleanThemeName(rec.theme.name);
+  let h = '<div class="catalog-recommend" data-theme="' + ti + '">';
+  h += '<span class="cr-icon">' + (rec.theme.icon || '👉') + '</span>';
+  if (rec.mastered > 0) {
+    h += '<span class="cr-text">继续学习<b>' + esc(name) + '</b>，再掌握 ' + remain + ' 个就通关！</span>';
+  } else {
+    h += '<span class="cr-text">推荐开始学习<b>' + esc(name) + '</b> ✨</span>';
+  }
+  h += '<span class="cr-go">去学习 ▶</span>';
+  h += '</div>';
+  return h;
+}
+
+function bindRecommendBanner() {
+  const el = catalogContent.querySelector('.catalog-recommend[data-theme]');
+  if (!el) return;
+  el.addEventListener('click', function () {
+    const ti = parseInt(el.dataset.theme);
+    const group = catalogContent.querySelectorAll('.catalog-group')[ti];
+    if (!group) return;
+    const navHeight = document.getElementById('catalogNav').offsetHeight;
+    const top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
+    catalog.scrollTo({ top: top, behavior: 'smooth' });
+    group.classList.add('highlight');
+    setTimeout(function () { group.classList.remove('highlight'); }, 1600);
+  });
+}
+
+// 局部刷新目录的进度数据（不重建 DOM，保留滚动位置）—— 学习进度变化后调用
+function refreshCatalogProgress() {
+  const groups = catalogContent.querySelectorAll('.catalog-group');
+  if (!groups.length) return;
+  THEMES.forEach(function (theme, ti) {
+    const group = groups[ti];
+    if (!group) return;
+    const m = themeMastery(theme);
+    if (!m) return;
+    const bar = group.querySelector('.catalog-progress-fill');
+    if (bar) bar.style.width = (m.pct * 100) + '%';
+    const cnt = group.querySelector('.catalog-group-mastered');
+    if (cnt) cnt.textContent = m.mastered + '/' + m.total;
+    const items = group.querySelectorAll('.catalog-item');
+    theme.items.forEach(function (it, ii) {
+      const el = items[ii];
+      if (!el) return;
+      const got = !!(it.en && isMastered(it.en));
+      el.classList.toggle('mastered', got);
+      let mark = el.querySelector('.mastered-mark');
+      if (got && !mark) {
+        mark = document.createElement('span');
+        mark.className = 'mastered-mark';
+        mark.textContent = '✓';
+        el.appendChild(mark);
+      } else if (!got && mark) {
+        mark.remove();
+      }
+    });
+  });
+  // 刷新推荐横幅（类型可能变化）
+  const oldBanner = catalogContent.querySelector('.catalog-recommend');
+  const nextHtml = recommendBannerHtml();
+  if (oldBanner) {
+    if (nextHtml) {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = nextHtml;
+      const newBanner = wrap.firstChild;
+      if (newBanner) oldBanner.parentNode.replaceChild(newBanner, oldBanner);
+      else oldBanner.remove();
+    } else {
+      oldBanner.remove();
+    }
+    bindRecommendBanner();
+  } else if (nextHtml) {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = nextHtml;
+    const newBanner = wrap.firstChild;
+    if (newBanner) catalogContent.insertBefore(newBanner, catalogContent.firstChild);
+    bindRecommendBanner();
+  }
+}
+
 // ========== 渲染目录 ==========
 function renderCatalog() {
   // 渲染导航
@@ -77,21 +204,34 @@ function renderCatalog() {
   });
 
   let html = '';
+  // 推荐下一个主题横幅（C2）
+  html += recommendBannerHtml();
   THEMES.forEach((theme, ti) => {
+    const m = themeMastery(theme);
     html += `<div class="catalog-group">`;
-    html += `<div class="catalog-group-title">${theme.name}</div>`;
+    let titleHtml = theme.name;
+    if (m) titleHtml += ` <span class="catalog-group-mastered">${m.mastered}/${m.total}</span>`;
+    html += `<div class="catalog-group-title">${titleHtml}</div>`;
+    if (m) {
+      html += `<div class="catalog-progress"><div class="catalog-progress-fill" style="width:${m.pct * 100}%"></div></div>`;
+    }
     html += `<div class="catalog-grid">`;
     theme.items.forEach((item, ii) => {
       const delay = (ii % 12) * 0.05;
-      html += `<div class="catalog-item" data-theme="${ti}" data-index="${ii}" style="animation-delay:${delay}s">
+      const got = m && isMastered(item.en);
+      html += `<div class="catalog-item${got ? ' mastered' : ''}" data-theme="${ti}" data-index="${ii}" style="animation-delay:${delay}s">
         <span class="icon">${item.emoji}</span>
         <div class="name">${item.en}</div>
         <div class="count">${item.zh}</div>
+        ${got ? '<span class="mastered-mark">✓</span>' : ''}
       </div>`;
     });
     html += `</div></div>`;
   });
   catalogContent.innerHTML = html;
+
+  // 推荐横幅点击：滚动到对应主题并高亮
+  bindRecommendBanner();
 
   catalogContent.querySelectorAll('.catalog-item').forEach(el => {
     el.addEventListener('click', () => {

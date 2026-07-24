@@ -1,6 +1,8 @@
 // ========== 朗读（修复版）==========
 function speak() {
   if (isSpeaking || !currentTheme) return;
+  const stt = loadSettings();
+  if (!stt.soundOn) return; // 音效关闭则不朗读
 
   // 先取消任何正在进行的朗读
   window.speechSynthesis.cancel();
@@ -64,7 +66,7 @@ function speak() {
     try {
       const utterance = new SpeechSynthesisUtterance(part.text);
       utterance.lang = part.lang;
-      utterance.rate = 0.85;
+      utterance.rate = stt.speechRate;
       utterance.pitch = 1.1;
       utterance.volume = 1.0;
 

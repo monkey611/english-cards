@@ -67,6 +67,32 @@
   .milestone-pop .ms-text { font-size:18px; font-weight:900; color:var(--primary); margin-top:6px; background:var(--card-bg); padding:6px 18px; border-radius:16px; box-shadow:0 6px 18px var(--shadow); display:inline-block; }
   @keyframes milestonePop { 0%{opacity:0;transform:translate(-50%,20px) scale(0.5);} 20%{opacity:1;transform:translate(-50%,0) scale(1.1);} 30%{transform:translate(-50%,0) scale(1);} 80%{opacity:1;} 100%{opacity:0;transform:translate(-50%,-20px) scale(1);} }
 
+  /* 退出按钮（A4） */
+  .ch-exit { position:absolute; top:8px; right:6px; width:32px; height:32px; border:none; background:var(--primary-light); color:var(--text); border-radius:50%; font-size:15px; cursor:pointer; z-index:11; display:flex; align-items:center; justify-content:center; }
+  .ch-exit:active { transform:scale(0.9); }
+
+  /* 答题反馈（A2） */
+  .q-feedback { margin-top:16px; padding:10px 14px; border-radius:14px; font-size:15px; font-weight:800; animation:feedbackIn 0.3s ease; }
+  .q-feedback.good { background:var(--green); color:#fff; }
+  .q-feedback.bad { background:var(--accent); color:#fff; }
+  @keyframes feedbackIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+  .opt-emoji { font-size:20px; margin-right:2px; vertical-align:middle; }
+
+  /* 拼词正确答案显示 */
+  .spell-answer { font-size:26px; font-weight:900; color:var(--green); letter-spacing:2px; }
+  .spell-answer-tip { font-size:12px; color:var(--text-light); margin-top:4px; }
+
+  /* 错词复习区（D3） */
+  .ch-review { margin-top:22px; text-align:left; }
+  .ch-review-title { font-size:15px; font-weight:800; color:var(--text); margin-bottom:10px; }
+  .ch-review-list { display:flex; flex-direction:column; gap:8px; }
+  .ch-review-item { display:flex; align-items:center; gap:10px; background:var(--primary-light); border-radius:14px; padding:10px 12px; }
+  .ch-review-item .ri-emoji { font-size:22px; flex-shrink:0; }
+  .ch-review-item .ri-en { font-size:15px; font-weight:800; color:var(--text); flex:1; }
+  .ch-review-item .ri-zh { font-size:13px; color:var(--text-light); flex:1; }
+  .ch-review-item .ri-play { width:34px; height:34px; border:none; background:var(--secondary); color:#fff; border-radius:50%; font-size:15px; cursor:pointer; flex-shrink:0; }
+  .ch-review-item .ri-play:active { transform:scale(0.9); }
+
   /* ========== 响应式 ========== */
   @media (max-width: 380px) {
     .q-emoji { font-size: 64px; }

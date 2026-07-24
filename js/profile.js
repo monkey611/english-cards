@@ -20,9 +20,9 @@ function renderProfileHome() {
   html += statCard(p.streak.longest, '最长连击', '🏅');
   html += statCard(todayDone ? '已完成' : '未完成', '今日闯关', todayDone ? '✅' : '⭕');
   html += '</div></div>';
-  // 打卡日历
+  // 打卡日历（包裹一层，便于切月局部刷新 C3）
   html += '<div class="pf-section"><div class="pf-section-title">📅 打卡日历</div>';
-  html += renderCalendar();
+  html += '<div id="pfCalendarWrap">' + renderCalendar() + '</div>';
   html += '</div>';
   // 成就墙
   html += '<div class="pf-section"><div class="pf-section-title">🏆 成就墙</div><div class="pf-trophies">';
@@ -36,26 +36,147 @@ function renderProfileHome() {
   html += '<div class="pf-section"><div class="pf-section-title">📖 已掌握词汇（' + masteredCount + '）</div>';
   html += renderMasteredWords(p);
   html += '</div>';
+  // 设置（D4：语速 / 音效 / 振动）
+  html += '<div class="pf-section"><div class="pf-section-title">⚙️ 设置</div>';
+  html += renderSettings();
+  html += '</div>';
   // 重置
   html += '<button class="pf-reset" id="pfReset">重置全部进度</button>';
   profileContent.innerHTML = html;
   // 绑定日历切月
-  const prevM = document.getElementById('calPrev');
-  const nextM = document.getElementById('calNext');
-  if (prevM) prevM.addEventListener('click', function () { shiftCalMonth(-1); });
-  if (nextM) nextM.addEventListener('click', function () { shiftCalMonth(1); });
+  bindCalendarNav();
   // 词汇分组折叠
   profileContent.querySelectorAll('.pf-words-head').forEach(function (h) {
     h.addEventListener('click', function () { h.nextElementSibling.classList.toggle('open'); });
   });
-  // 重置进度
+  // 绑定设置控件
+  bindSettings();
+  // 重置进度：自定义长按确认弹窗（B1，替换原生 confirm）
   const rs = document.getElementById('pfReset');
-  if (rs) rs.addEventListener('click', function () {
-    if (confirm('确定要重置全部进度吗？将清空所有星星、打卡记录和已掌握词汇，且无法恢复。')) {
+  if (rs) rs.addEventListener('click', showResetModal);
+}
+
+// 绑定日历切月按钮
+function bindCalendarNav() {
+  const prevM = document.getElementById('calPrev');
+  const nextM = document.getElementById('calNext');
+  if (prevM) prevM.addEventListener('click', function () { shiftCalMonth(-1); });
+  if (nextM) nextM.addEventListener('click', function () { shiftCalMonth(1); });
+}
+
+// ========== 设置 UI（D4：语速 / 音效 / 振动）==========
+function renderSettings() {
+  const stt = loadSettings();
+  let h = '<div class="pf-setting-row col">';
+  h += '<div class="pf-setting-label"><span>🐢 朗读语速</span><span class="pf-setting-val" id="setRateVal">' + stt.speechRate.toFixed(2) + 'x</span></div>';
+  h += '<input type="range" class="pf-range" id="setRate" min="0.5" max="1.2" step="0.05" value="' + stt.speechRate + '">';
+  h += '<div class="pf-range-marks"><span>慢</span><span>正常</span><span>快</span></div>';
+  h += '</div>';
+  h += '<div class="pf-setting-row">';
+  h += '<div class="pf-setting-label"><span>🔊 音效朗读</span></div>';
+  h += '<label class="pf-switch"><input type="checkbox" id="setSound" ' + (stt.soundOn ? 'checked' : '') + '><span class="pf-slider"></span></label>';
+  h += '</div>';
+  h += '<div class="pf-setting-row">';
+  h += '<div class="pf-setting-label"><span>📳 振动反馈</span></div>';
+  h += '<label class="pf-switch"><input type="checkbox" id="setVibrate" ' + (stt.vibrateOn ? 'checked' : '') + '><span class="pf-slider"></span></label>';
+  h += '</div>';
+  return h;
+}
+
+function bindSettings() {
+  const rateEl = document.getElementById('setRate');
+  const rateVal = document.getElementById('setRateVal');
+  if (rateEl) {
+    rateEl.addEventListener('input', function () {
+      const stt = loadSettings();
+      stt.speechRate = parseFloat(rateEl.value);
+      saveSettings();
+      if (rateVal) rateVal.textContent = stt.speechRate.toFixed(2) + 'x';
+    });
+    // 松手时按当前语速试听
+    rateEl.addEventListener('change', function () {
+      const stt = loadSettings();
+      if (stt.soundOn) playText('Hello', 'en-US');
+    });
+  }
+  const soundEl = document.getElementById('setSound');
+  if (soundEl) {
+    soundEl.addEventListener('change', function () {
+      const stt = loadSettings();
+      stt.soundOn = soundEl.checked;
+      saveSettings();
+      if (stt.soundOn) playText('Hello', 'en-US');
+    });
+  }
+  const vibrateEl = document.getElementById('setVibrate');
+  if (vibrateEl) {
+    vibrateEl.addEventListener('change', function () {
+      const stt = loadSettings();
+      stt.vibrateOn = vibrateEl.checked;
+      saveSettings();
+      if (stt.vibrateOn) vibrate(30);
+    });
+  }
+}
+
+// ========== 自定义长按确认重置弹窗（B1）==========
+function showResetModal() {
+  if (document.getElementById('pfResetModal')) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'pf-modal-overlay';
+  overlay.id = 'pfResetModal';
+  overlay.innerHTML =
+    '<div class="pf-modal">' +
+      '<div class="pf-modal-icon">⚠️</div>' +
+      '<div class="pf-modal-title">重置全部进度？</div>' +
+      '<div class="pf-modal-desc">将清空所有星星、打卡记录和已掌握词汇，且无法恢复。<br>请长按下方按钮确认。</div>' +
+      '<button class="pf-modal-hold" id="pfHoldBtn"><span class="pf-hold-fill" id="pfHoldFill"></span><span class="pf-hold-text">长按 1.5 秒确认</span></button>' +
+      '<button class="pf-modal-cancel" id="pfCancelBtn">取消</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  requestAnimationFrame(function () { overlay.classList.add('show'); });
+
+  const holdBtn = document.getElementById('pfHoldBtn');
+  const holdFill = document.getElementById('pfHoldFill');
+  const holdText = holdBtn.querySelector('.pf-hold-text');
+  let holdTimer = null;
+  let done = false;
+  const DURATION = 1500;
+
+  function startHold(e) {
+    if (e && e.cancelable) e.preventDefault();
+    if (done) return;
+    holdFill.style.transition = 'width ' + DURATION + 'ms linear';
+    holdFill.style.width = '100%';
+    holdText.textContent = '继续按住...';
+    holdTimer = setTimeout(function () {
+      done = true;
       resetProgress();
+      closeModal();
       renderProfileHome();
-    }
-  });
+    }, DURATION);
+  }
+  function cancelHold() {
+    if (done) return;
+    if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+    holdFill.style.transition = 'width 0.15s ease';
+    holdFill.style.width = '0%';
+    holdText.textContent = '长按 1.5 秒确认';
+  }
+  function closeModal() {
+    if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+    overlay.classList.remove('show');
+    setTimeout(function () { if (overlay.parentNode) overlay.remove(); }, 250);
+  }
+
+  holdBtn.addEventListener('mousedown', startHold);
+  holdBtn.addEventListener('touchstart', startHold, { passive: false });
+  holdBtn.addEventListener('mouseup', cancelHold);
+  holdBtn.addEventListener('mouseleave', cancelHold);
+  holdBtn.addEventListener('touchend', cancelHold);
+  holdBtn.addEventListener('touchcancel', cancelHold);
+  document.getElementById('pfCancelBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
 }
 
 function renderCalendar() {
@@ -86,12 +207,19 @@ function renderCalendar() {
   return h;
 }
 
+// 切月：局部刷新日历区域，保留滚动位置与折叠状态（C3）
 function shiftCalMonth(delta) {
   let y = profileCalMonth.year, mo = profileCalMonth.month + delta;
   if (mo < 0) { mo = 11; y--; }
   if (mo > 11) { mo = 0; y++; }
   profileCalMonth = { year: y, month: mo };
-  renderProfileHome();
+  const wrap = document.getElementById('pfCalendarWrap');
+  if (wrap) {
+    wrap.innerHTML = renderCalendar();
+    bindCalendarNav();
+  } else {
+    renderProfileHome();
+  }
 }
 
 function renderMasteredWords(p) {
@@ -119,4 +247,3 @@ function renderMasteredWords(p) {
   });
   return h;
 }
-

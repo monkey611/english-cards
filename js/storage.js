@@ -8,6 +8,25 @@ const SENTENCE_THEME_IDS = ['phrases'];
 const DAILY_WORD_COUNT = 10;
 const DAILY_SENT_COUNT = 5;
 
+// ========== 设置（语速 / 音效 / 振动）==========
+const SETTINGS_KEY = 'ec_settings';
+function defaultSettings() {
+  return { speechRate: 0.85, soundOn: true, vibrateOn: true };
+}
+let _settings = null;
+function loadSettings() {
+  if (_settings) return _settings;
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    _settings = raw ? Object.assign(defaultSettings(), JSON.parse(raw)) : defaultSettings();
+  } catch (e) { _settings = defaultSettings(); }
+  return _settings;
+}
+function saveSettings() {
+  if (!_settings) _settings = defaultSettings();
+  try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(_settings)); } catch (e) {}
+}
+
 function defaultProgress() {
   return {
     version: 1,
