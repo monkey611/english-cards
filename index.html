@@ -102,38 +102,29 @@
   /* ========== 分类导航 ========== */
   .catalog-nav {
     position: sticky; top: 0; z-index: 20;
-    background: var(--bg);
-    padding: 6px 0 8px;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: flex;
+    align-items: flex-start;
+    padding: 0;
+    transition: transform 0.3s ease;
   }
   .catalog-nav.hide-nav {
     transform: translateX(-100%);
-    opacity: 0;
-    pointer-events: none;
   }
   .catalog-nav-bar {
     display: flex;
     align-items: center;
-    gap: 0;
     flex: 1;
     overflow: hidden;
-    transition: width 0.3s ease;
     background: var(--bg);
-    padding: 0 0 8px 0;
+    padding: 6px 0 8px 0;
+    transition: flex 0.3s ease, padding 0.3s ease;
   }
   .catalog-nav.collapsed .catalog-nav-bar {
-    width: 0;
+    flex: 0;
+    padding: 0;
     overflow: hidden;
+    width: 0;
   }
-  .catalog-nav.collapsed .catalog-nav-inner {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .catalog-nav::-webkit-scrollbar { display: none; }
   .catalog-nav-inner {
     display: inline-flex;
     gap: 6px;
@@ -142,7 +133,6 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    transition: opacity 0.2s;
     flex: 1;
   }
   .catalog-nav-inner::-webkit-scrollbar { display: none; }
@@ -151,7 +141,8 @@
     align-items: center;
     justify-content: center;
     width: 28px;
-    height: 32px;
+    min-width: 28px;
+    height: 36px;
     border: none;
     background: var(--primary-light);
     color: var(--text);
@@ -160,16 +151,16 @@
     cursor: pointer;
     border-radius: 0 14px 14px 0;
     flex-shrink: 0;
+    z-index: 1;
     transition: all 0.3s;
     box-shadow: 2px 0 6px var(--shadow);
-    z-index: 1;
-  }
-  .catalog-nav-toggle.collapsed {
-    border-radius: 14px;
-    margin-top: 0;
-    box-shadow: 0 2px 8px var(--shadow-strong);
+    margin-top: 6px;
   }
   .catalog-nav-toggle:active { transform: scale(0.9); }
+  .catalog-nav-toggle.collapsed {
+    border-radius: 14px;
+    box-shadow: 0 2px 8px var(--shadow-strong);
+  }
   .catalog-nav-toggle.pinned {
     background: var(--primary-light);
     color: var(--text);
@@ -1700,7 +1691,8 @@ function speak() {
   if (isSpeaking || !currentTheme) return;
 
   const item = currentTheme.items[currentIndex];
-  const isDialogue = currentTheme.id === 'dialogue';
+  var isDialogue = currentTheme.id === 'dialogue';
+  var isListening = currentTheme.id === 'listening';
 
   // 先取消任何正在进行的朗读
   window.speechSynthesis.cancel();
@@ -1930,9 +1922,21 @@ const loadingInterval = setInterval(() => {
 }, 200);
 
 // 预加载语音
-try { window.speechSynthesis.getVoices(); } catch(e) {}
+function initSpeech() {
+  try {
+    window.speechSynthesis.getVoices();
+    var silent = new SpeechSynthesisUtterance(' ');
+    silent.volume = 0;
+    window.speechSynthesis.speak(silent);
+    window.speechSynthesis.cancel();
+  } catch(e) {}
+}
+initSpeech();
+document.addEventListener('click', function() {
+  try { window.speechSynthesis.getVoices(); } catch(e) {}
+}, { once: true });
 try {
-  window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.onvoiceschanged = function() {
     window.speechSynthesis.getVoices();
   };
 } catch(e) {}
