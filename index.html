@@ -102,39 +102,15 @@
   /* ========== 分类导航 ========== */
   .catalog-nav {
     position: sticky; top: 0; z-index: 20;
-    display: flex;
-    align-items: flex-start;
-    padding: 0;
+    background: var(--bg);
+    padding: 6px 0 8px 0;
     transition: transform 0.3s ease;
-    margin-bottom: 0;
-    min-height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 0;
   }
   .catalog-nav.hide-nav {
     transform: translateX(-100%);
-  }
-  .catalog-nav-bar {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    overflow: hidden;
-    background: var(--bg);
-    padding: 6px 0 8px 0;
-    transition: flex 0.3s ease, padding 0.3s ease, max-width 0.3s ease;
-    max-width: 1000px;
-  }
-  .catalog-nav.collapsed .catalog-nav-bar {
-    flex: 0 0 0;
-    padding: 0;
-    overflow: hidden;
-    max-width: 0;
-  }
-  .catalog-nav-toggle-wrap {
-    position: sticky;
-    left: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
   }
   .catalog-nav-toggle {
     display: flex;
@@ -142,7 +118,7 @@
     justify-content: center;
     width: 28px;
     min-width: 28px;
-    height: 36px;
+    height: 32px;
     border: none;
     background: var(--primary-light);
     color: var(--text);
@@ -154,13 +130,32 @@
     z-index: 2;
     transition: all 0.3s;
     box-shadow: 2px 0 6px var(--shadow);
-    margin-top: 6px;
-    position: relative;
   }
   .catalog-nav-toggle:active { transform: scale(0.9); }
   .catalog-nav-toggle.collapsed {
     border-radius: 14px;
     box-shadow: 0 2px 8px var(--shadow-strong);
+  }
+  .catalog-nav-inner {
+    display: inline-flex;
+    gap: 6px;
+    padding: 0 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex: 1;
+    transition: opacity 0.3s ease, max-width 0.3s ease;
+    max-width: 1000px;
+    opacity: 1;
+  }
+  .catalog-nav-inner::-webkit-scrollbar { display: none; }
+  .catalog-nav.collapsed .catalog-nav-inner {
+    max-width: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    flex: 0;
   }
   .catalog-nav-toggle.pinned {
     background: var(--primary-light);
@@ -689,12 +684,8 @@
     </div>
   </div>
   <div class="catalog-nav" id="catalogNav">
-    <div class="catalog-nav-toggle-wrap">
-      <button class="catalog-nav-toggle" id="navToggle">◀</button>
-    </div>
-    <div class="catalog-nav-bar" id="catalogNavBar">
-      <div class="catalog-nav-inner" id="catalogNavInner"></div>
-    </div>
+    <button class="catalog-nav-toggle" id="navToggle">◀</button>
+    <div class="catalog-nav-inner" id="catalogNavInner"></div>
   </div>
   <div id="catalogContent"></div>
 </div>
@@ -1708,6 +1699,7 @@ function speak() {
   const item = currentTheme.items[currentIndex];
   var isDialogue = currentTheme.id === 'dialogue';
   var isListening = currentTheme.id === 'listening';
+  var isStories = currentTheme.id === 'stories';
 
   // 先取消任何正在进行的朗读
   window.speechSynthesis.cancel();
@@ -1727,6 +1719,10 @@ function speak() {
   } else if (isListening) {
     // 听力练习：只朗读英文
     parts.push({ text: item.story, lang: 'en-US' });
+  } else if (isStories) {
+    // 寓言故事：先读中文故事再读英文故事
+    if (item.storyZh) parts.push({ text: item.storyZh, lang: 'zh-CN' });
+    if (item.story) parts.push({ text: item.story, lang: 'en-US' });
   } else {
     parts.push({ text: item.zh, lang: 'zh-CN' });
     parts.push({ text: item.en, lang: 'en-US' });
