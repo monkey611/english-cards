@@ -1,0 +1,73 @@
+// ========== Tab 切换 ==========
+function switchTab(tab) {
+  if (tab === currentTab) return;
+  window.speechSynthesis.cancel();
+  finishSpeak();
+  currentTab = tab;
+  // 按钮高亮
+  tabBar.querySelectorAll('.tab-item').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  // 页面切换：home 显示目录页，其余隐藏
+  catalog.classList.toggle('hidden', tab !== 'home');
+  pageChallenge.classList.toggle('active', tab === 'challenge');
+  pageProfile.classList.toggle('active', tab === 'profile');
+  // 非阅读器状态下确保 Tab 栏可见
+  tabBar.classList.remove('hide');
+  // 首次进入时渲染对应页面
+  if (tab === 'challenge') renderChallengeHome();
+  if (tab === 'profile') renderProfileHome();
+}
+
+// ========== 事件绑定 ==========
+btnBack.addEventListener('click', closeReader);
+btnPrev.addEventListener('click', goPrev);
+btnNext.addEventListener('click', goNext);
+btnSpeak.addEventListener('click', speak);
+btnAuto.addEventListener('click', toggleAutoPlay);
+tabBar.querySelectorAll('.tab-item').forEach(b => {
+  b.addEventListener('click', () => switchTab(b.dataset.tab));
+});
+
+// ========== 初始化 ==========
+calcStats();
+renderCatalog();
+
+// 启动页
+let progress = 0;
+const loadingInterval = setInterval(() => {
+  progress += Math.random() * 15 + 5;
+  if (progress > 100) progress = 100;
+  loadingBar.style.width = `${progress}%`;
+  if (progress >= 100) {
+    clearInterval(loadingInterval);
+    setTimeout(() => {
+      splash.classList.add('hide');
+      setTimeout(() => splash.style.display = 'none', 800);
+    }, 400);
+  }
+}, 200);
+
+// 预加载语音
+function initSpeech() {
+  try {
+    window.speechSynthesis.getVoices();
+    var silent = new SpeechSynthesisUtterance(' ');
+    silent.volume = 0;
+    window.speechSynthesis.speak(silent);
+    window.speechSynthesis.cancel();
+  } catch(e) {}
+}
+initSpeech();
+// 测试入口：URL 加 ?test=1 自动运行数据层单元测试（结果输出到 console）
+if (new URLSearchParams(location.search).get('test') === '1') {
+  setTimeout(runTests, 600);
+}
+document.addEventListener('click', function() {
+  try { window.speechSynthesis.getVoices(); } catch(e) {}
+}, { once: true });
+try {
+  window.speechSynthesis.onvoiceschanged = function() {
+    window.speechSynthesis.getVoices();
+  };
+} catch(e) {}

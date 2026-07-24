@@ -1,0 +1,50 @@
+  /* ========== 我的页 ========== */
+  .pf-section { background:var(--card-bg); border-radius:20px; padding:16px; margin-bottom:14px; box-shadow:0 4px 14px var(--shadow); }
+  .pf-section-title { font-size:16px; font-weight:900; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+  .pf-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .pf-stat { background:var(--primary-light); border-radius:14px; padding:14px 10px; text-align:center; }
+  .pf-stat .num { font-size:22px; font-weight:900; color:var(--primary); }
+  .pf-stat .lbl { font-size:12px; color:var(--text-light); margin-top:2px; }
+
+  .pf-cal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .pf-cal-month { font-weight:800; color:var(--text); font-size:15px; }
+  .pf-cal-nav { background:var(--primary-light); border:none; width:30px; height:30px; border-radius:10px; cursor:pointer; font-size:13px; color:var(--text); }
+  .pf-cal-nav:active { transform:scale(0.9); }
+  .pf-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .pf-cal-dow { text-align:center; font-size:11px; color:var(--text-light); font-weight:700; padding:2px 0; }
+  .pf-cal-day { aspect-ratio:1; display:flex; align-items:center; justify-content:center; flex-direction:column; font-size:13px; color:var(--text); border-radius:10px; background:var(--bg); position:relative; }
+  .pf-cal-day.empty { background:transparent; }
+  .pf-cal-day.done { background:var(--green); color:#fff; font-weight:800; }
+  .pf-cal-day.today { outline:2px solid var(--primary); }
+  .pf-cal-day .dot { width:5px; height:5px; border-radius:50%; background:var(--accent); margin-top:1px; }
+
+  .pf-trophies { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .pf-trophy { background:var(--primary-light); border-radius:14px; padding:12px 6px; text-align:center; }
+  .pf-trophy.lit { background:var(--yellow); }
+  .pf-trophy .t-icon { font-size:30px; }
+  .pf-trophy .t-name { font-size:11px; font-weight:800; color:var(--text); margin-top:4px; }
+  .pf-trophy .t-desc { font-size:10px; color:var(--text-light); margin-top:2px; }
+  .pf-trophy:not(.lit) { opacity:0.45; filter:grayscale(0.6); }
+
+  .pf-words-group { margin-bottom:8px; }
+  .pf-words-head { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:var(--primary-light); border-radius:12px; cursor:pointer; font-weight:800; color:var(--text); font-size:14px; }
+  .pf-words-head .cnt { font-size:12px; color:var(--text-light); font-weight:700; }
+  .pf-words-body { display:none; flex-wrap:wrap; gap:6px; padding:10px 4px 4px; }
+  .pf-words-body.open { display:flex; }
+  .pf-word { background:var(--card-bg); border:1px solid var(--primary-light); border-radius:10px; padding:6px 10px; font-size:13px; }
+  .pf-word .e { font-weight:800; color:var(--text); }
+  .pf-word .z { color:var(--text-light); margin-left:4px; }
+
+  .pf-reset { display:block; margin:20px auto 10px; padding:10px 24px; font-size:14px; font-weight:700; color:var(--accent); background:transparent; border:2px solid var(--accent); border-radius:16px; cursor:pointer; }
+  .pf-reset:active { transform:scale(0.96); }
+  .pf-empty { text-align:center; color:var(--text-light); font-size:13px; padding:20px; }
+
+  /* ========== 响应式 ========== */
+  @media (min-width: 768px) {
+    .pf-stats { grid-template-columns: repeat(4, 1fr); }
+    .pf-trophies { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .pf-trophies { grid-template-columns: repeat(5, 1fr); }
+  }
+
