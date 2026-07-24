@@ -1696,6 +1696,9 @@ function showCard(animate) {
 function speak() {
   if (isSpeaking || !currentTheme) return;
 
+  // 先取消任何正在进行的朗读
+  window.speechSynthesis.cancel();
+
   const item = currentTheme.items[currentIndex];
   var isDialogue = currentTheme.id === 'dialogue';
   var isListening = currentTheme.id === 'listening';
