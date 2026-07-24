@@ -106,6 +106,7 @@
     align-items: flex-start;
     padding: 0;
     transition: transform 0.3s ease;
+    margin-bottom: 0;
   }
   .catalog-nav.hide-nav {
     transform: translateX(-100%);
@@ -117,13 +118,14 @@
     overflow: hidden;
     background: var(--bg);
     padding: 6px 0 8px 0;
-    transition: flex 0.3s ease, padding 0.3s ease;
+    transition: flex 0.3s ease, padding 0.3s ease, max-width 0.3s ease;
+    max-width: 1000px;
   }
   .catalog-nav.collapsed .catalog-nav-bar {
-    flex: 0;
+    flex: 0 0 0;
     padding: 0;
     overflow: hidden;
-    width: 0;
+    max-width: 0;
   }
   .catalog-nav-inner {
     display: inline-flex;
@@ -155,6 +157,7 @@
     transition: all 0.3s;
     box-shadow: 2px 0 6px var(--shadow);
     margin-top: 6px;
+    position: relative;
   }
   .catalog-nav-toggle:active { transform: scale(0.9); }
   .catalog-nav-toggle.collapsed {
@@ -1710,8 +1713,7 @@ function speak() {
     parts.push({ text: item.sentenceZh, lang: 'zh-CN', label: 'B中文' });
     parts.push({ text: item.sentence, lang: 'en-US', label: 'B英文' });
   } else if (isListening) {
-    // 听力练习：先读中文再读英文的长篇内容
-    parts.push({ text: item.storyZh, lang: 'zh-CN' });
+    // 听力练习：只朗读英文
     parts.push({ text: item.story, lang: 'en-US' });
   } else {
     parts.push({ text: item.zh, lang: 'zh-CN' });
