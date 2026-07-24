@@ -111,9 +111,23 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
   .catalog-nav.hide-nav {
-    transform: translateY(-100%);
+    transform: translateX(-100%);
     opacity: 0;
     pointer-events: none;
+  }
+  .catalog-nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex: 1;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    background: var(--bg);
+    padding: 0 0 8px 0;
+  }
+  .catalog-nav.collapsed .catalog-nav-bar {
+    width: 0;
+    overflow: hidden;
   }
   .catalog-nav.collapsed .catalog-nav-inner {
     opacity: 0;
@@ -123,27 +137,39 @@
   .catalog-nav-inner {
     display: inline-flex;
     gap: 6px;
-    padding: 0 12px;
+    padding: 0 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     transition: opacity 0.2s;
+    flex: 1;
   }
+  .catalog-nav-inner::-webkit-scrollbar { display: none; }
   .catalog-nav-toggle {
-    position: sticky; left: 12px; z-index: 1;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-light);
-    background: var(--card-bg);
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 2px 6px var(--shadow);
+    justify-content: center;
+    width: 28px;
+    height: 32px;
     border: none;
+    background: var(--primary-light);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 0 14px 14px 0;
     flex-shrink: 0;
+    transition: all 0.3s;
+    box-shadow: 2px 0 6px var(--shadow);
+    z-index: 1;
   }
-  .catalog-nav-toggle:active { transform: scale(0.93); }
+  .catalog-nav-toggle.collapsed {
+    border-radius: 14px;
+    margin-top: 0;
+    box-shadow: 0 2px 8px var(--shadow-strong);
+  }
+  .catalog-nav-toggle:active { transform: scale(0.9); }
   .catalog-nav-toggle.pinned {
     background: var(--primary-light);
     color: var(--text);
@@ -671,7 +697,10 @@
     </div>
   </div>
   <div class="catalog-nav" id="catalogNav">
-    <div class="catalog-nav-inner" id="catalogNavInner"></div>
+    <div class="catalog-nav-bar" id="catalogNavBar">
+      <button class="catalog-nav-toggle" id="navToggle">◀</button>
+      <div class="catalog-nav-inner" id="catalogNavInner"></div>
+    </div>
   </div>
   <div id="catalogContent"></div>
 </div>
@@ -1227,22 +1256,16 @@ const THEMES = [
   {
     id: 'stories', name: '📖 寓言故事', icon: '📖',
     items: [
-      { en: 'The Tortoise and the Hare', zh: '龟兔赛跑', emoji: '🐢🐰', sentence: 'Slow and steady wins the race.', sentenceZh: '慢而稳，赢得比赛。' },
-      { en: 'The Lion and the Mouse', zh: '狮子和老鼠', emoji: '🦁🐭', sentence: 'Even the strong need help sometimes.', sentenceZh: '即使是强者有时也需要帮助。' },
-      { en: 'The Ant and the Grasshopper', zh: '蚂蚁和蚱蜢', emoji: '🐜🦗', sentence: 'Work today so you can rest tomorrow.', sentenceZh: '今天努力工作，明天才能休息。' },
-      { en: 'The Boy Who Cried Wolf', zh: '狼来了', emoji: '👦🐺', sentence: 'Nobody believes a liar, even when they tell the truth.', sentenceZh: '没有人相信说谎者，即使他们说真话。' },
-      { en: 'The Fox and the Grapes', zh: '狐狸和葡萄', emoji: '🦊🍇', sentence: 'It\'s easy to despise what you cannot have.', sentenceZh: '得不到的东西最容易说它不好。' },
-      { en: 'The Crow and the Pitcher', zh: '乌鸦喝水', emoji: '🐦🫗', sentence: 'Little by little does the trick.', sentenceZh: '一点一点地，就能成功。' },
-      { en: 'The Sun and the Wind', zh: '太阳和风', emoji: '☀️💨', sentence: 'Kindness is more powerful than force.', sentenceZh: '友善比暴力更有力量。' },
-      { en: 'The Little Red Hen', zh: '小红母鸡', emoji: '🐔🌾', sentence: 'If you want something done, do it yourself.', sentenceZh: '如果你想要完成某事，就自己做。' },
-      { en: 'The Golden Eggs', zh: '金蛋', emoji: '🥚✨', sentence: 'Greed destroys what it wants.', sentenceZh: '贪婪毁掉了它想要的东西。' },
-      { en: 'The City Mouse and the Country Mouse', zh: '城市老鼠和乡下老鼠', emoji: '🐭🏙️🌾', sentence: 'A simple life in peace is better than a rich life in fear.', sentenceZh: '平静的简单生活胜过恐惧的富足生活。' },
-      { en: 'The Three Little Pigs', zh: '三只小猪', emoji: '🐷🐷🐷🐺', sentence: 'Hard work and planning keep you safe.', sentenceZh: '努力工作和规划让你安全。' },
-      { en: 'The Ugly Duckling', zh: '丑小鸭', emoji: '🦆🦢', sentence: 'You are beautiful just the way you are.', sentenceZh: '你本来的样子就很美。' },
-      { en: 'The Thirsty Crow', zh: '口渴的乌鸦', emoji: '🐦💧', sentence: 'Think before you act.', sentenceZh: '三思而后行。' },
-      { en: 'The Farmer and the Snake', zh: '农夫和蛇', emoji: '👨‍🌾🐍', sentence: 'Kindness to the wicked is never wasted? Actually it can be dangerous.', sentenceZh: '对恶人仁慈可能带来危险。' },
-      { en: 'The Dog and the Bone', zh: '狗和骨头', emoji: '🐶🦴', sentence: 'Be happy with what you have.', sentenceZh: '对你拥有的感到满足。' },
-      { en: 'The Wind and the Sun', zh: '风和太阳', emoji: '💨☀️', sentence: 'Gentleness wins over force.', sentenceZh: '温柔胜过力量。' },
+      { en: 'The Tortoise and the Hare', zh: '龟兔赛跑', emoji: '🐢🐰', story: 'Once upon a time, there was a hare who was very proud of how fast he could run. He laughed at the tortoise for being so slow. The tortoise said, "Let\'s have a race!" The hare agreed and they started running. The hare ran very fast and soon was far ahead. He thought, "I am so fast, I can take a nap." So he fell asleep under a tree. The tortoise kept walking slowly and steadily. He passed the sleeping hare and reached the finish line first. When the hare woke up, it was too late! The tortoise had won.', storyZh: '从前有一只兔子很骄傲自己跑得快。他嘲笑乌龟爬得慢。乌龟说我们来比赛吧。兔子答应了。兔子跑得很快远远领先。他想我这么快可以打个盹。于是他在树下睡着了。乌龟慢慢地稳稳地一直走。他超过了睡着的兔子先到达终点。兔子醒来时已经太晚了。乌龟赢了。' },
+      { en: 'The Lion and the Mouse', zh: '狮子和老鼠', emoji: '🦁🐭', story: 'A lion was sleeping in the forest. A little mouse ran over his nose and woke him up. The lion caught the mouse and was going to eat him. The mouse said, "Please let me go! One day I might help you." The lion laughed, "How could a tiny mouse help me?" But he let the mouse go. Later, the lion got caught in a hunter\'s net. He roared loudly. The mouse heard him and came running. He gnawed through the ropes with his sharp teeth and set the lion free. The lion said, "Thank you, little friend!"', storyZh: '一头狮子在森林里睡觉。一只小老鼠跑过他的鼻子把他吵醒了。狮子抓住老鼠准备吃掉他。老鼠说请放了我吧有一天我可能会帮你。狮子笑了说你这么小怎么能帮我。但他还是放了老鼠。后来狮子被猎人的网抓住了。他大声吼叫。老鼠听到后跑来了。他用锋利的牙齿咬断绳子把狮子救了出来。狮子说谢谢你小朋友。' },
+      { en: 'The Ant and the Grasshopper', zh: '蚂蚁和蚱蜢', emoji: '🐜🦗', story: 'In the summer, an ant was busy gathering food and storing it for the winter. A grasshopper was playing and singing all day. He said to the ant, "Come and play with me! Why work so hard?" The ant said, "I am preparing for the winter. You should too." But the grasshopper just laughed and continued playing. When winter came, the grasshopper had no food. He was hungry and cold. He went to the ant and asked for food. The ant shared his food and said, "Next time, remember to work today so you can rest tomorrow."', storyZh: '夏天蚂蚁忙着收集食物为冬天储存。蚱蜢整天玩耍唱歌。他对蚂蚁说来和我玩吧为什么这么辛苦。蚂蚁说我在为冬天做准备你也应该这样做。但蚱蜢只是笑笑继续玩。冬天来了蚱蜢没有食物。他又饿又冷。他去找蚂蚁要食物。蚂蚁分享了自己的食物说明年记住今天努力工作明天才能休息。' },
+      { en: 'The Boy Who Cried Wolf', zh: '狼来了', emoji: '👦🐺', story: 'There was a boy who looked after sheep. He was bored, so he shouted, "Wolf! Wolf! Help!" The villagers came running to help him. But there was no wolf. The boy laughed at them. The next day, he did the same thing again. The villagers came again, but again there was no wolf. They were angry. Then one day, a real wolf came. The boy shouted, "Wolf! Wolf! Please help!" But the villagers thought he was joking again. Nobody came. The wolf ate all the sheep. The boy learned his lesson.', storyZh: '有一个男孩在放羊。他觉得无聊就大喊狼来了救命。村民们跑来帮他。但没有狼。男孩嘲笑他们。第二天他又做了同样的事。村民们又来了但还是没有狼。他们很生气。后来有一天真的狼来了。男孩大喊狼来了请帮帮我。但村民们以为他又在开玩笑。没有人来。狼把所有的羊都吃了。男孩明白了他的教训。' },
+      { en: 'The Fox and the Grapes', zh: '狐狸和葡萄', emoji: '🦊🍇', story: 'A hungry fox was walking through a forest. He saw a bunch of beautiful grapes hanging from a high vine. The grapes looked big and sweet. The fox wanted to eat them. He jumped up to reach the grapes, but they were too high. He tried again and again, but he could not reach them. Finally, the fox gave up. He walked away and said, "Those grapes are probably sour anyway."', storyZh: '一只饥饿的狐狸穿过森林。他看到一串漂亮的葡萄挂在高高的藤上。葡萄看起来又大又甜。狐狸想吃葡萄。他跳起来去够葡萄但太高了。他试了一次又一次但够不着。最后狐狸放弃了。他走开说那些葡萄可能还是酸的。' },
+      { en: 'The Crow and the Pitcher', zh: '乌鸦喝水', emoji: '🐦🫗', story: 'A thirsty crow found a pitcher with a little water at the bottom. But the water was too low for the crow to reach. The crow thought and thought. Then he had an idea! He picked up small stones with his beak and dropped them into the pitcher one by one. As more stones went in, the water level rose higher and higher. Finally, the water came up to the top and the crow could drink. The clever crow was not thirsty anymore.', storyZh: '一只口渴的乌鸦发现了一个水罐底部有一点水。但水太低了乌鸦够不着。乌鸦想啊想。然后他有了主意。他用嘴叼起小石子一颗一颗地扔进水罐里。随着更多石子进去水位越来越高。最后水升到了顶部乌鸦喝到了水。聪明的乌鸦不再口渴了。' },
+      { en: 'The Little Red Hen', zh: '小红母鸡', emoji: '🐔🌾', story: 'A little red hen found some wheat seeds. She asked, "Who will help me plant these seeds?" "Not I," said the cat. "Not I," said the dog. "Not I," said the duck. So the little red hen planted the seeds herself. When the wheat grew, she asked, "Who will help me cut the wheat?" "Not I," said everyone. So she did it herself. She made the bread herself. When the bread was ready, she asked, "Who will help me eat the bread?" "I will!" said everyone. But the little red hen said, "No! I will eat it myself."', storyZh: '一只小红母鸡发现了一些麦种。她问谁来帮我种这些种子。我不猫说。我不狗说。我不鸭子说。于是小红母鸡自己种了种子。麦子长出来后她问谁来帮我割麦子。我不大家都说。于是她自己做了。面包做好了她说谁来帮我吃面包。我来大家都说。但小红母鸡说不我自己吃。' },
+      { en: 'The Golden Eggs', zh: '金蛋', emoji: '🥚✨', story: 'A farmer had a goose that laid a golden egg every day. The farmer and his wife were very happy. Every day they got one golden egg. But the farmer was greedy. He thought, "If the goose can lay one golden egg a day, imagine how many eggs are inside her! I should cut her open and get all the eggs at once." So he killed the goose and cut her open. But inside, there were no golden eggs. Now he had no goose and no more golden eggs.', storyZh: '一个农夫有一只鹅每天下一个金蛋。农夫和他的妻子非常高兴。每天他们得到一个金蛋。但农夫很贪婪。他想如果鹅一天能下一个金蛋那她肚子里该有多少金蛋啊。我应该把她切开一次拿到所有金蛋。于是他杀了鹅把她切开。但里面没有金蛋。现在他没有鹅也没有金蛋了。' },
+      { en: 'The Three Little Pigs', zh: '三只小猪', emoji: '🐷🐷🐷🐺', story: 'Three little pigs each built a house. The first pig built a house of straw. The second pig built a house of sticks. The third pig built a house of bricks. A big bad wolf came. He blew down the straw house. He blew down the stick house. But he could not blow down the brick house. The wolf tried to go down the chimney, but the third pig put a pot of boiling water there. The wolf ran away and never came back.', storyZh: '三只小猪各盖了一栋房子。第一只小猪盖了草房子。第二只小猪盖了木房子。第三只小猪盖了砖房子。一只大坏狼来了。他吹倒了草房子。他吹倒了木房子。但他吹不倒砖房子。狼想从烟囱下去但第三只小猪放了一锅开水在那里。狼逃跑了再也没有回来。' },
+      { en: 'The Ugly Duckling', zh: '丑小鸭', emoji: '🦆🦢', story: 'A mother duck had many little ducklings. One of them looked different. He was big and gray. The other ducks laughed at him. The poor ugly duckling was very sad. He ran away. Winter came and he was cold and alone. Then spring came. The ugly duckling looked at his reflection in the water. He was not a duck at all! He had grown into a beautiful white swan. The other swans welcomed him. He was the most beautiful swan of all.', storyZh: '鸭妈妈生了很多小鸭子。其中一只看起来不一样。他又大又灰。其他鸭子都嘲笑他。可怜的丑小鸭非常伤心。他逃走了。冬天来了他又冷又孤单。春天来了。丑小鸭看着水中的倒影。他根本不是鸭子。他已经长成了一只美丽的白天鹅。其他天鹅欢迎了他。他是所有天鹅中最美的一只。' },
     ]
   },
   {
@@ -1403,56 +1426,63 @@ function renderCatalog() {
   const nav = document.getElementById('catalogNav');
   const navInner = document.getElementById('catalogNavInner');
   let navHtml = '';
-  navHtml += `<button class="catalog-nav-toggle" id="navToggle">📌 收起</button>`;
   THEMES.forEach((theme, ti) => {
     const icon = theme.icon || theme.name.match(/^\S+/)?.[0] || '📚';
-    navHtml += `<div class="catalog-nav-item" data-nav-theme="${ti}">
-      <span class="nav-icon">${icon.replace(/[^\p{Emoji}]/gu, '').trim() || '📚'}</span>
-      <span>${theme.name.replace(/^[\p{Emoji}\s]+/u, '').trim()}</span>
-    </div>`;
+    const iconClean = (icon || '').replace(/[^a-zA-Z0-9À-ɏЀ-ӿ؀-ۿ一-鿿぀-ゟ゠-ヿ☀-⟯\uD800-􏰀-\uDFFF]/g, '').trim() || '📚';
+    navHtml += '<div class="catalog-nav-item" data-nav-theme="' + ti + '">' +
+      '<span class="nav-icon">' + theme.icon + '</span>' +
+      '<span>' + theme.name.replace(/[^一-龥A-Za-z0-9\s]/g, '').trim() + '</span>' +
+    '</div>';
   });
   navInner.innerHTML = navHtml;
 
   // 导航折叠按钮
   const navToggle = document.getElementById('navToggle');
-  let navPinned = false;
+  let navCollapsed = false;
+  if (navToggle) {
+    // 点击折叠/展开（贴在左侧）
+    navToggle.addEventListener('click', function() {
+      navCollapsed = !navCollapsed;
+      nav.classList.toggle('collapsed', navCollapsed);
+      navToggle.textContent = navCollapsed ? '▶' : '◀';
+      navToggle.classList.toggle('collapsed', navCollapsed);
+    });
+
+    // 点击导航项时展开
+    navInner.querySelectorAll('.catalog-nav-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        if (navCollapsed) {
+          navCollapsed = false;
+          nav.classList.remove('collapsed');
+          navToggle.textContent = '◀';
+          navToggle.classList.remove('collapsed');
+        }
+        var ti = parseInt(el.dataset.navTheme);
+        var group = catalogContent.querySelectorAll('.catalog-group')[ti];
+        if (group) {
+          navInner.querySelectorAll('.catalog-nav-item').forEach(function(n) { n.classList.remove('active'); });
+          el.classList.add('active');
+          var navHeight = document.getElementById('catalogNav').offsetHeight;
+          var top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
+          catalog.scrollTo({ top: top, behavior: 'smooth' });
+          setTimeout(function() {
+            navInner.querySelectorAll('.catalog-nav-item').forEach(function(n) { n.classList.remove('active'); });
+          }, 1500);
+        }
+      });
+    });
+  }
 
   // 滑动自动隐藏
   let lastScrollTop = 0;
-  catalog.addEventListener('scroll', () => {
-    const scrollTop = catalog.scrollTop;
-    if (scrollTop > 60 && scrollTop > lastScrollTop + 10 && !navPinned) {
+  catalog.addEventListener('scroll', function() {
+    var scrollTop = catalog.scrollTop;
+    if (scrollTop > 60 && scrollTop > lastScrollTop + 10 && !navCollapsed) {
       nav.classList.add('hide-nav');
     } else if (scrollTop < lastScrollTop - 10 || scrollTop < 60) {
       nav.classList.remove('hide-nav');
     }
     lastScrollTop = scrollTop;
-  });
-
-  // 点击折叠/展开
-  navToggle.addEventListener('click', () => {
-    navPinned = !navPinned;
-    nav.classList.toggle('hide-nav', navPinned);
-    navToggle.classList.toggle('pinned', navPinned);
-    navToggle.textContent = navPinned ? '📌 展开' : '📌 收起';
-  });
-
-  // 导航点击滚动到对应分类
-  navInner.querySelectorAll('.catalog-nav-item').forEach(el => {
-    el.addEventListener('click', () => {
-      const ti = parseInt(el.dataset.navTheme);
-      const group = catalogContent.querySelectorAll('.catalog-group')[ti];
-      if (group) {
-        navInner.querySelectorAll('.catalog-nav-item').forEach(n => n.classList.remove('active'));
-        el.classList.add('active');
-        const navHeight = document.getElementById('catalogNav').offsetHeight;
-        const top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
-        catalog.scrollTo({ top, behavior: 'smooth' });
-        setTimeout(() => {
-          navInner.querySelectorAll('.catalog-nav-item').forEach(n => n.classList.remove('active'));
-        }, 1500);
-      }
-    });
   });
 
   let html = '';
