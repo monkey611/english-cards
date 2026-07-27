@@ -498,7 +498,7 @@ function showCard(animate) {
 // ========== 导航 ==========
 function goPrev() {
   if (currentIndex > 0) {
-    window.speechSynthesis.cancel();
+    cancelSpeech();
     finishSpeak();
     currentIndex--;
     showCard(true);
@@ -508,7 +508,7 @@ function goPrev() {
 
 function goNext() {
   if (currentTheme && currentIndex < currentTheme.items.length - 1) {
-    window.speechSynthesis.cancel();
+    cancelSpeech();
     finishSpeak();
     currentIndex++;
     showCard(true);
@@ -541,7 +541,7 @@ function preloadCurrentAndNext() {
 
 function closeReader() {
   stopAutoPlay();
-  window.speechSynthesis.cancel();
+  cancelSpeech();
   finishSpeak();
   reader.classList.remove('active');
   tabBar.classList.remove('hide');
@@ -579,7 +579,7 @@ function stopAutoPlay() {
     autoTimer = null;
   }
   // 停止朗读
-  window.speechSynthesis.cancel();
+  cancelSpeech();
   finishSpeak();
 }
 

@@ -289,8 +289,12 @@ function speak() {
 
 function finishSpeak() {
   isSpeaking = false;
-  btnSpeak.classList.remove('speaking');
-  btnSpeak.innerHTML = '<span class="icon">🔊</span> 听一听';
+  try {
+    if (typeof btnSpeak !== 'undefined' && btnSpeak) {
+      btnSpeak.classList.remove('speaking');
+      btnSpeak.innerHTML = '<span class="icon">🔊</span> 听一听';
+    }
+  } catch (e) {}
 }
 
 // Android 防自动暂停：朗读中定期 resume()
@@ -299,3 +303,13 @@ setInterval(function () {
     if (window.speechSynthesis && window.speechSynthesis.speaking) window.speechSynthesis.resume();
   } catch (e) {}
 }, 5000);
+
+// 安全取消语音合成：微信 X5 / 部分 Android WebView 的 speechSynthesis 可能不可用或 cancel() 抛错
+// 若不包裹 try-catch，会中断调用方（如 goNext）的后续逻辑，导致卡片无法切换
+function cancelSpeech() {
+  try {
+    if (typeof window !== 'undefined' && window.speechSynthesis && typeof window.speechSynthesis.cancel === 'function') {
+      window.speechSynthesis.cancel();
+    }
+  } catch (e) {}
+}

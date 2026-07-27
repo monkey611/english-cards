@@ -116,7 +116,7 @@ function renderQuestion(idx) {
   challengeContent.innerHTML = body;
   challengeContent.scrollTop = 0;
   const ex = document.getElementById('chExit');
-  if (ex) ex.addEventListener('click', function () { window.speechSynthesis.cancel(); renderChallengeHome(); });
+  if (ex) ex.addEventListener('click', function () { cancelSpeech(); renderChallengeHome(); });
   if (q.type === 'choice') bindChoice(q);
   else if (q.type === 'spell') bindSpell(q);
   else if (q.type === 'listen') bindListen(q);

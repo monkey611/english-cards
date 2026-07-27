@@ -1,7 +1,7 @@
 // ========== Tab 切换 ==========
 function switchTab(tab) {
   if (tab === currentTab) return;
-  window.speechSynthesis.cancel();
+  cancelSpeech();
   finishSpeak();
   // 离开口语页时清理识别状态
   if (currentTab === 'speaking' && typeof closeScenario === 'function' && _spkState) {
