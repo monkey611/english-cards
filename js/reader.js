@@ -607,19 +607,32 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ========== 触摸滑动 ==========
+// 安卓 WebView 兼容：用 clientX，记录时间戳防抖，阈值 40px
 let touchStartX = 0;
 let touchStartY = 0;
+let touchStartTime = 0;
+let touchTracking = false;
 document.addEventListener('touchstart', (e) => {
-  touchStartX = e.changedTouches[0].screenX;
-  touchStartY = e.changedTouches[0].screenY;
+  if (!currentTheme) { touchTracking = false; return; }
+  const t = e.changedTouches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+  touchStartTime = Date.now();
+  touchTracking = true;
 }, { passive: true });
 document.addEventListener('touchend', (e) => {
-  if (!currentTheme) return;
-  const dx = e.changedTouches[0].screenX - touchStartX;
-  const dy = e.changedTouches[0].screenY - touchStartY;
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+  if (!currentTheme || !touchTracking) return;
+  touchTracking = false;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStartX;
+  const dy = t.clientY - touchStartY;
+  const dt = Date.now() - touchStartTime;
+  // 水平滑动为主 + 距离>40px + 时间<1s（避免长按误触）
+  if (Math.abs(dx) > Math.abs(dy) * 1.5 && Math.abs(dx) > 40 && dt < 1000) {
     if (dx > 0) goPrev();
     else goNext();
   }
 }, { passive: true });
+// touchcancel 也清理状态（安卓偶发）
+document.addEventListener('touchcancel', () => { touchTracking = false; }, { passive: true });
 

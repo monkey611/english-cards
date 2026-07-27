@@ -12,7 +12,7 @@
     padding-bottom: env(safe-area-inset-bottom, 0);
     transition: transform 0.3s ease;
   }
-  .tab-bar.hide { transform: translateY(100%); }
+  .tab-bar.hide { transform: translateY(100%); pointer-events: none; }
   .tab-item {
     display: flex;
     flex-direction: column;

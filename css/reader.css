@@ -5,7 +5,7 @@
     flex-direction: column;
     transform: translateX(110%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 200;
+    z-index: 400; /* 高于 tab-bar(250) 和 confetti(300)，确保阅读器内按钮可点击 */
   }
   .reader.active { transform: translateX(0); }
 
@@ -97,6 +97,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
+    touch-action: pan-y; /* 横向滑动交给 JS 处理，纵向允许页面滚动 */
   }
 
   /* ========== 卡片基础 ========== */
