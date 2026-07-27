@@ -28,15 +28,12 @@ function playText(text, lang) {
   const stt = loadSettings();
   if (!stt.soundOn) return;
   try {
-    window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang || 'en-US';
-    u.rate = stt.speechRate; u.pitch = speechPitch(); u.volume = 1.0;
-    try {
-      const v = selectVoice(lang || 'en-US');
-      if (v) { u.voice = v; u.lang = v.lang; }
-    } catch (e) {}
-    window.speechSynthesis.speak(u);
+    u.rate = stt.speechRate;
+    u.pitch = speechPitch();
+    u.volume = 1.0;
+    applyVoice(u, lang || 'en-US');
+    safeSpeak(u);
   } catch (e) {}
 }
 

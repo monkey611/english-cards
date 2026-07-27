@@ -5,9 +5,11 @@
     overflow-y: auto;
     z-index: 100;
     padding: 10px 12px 80px;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .catalog.hidden { transform: translateX(-110%); }
+  /* 隐藏时不做 transform 滑动：主页是 900+ 节点的重页面，滑动会触发昂贵合成导致切 tab 卡顿。
+     改用 visibility 隐藏（移出绘制但不离场动画），由上方 tab 页滑动覆盖即可。 */
+  .catalog.hidden { visibility: hidden; pointer-events: none; }
 
   .catalog-header {
     text-align: center;
@@ -199,7 +201,6 @@
   }
   @media (min-width: 768px) {
     .catalog { left: 50%; right: auto; width: 100%; max-width: 820px; transform: translateX(-50%); }
-    .catalog.hidden { transform: translateX(-150%); }
     .catalog-grid { grid-template-columns: repeat(5, 1fr); }
   }
   @media (min-width: 1024px) {

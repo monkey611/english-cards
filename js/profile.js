@@ -143,8 +143,11 @@ function bindSettings() {
         saveSettings();
         seg.querySelectorAll('.pf-seg-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
-        // 试听：方言切换试听中文，音色切换试听英文
-        if (stt.soundOn) playText(key === 'zhDialect' ? '你好，你好' : 'Hello', key === 'zhDialect' ? 'zh-CN' : 'en-US');
+        // 试听：用较长的句子让音色/方言差异更易感知
+        if (stt.soundOn) {
+          if (key === 'zhDialect') playText('你好，今天天气真好，我们一起去玩吧。', 'zh-CN');
+          else playText('Hello, how are you today? Let us learn English.', 'en-US');
+        }
       });
     });
   });
