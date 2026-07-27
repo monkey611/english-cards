@@ -11,6 +11,9 @@ _srv.js
 _split.js
 _test_node.js
 
+# 工具脚本（生成音频/跑测试，不入库；生成的 audio/ 目录入库）
+tools/
+
 # 系统
 .DS_Store
 Thumbs.db

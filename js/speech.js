@@ -194,22 +194,58 @@ function speak() {
     }
   }
 
+  // 引擎可用性：voices 为空（微信 X5 内核 / 未装 TTS 的安卓 WebView）时原生 TTS 不可用
+  const status = speechEngineStatus();
+  const nativeAvailable = status.available && status.voiceCount > 0;
+
+  // 自动播放收尾逻辑（两种路径共用）
+  function afterSpeak() {
+    if (isAutoPlaying) {
+      autoTimer = setTimeout(function () {
+        if (currentIndex < currentTheme.items.length - 1) {
+          goNext();
+          if (isAutoPlaying) startAutoPlay();
+        } else {
+          stopAutoPlay();
+        }
+      }, 800);
+    }
+  }
+
+  // ---- 路径 A：原生 TTS 不可用，走 audio-player 兜底（预生成音频 → 在线百度 TTS）----
+  if (!nativeAvailable && typeof playAudio === 'function') {
+    let pi = 0;
+    function playNextViaAP() {
+      if (pi >= parts.length) { finishSpeak(); afterSpeak(); return; }
+      const part = parts[pi++];
+      playAudio(part.text, part.lang, {
+        onUnavailable: function () {
+          // 本地+在线均不可用：提示一次后继续下一段，避免卡住
+          if (!speak._apWarned) {
+            speak._apWarned = true;
+            try {
+              const tip = document.createElement('div');
+              tip.textContent = '🔇 语音加载失败，请检查网络后重试';
+              tip.style.cssText = 'position:fixed;left:8px;right:8px;bottom:72px;background:#8a5a00;color:#fff;font-size:12px;padding:10px 14px;border-radius:10px;z-index:9999;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,0.3);';
+              document.body.appendChild(tip);
+              setTimeout(function () { tip.remove(); }, 3000);
+            } catch (e) {}
+          }
+          setTimeout(playNextViaAP, 200);
+        }
+      }).then(function () { setTimeout(playNextViaAP, isDialogue ? 600 : 300); });
+    }
+    playNextViaAP();
+    return;
+  }
+
+  // ---- 路径 B：原生 TTS 可用，走 SpeechSynthesisUtterance ----
   let partIndex = 0;
 
   function speakNext() {
     if (partIndex >= parts.length) {
       finishSpeak();
-      // 自动播放（听力模块自动播放逻辑不变）
-      if (isAutoPlaying) {
-        autoTimer = setTimeout(function () {
-          if (currentIndex < currentTheme.items.length - 1) {
-            goNext();
-            if (isAutoPlaying) startAutoPlay();
-          } else {
-            stopAutoPlay();
-          }
-        }, 800);
-      }
+      afterSpeak();
       return;
     }
 
@@ -221,22 +257,15 @@ function speak() {
       utterance.volume = 1.0;
       const voiceOk = applyVoice(utterance, part.lang);
       if (!voiceOk) {
-        // voices 为空（安卓 WebView）：提示一次并结束朗读，避免卡住按钮
-        if (!speak._engineWarned) {
-          speak._engineWarned = true;
-          const status = speechEngineStatus();
-          const msg = status && status.hint ? status.hint : '当前设备无语音引擎，朗读不可用。';
-          finishSpeak();
-          try {
-            const tip = document.createElement('div');
-            tip.textContent = '🔇 ' + msg;
-            tip.style.cssText = 'position:fixed;left:8px;right:8px;bottom:72px;background:#8a5a00;color:#fff;font-size:12px;padding:10px 14px;border-radius:10px;z-index:9999;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,0.3);';
-            document.body.appendChild(tip);
-            setTimeout(function () { tip.remove(); }, 5000);
-          } catch (e) {}
-        } else {
-          finishSpeak();
+        // voices 在 speak() 开头已判可用，这里再次为空说明运行中卸载，切兜底
+        if (typeof playAudio === 'function') {
+          playAudio(part.text, part.lang).then(function () {
+            partIndex++;
+            setTimeout(speakNext, isDialogue ? 600 : 300);
+          });
+          return;
         }
+        finishSpeak();
         return;
       }
 

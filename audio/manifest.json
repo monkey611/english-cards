@@ -1,0 +1,3197 @@
+{
+  "en|a": {
+    "path": "audio/en/letter/a.mp3",
+    "text": "A",
+    "lang": "en"
+  },
+  "en|a is for apple.": {
+    "path": "audio/en/sentence/a_is_for_apple.mp3",
+    "text": "A is for Apple.",
+    "lang": "en"
+  },
+  "en|b": {
+    "path": "audio/en/letter/b.mp3",
+    "text": "B",
+    "lang": "en"
+  },
+  "en|b is for banana.": {
+    "path": "audio/en/sentence/b_is_for_banana.mp3",
+    "text": "B is for Banana.",
+    "lang": "en"
+  },
+  "en|c": {
+    "path": "audio/en/letter/c.mp3",
+    "text": "C",
+    "lang": "en"
+  },
+  "en|c is for cat.": {
+    "path": "audio/en/sentence/c_is_for_cat.mp3",
+    "text": "C is for Cat.",
+    "lang": "en"
+  },
+  "en|d": {
+    "path": "audio/en/letter/d.mp3",
+    "text": "D",
+    "lang": "en"
+  },
+  "en|d is for dog.": {
+    "path": "audio/en/sentence/d_is_for_dog.mp3",
+    "text": "D is for Dog.",
+    "lang": "en"
+  },
+  "en|e": {
+    "path": "audio/en/letter/e.mp3",
+    "text": "E",
+    "lang": "en"
+  },
+  "en|e is for egg.": {
+    "path": "audio/en/sentence/e_is_for_egg.mp3",
+    "text": "E is for Egg.",
+    "lang": "en"
+  },
+  "en|f": {
+    "path": "audio/en/letter/f.mp3",
+    "text": "F",
+    "lang": "en"
+  },
+  "en|f is for fish.": {
+    "path": "audio/en/sentence/f_is_for_fish.mp3",
+    "text": "F is for Fish.",
+    "lang": "en"
+  },
+  "en|g": {
+    "path": "audio/en/letter/g.mp3",
+    "text": "G",
+    "lang": "en"
+  },
+  "en|g is for girl.": {
+    "path": "audio/en/sentence/g_is_for_girl.mp3",
+    "text": "G is for Girl.",
+    "lang": "en"
+  },
+  "en|h": {
+    "path": "audio/en/letter/h.mp3",
+    "text": "H",
+    "lang": "en"
+  },
+  "en|h is for hat.": {
+    "path": "audio/en/sentence/h_is_for_hat.mp3",
+    "text": "H is for Hat.",
+    "lang": "en"
+  },
+  "en|i": {
+    "path": "audio/en/letter/i.mp3",
+    "text": "I",
+    "lang": "en"
+  },
+  "en|i is for ice.": {
+    "path": "audio/en/sentence/i_is_for_ice.mp3",
+    "text": "I is for Ice.",
+    "lang": "en"
+  },
+  "en|j": {
+    "path": "audio/en/letter/j.mp3",
+    "text": "J",
+    "lang": "en"
+  },
+  "en|j is for juice.": {
+    "path": "audio/en/sentence/j_is_for_juice.mp3",
+    "text": "J is for Juice.",
+    "lang": "en"
+  },
+  "en|k": {
+    "path": "audio/en/letter/k.mp3",
+    "text": "K",
+    "lang": "en"
+  },
+  "en|k is for kite.": {
+    "path": "audio/en/sentence/k_is_for_kite.mp3",
+    "text": "K is for Kite.",
+    "lang": "en"
+  },
+  "en|l": {
+    "path": "audio/en/letter/l.mp3",
+    "text": "L",
+    "lang": "en"
+  },
+  "en|l is for lion.": {
+    "path": "audio/en/sentence/l_is_for_lion.mp3",
+    "text": "L is for Lion.",
+    "lang": "en"
+  },
+  "en|m": {
+    "path": "audio/en/letter/m.mp3",
+    "text": "M",
+    "lang": "en"
+  },
+  "en|m is for moon.": {
+    "path": "audio/en/sentence/m_is_for_moon.mp3",
+    "text": "M is for Moon.",
+    "lang": "en"
+  },
+  "en|n": {
+    "path": "audio/en/letter/n.mp3",
+    "text": "N",
+    "lang": "en"
+  },
+  "en|n is for nose.": {
+    "path": "audio/en/sentence/n_is_for_nose.mp3",
+    "text": "N is for Nose.",
+    "lang": "en"
+  },
+  "en|o": {
+    "path": "audio/en/letter/o.mp3",
+    "text": "O",
+    "lang": "en"
+  },
+  "en|o is for orange.": {
+    "path": "audio/en/sentence/o_is_for_orange.mp3",
+    "text": "O is for Orange.",
+    "lang": "en"
+  },
+  "en|p": {
+    "path": "audio/en/letter/p.mp3",
+    "text": "P",
+    "lang": "en"
+  },
+  "en|p is for pig.": {
+    "path": "audio/en/sentence/p_is_for_pig.mp3",
+    "text": "P is for Pig.",
+    "lang": "en"
+  },
+  "en|q": {
+    "path": "audio/en/letter/q.mp3",
+    "text": "Q",
+    "lang": "en"
+  },
+  "en|q is for queen.": {
+    "path": "audio/en/sentence/q_is_for_queen.mp3",
+    "text": "Q is for Queen.",
+    "lang": "en"
+  },
+  "en|r": {
+    "path": "audio/en/letter/r.mp3",
+    "text": "R",
+    "lang": "en"
+  },
+  "en|r is for rabbit.": {
+    "path": "audio/en/sentence/r_is_for_rabbit.mp3",
+    "text": "R is for Rabbit.",
+    "lang": "en"
+  },
+  "en|s": {
+    "path": "audio/en/letter/s.mp3",
+    "text": "S",
+    "lang": "en"
+  },
+  "en|s is for sun.": {
+    "path": "audio/en/sentence/s_is_for_sun.mp3",
+    "text": "S is for Sun.",
+    "lang": "en"
+  },
+  "en|t": {
+    "path": "audio/en/letter/t.mp3",
+    "text": "T",
+    "lang": "en"
+  },
+  "en|t is for tiger.": {
+    "path": "audio/en/sentence/t_is_for_tiger.mp3",
+    "text": "T is for Tiger.",
+    "lang": "en"
+  },
+  "en|u": {
+    "path": "audio/en/letter/u.mp3",
+    "text": "U",
+    "lang": "en"
+  },
+  "en|u is for umbrella.": {
+    "path": "audio/en/sentence/u_is_for_umbrella.mp3",
+    "text": "U is for Umbrella.",
+    "lang": "en"
+  },
+  "en|v": {
+    "path": "audio/en/letter/v.mp3",
+    "text": "V",
+    "lang": "en"
+  },
+  "en|v is for van.": {
+    "path": "audio/en/sentence/v_is_for_van.mp3",
+    "text": "V is for Van.",
+    "lang": "en"
+  },
+  "en|w": {
+    "path": "audio/en/letter/w.mp3",
+    "text": "W",
+    "lang": "en"
+  },
+  "en|w is for watch.": {
+    "path": "audio/en/sentence/w_is_for_watch.mp3",
+    "text": "W is for Watch.",
+    "lang": "en"
+  },
+  "en|x": {
+    "path": "audio/en/letter/x.mp3",
+    "text": "X",
+    "lang": "en"
+  },
+  "en|x is for x-ray.": {
+    "path": "audio/en/sentence/x_is_for_x_ray.mp3",
+    "text": "X is for X-ray.",
+    "lang": "en"
+  },
+  "en|y": {
+    "path": "audio/en/letter/y.mp3",
+    "text": "Y",
+    "lang": "en"
+  },
+  "en|y is for yellow.": {
+    "path": "audio/en/sentence/y_is_for_yellow.mp3",
+    "text": "Y is for Yellow.",
+    "lang": "en"
+  },
+  "en|z": {
+    "path": "audio/en/letter/z.mp3",
+    "text": "Z",
+    "lang": "en"
+  },
+  "en|z is for zebra.": {
+    "path": "audio/en/sentence/z_is_for_zebra.mp3",
+    "text": "Z is for Zebra.",
+    "lang": "en"
+  },
+  "en|dog": {
+    "path": "audio/en/word/dog.mp3",
+    "text": "Dog",
+    "lang": "en"
+  },
+  "zh|狗": {
+    "path": "audio/zh/word/E7_8B_97.mp3",
+    "text": "狗",
+    "lang": "zh"
+  },
+  "en|i have a dog.": {
+    "path": "audio/en/sentence/i_have_a_dog.mp3",
+    "text": "I have a dog.",
+    "lang": "en"
+  },
+  "en|cat": {
+    "path": "audio/en/word/cat.mp3",
+    "text": "Cat",
+    "lang": "en"
+  },
+  "zh|猫": {
+    "path": "audio/zh/word/E7_8C_AB.mp3",
+    "text": "猫",
+    "lang": "zh"
+  },
+  "en|the cat is cute.": {
+    "path": "audio/en/sentence/the_cat_is_cute.mp3",
+    "text": "The cat is cute.",
+    "lang": "en"
+  },
+  "en|bird": {
+    "path": "audio/en/word/bird.mp3",
+    "text": "Bird",
+    "lang": "en"
+  },
+  "zh|鸟": {
+    "path": "audio/zh/word/E9_B8_9F.mp3",
+    "text": "鸟",
+    "lang": "zh"
+  },
+  "en|a bird can fly.": {
+    "path": "audio/en/sentence/a_bird_can_fly.mp3",
+    "text": "A bird can fly.",
+    "lang": "en"
+  },
+  "en|fish": {
+    "path": "audio/en/word/fish.mp3",
+    "text": "Fish",
+    "lang": "en"
+  },
+  "zh|鱼": {
+    "path": "audio/zh/word/E9_B1_BC.mp3",
+    "text": "鱼",
+    "lang": "zh"
+  },
+  "en|fish swim in water.": {
+    "path": "audio/en/sentence/fish_swim_in_water.mp3",
+    "text": "Fish swim in water.",
+    "lang": "en"
+  },
+  "en|rabbit": {
+    "path": "audio/en/word/rabbit.mp3",
+    "text": "Rabbit",
+    "lang": "en"
+  },
+  "zh|兔子": {
+    "path": "audio/zh/word/E5_85_94_E5_AD_90.mp3",
+    "text": "兔子",
+    "lang": "zh"
+  },
+  "en|the rabbit is white.": {
+    "path": "audio/en/sentence/the_rabbit_is_white.mp3",
+    "text": "The rabbit is white.",
+    "lang": "en"
+  },
+  "en|bear": {
+    "path": "audio/en/word/bear.mp3",
+    "text": "Bear",
+    "lang": "en"
+  },
+  "zh|熊": {
+    "path": "audio/zh/word/E7_86_8A.mp3",
+    "text": "熊",
+    "lang": "zh"
+  },
+  "en|the bear is big.": {
+    "path": "audio/en/sentence/the_bear_is_big.mp3",
+    "text": "The bear is big.",
+    "lang": "en"
+  },
+  "en|lion": {
+    "path": "audio/en/word/lion.mp3",
+    "text": "Lion",
+    "lang": "en"
+  },
+  "zh|狮子": {
+    "path": "audio/zh/word/E7_8B_AE_E5_AD_90.mp3",
+    "text": "狮子",
+    "lang": "zh"
+  },
+  "en|the lion is strong.": {
+    "path": "audio/en/sentence/the_lion_is_strong.mp3",
+    "text": "The lion is strong.",
+    "lang": "en"
+  },
+  "en|tiger": {
+    "path": "audio/en/word/tiger.mp3",
+    "text": "Tiger",
+    "lang": "en"
+  },
+  "zh|老虎": {
+    "path": "audio/zh/word/E8_80_81_E8_99_8E.mp3",
+    "text": "老虎",
+    "lang": "zh"
+  },
+  "en|the tiger has stripes.": {
+    "path": "audio/en/sentence/the_tiger_has_stripes.mp3",
+    "text": "The tiger has stripes.",
+    "lang": "en"
+  },
+  "en|elephant": {
+    "path": "audio/en/word/elephant.mp3",
+    "text": "Elephant",
+    "lang": "en"
+  },
+  "zh|大象": {
+    "path": "audio/zh/word/E5_A4_A7_E8_B1_A1.mp3",
+    "text": "大象",
+    "lang": "zh"
+  },
+  "en|the elephant is huge.": {
+    "path": "audio/en/sentence/the_elephant_is_huge.mp3",
+    "text": "The elephant is huge.",
+    "lang": "en"
+  },
+  "en|monkey": {
+    "path": "audio/en/word/monkey.mp3",
+    "text": "Monkey",
+    "lang": "en"
+  },
+  "zh|猴子": {
+    "path": "audio/zh/word/E7_8C_B4_E5_AD_90.mp3",
+    "text": "猴子",
+    "lang": "zh"
+  },
+  "en|the monkey likes bananas.": {
+    "path": "audio/en/sentence/the_monkey_likes_bananas.mp3",
+    "text": "The monkey likes bananas.",
+    "lang": "en"
+  },
+  "en|panda": {
+    "path": "audio/en/word/panda.mp3",
+    "text": "Panda",
+    "lang": "en"
+  },
+  "zh|熊猫": {
+    "path": "audio/zh/word/E7_86_8A_E7_8C_AB.mp3",
+    "text": "熊猫",
+    "lang": "zh"
+  },
+  "en|pandas eat bamboo.": {
+    "path": "audio/en/sentence/pandas_eat_bamboo.mp3",
+    "text": "Pandas eat bamboo.",
+    "lang": "en"
+  },
+  "en|fox": {
+    "path": "audio/en/word/fox.mp3",
+    "text": "Fox",
+    "lang": "en"
+  },
+  "zh|狐狸": {
+    "path": "audio/zh/word/E7_8B_90_E7_8B_B8.mp3",
+    "text": "狐狸",
+    "lang": "zh"
+  },
+  "en|the fox is clever.": {
+    "path": "audio/en/sentence/the_fox_is_clever.mp3",
+    "text": "The fox is clever.",
+    "lang": "en"
+  },
+  "en|wolf": {
+    "path": "audio/en/word/wolf.mp3",
+    "text": "Wolf",
+    "lang": "en"
+  },
+  "zh|狼": {
+    "path": "audio/zh/word/E7_8B_BC.mp3",
+    "text": "狼",
+    "lang": "zh"
+  },
+  "en|the wolf howls.": {
+    "path": "audio/en/sentence/the_wolf_howls.mp3",
+    "text": "The wolf howls.",
+    "lang": "en"
+  },
+  "en|deer": {
+    "path": "audio/en/word/deer.mp3",
+    "text": "Deer",
+    "lang": "en"
+  },
+  "zh|鹿": {
+    "path": "audio/zh/word/E9_B9_BF.mp3",
+    "text": "鹿",
+    "lang": "zh"
+  },
+  "en|the deer runs fast.": {
+    "path": "audio/en/sentence/the_deer_runs_fast.mp3",
+    "text": "The deer runs fast.",
+    "lang": "en"
+  },
+  "en|mouse": {
+    "path": "audio/en/word/mouse.mp3",
+    "text": "Mouse",
+    "lang": "en"
+  },
+  "zh|老鼠": {
+    "path": "audio/zh/word/E8_80_81_E9_BC_A0.mp3",
+    "text": "老鼠",
+    "lang": "zh"
+  },
+  "en|the mouse is small.": {
+    "path": "audio/en/sentence/the_mouse_is_small.mp3",
+    "text": "The mouse is small.",
+    "lang": "en"
+  },
+  "en|horse": {
+    "path": "audio/en/word/horse.mp3",
+    "text": "Horse",
+    "lang": "en"
+  },
+  "zh|马": {
+    "path": "audio/zh/word/E9_A9_AC.mp3",
+    "text": "马",
+    "lang": "zh"
+  },
+  "en|i can ride a horse.": {
+    "path": "audio/en/sentence/i_can_ride_a_horse.mp3",
+    "text": "I can ride a horse.",
+    "lang": "en"
+  },
+  "en|cow": {
+    "path": "audio/en/word/cow.mp3",
+    "text": "Cow",
+    "lang": "en"
+  },
+  "zh|奶牛": {
+    "path": "audio/zh/word/E5_A5_B6_E7_89_9B.mp3",
+    "text": "奶牛",
+    "lang": "zh"
+  },
+  "en|the cow gives milk.": {
+    "path": "audio/en/sentence/the_cow_gives_milk.mp3",
+    "text": "The cow gives milk.",
+    "lang": "en"
+  },
+  "en|pig": {
+    "path": "audio/en/word/pig.mp3",
+    "text": "Pig",
+    "lang": "en"
+  },
+  "zh|猪": {
+    "path": "audio/zh/word/E7_8C_AA.mp3",
+    "text": "猪",
+    "lang": "zh"
+  },
+  "en|the pig is pink.": {
+    "path": "audio/en/sentence/the_pig_is_pink.mp3",
+    "text": "The pig is pink.",
+    "lang": "en"
+  },
+  "en|sheep": {
+    "path": "audio/en/word/sheep.mp3",
+    "text": "Sheep",
+    "lang": "en"
+  },
+  "zh|羊": {
+    "path": "audio/zh/word/E7_BE_8A.mp3",
+    "text": "羊",
+    "lang": "zh"
+  },
+  "en|the sheep is fluffy.": {
+    "path": "audio/en/sentence/the_sheep_is_fluffy.mp3",
+    "text": "The sheep is fluffy.",
+    "lang": "en"
+  },
+  "en|chicken": {
+    "path": "audio/en/word/chicken.mp3",
+    "text": "Chicken",
+    "lang": "en"
+  },
+  "zh|鸡": {
+    "path": "audio/zh/word/E9_B8_A1.mp3",
+    "text": "鸡",
+    "lang": "zh"
+  },
+  "en|the chicken lays eggs.": {
+    "path": "audio/en/sentence/the_chicken_lays_eggs.mp3",
+    "text": "The chicken lays eggs.",
+    "lang": "en"
+  },
+  "en|duck": {
+    "path": "audio/en/word/duck.mp3",
+    "text": "Duck",
+    "lang": "en"
+  },
+  "zh|鸭子": {
+    "path": "audio/zh/word/E9_B8_AD_E5_AD_90.mp3",
+    "text": "鸭子",
+    "lang": "zh"
+  },
+  "en|the duck can swim.": {
+    "path": "audio/en/sentence/the_duck_can_swim.mp3",
+    "text": "The duck can swim.",
+    "lang": "en"
+  },
+  "en|frog": {
+    "path": "audio/en/word/frog.mp3",
+    "text": "Frog",
+    "lang": "en"
+  },
+  "zh|青蛙": {
+    "path": "audio/zh/word/E9_9D_92_E8_9B_99.mp3",
+    "text": "青蛙",
+    "lang": "zh"
+  },
+  "en|the frog can jump.": {
+    "path": "audio/en/sentence/the_frog_can_jump.mp3",
+    "text": "The frog can jump.",
+    "lang": "en"
+  },
+  "en|turtle": {
+    "path": "audio/en/word/turtle.mp3",
+    "text": "Turtle",
+    "lang": "en"
+  },
+  "zh|乌龟": {
+    "path": "audio/zh/word/E4_B9_8C_E9_BE_9F.mp3",
+    "text": "乌龟",
+    "lang": "zh"
+  },
+  "en|the turtle is slow.": {
+    "path": "audio/en/sentence/the_turtle_is_slow.mp3",
+    "text": "The turtle is slow.",
+    "lang": "en"
+  },
+  "en|snake": {
+    "path": "audio/en/word/snake.mp3",
+    "text": "Snake",
+    "lang": "en"
+  },
+  "zh|蛇": {
+    "path": "audio/zh/word/E8_9B_87.mp3",
+    "text": "蛇",
+    "lang": "zh"
+  },
+  "en|the snake is long.": {
+    "path": "audio/en/sentence/the_snake_is_long.mp3",
+    "text": "The snake is long.",
+    "lang": "en"
+  },
+  "en|butterfly": {
+    "path": "audio/en/word/butterfly.mp3",
+    "text": "Butterfly",
+    "lang": "en"
+  },
+  "zh|蝴蝶": {
+    "path": "audio/zh/word/E8_9D_B4_E8_9D_B6.mp3",
+    "text": "蝴蝶",
+    "lang": "zh"
+  },
+  "en|the butterfly is beautiful.": {
+    "path": "audio/en/sentence/the_butterfly_is_beautiful.mp3",
+    "text": "The butterfly is beautiful.",
+    "lang": "en"
+  },
+  "en|bee": {
+    "path": "audio/en/word/bee.mp3",
+    "text": "Bee",
+    "lang": "en"
+  },
+  "zh|蜜蜂": {
+    "path": "audio/zh/word/E8_9C_9C_E8_9C_82.mp3",
+    "text": "蜜蜂",
+    "lang": "zh"
+  },
+  "en|the bee makes honey.": {
+    "path": "audio/en/sentence/the_bee_makes_honey.mp3",
+    "text": "The bee makes honey.",
+    "lang": "en"
+  },
+  "en|ant": {
+    "path": "audio/en/word/ant.mp3",
+    "text": "Ant",
+    "lang": "en"
+  },
+  "zh|蚂蚁": {
+    "path": "audio/zh/word/E8_9A_82_E8_9A_81.mp3",
+    "text": "蚂蚁",
+    "lang": "zh"
+  },
+  "en|the ant is busy.": {
+    "path": "audio/en/sentence/the_ant_is_busy.mp3",
+    "text": "The ant is busy.",
+    "lang": "en"
+  },
+  "en|whale": {
+    "path": "audio/en/word/whale.mp3",
+    "text": "Whale",
+    "lang": "en"
+  },
+  "zh|鲸鱼": {
+    "path": "audio/zh/word/E9_B2_B8_E9_B1_BC.mp3",
+    "text": "鲸鱼",
+    "lang": "zh"
+  },
+  "en|the whale is big.": {
+    "path": "audio/en/sentence/the_whale_is_big.mp3",
+    "text": "The whale is big.",
+    "lang": "en"
+  },
+  "en|dolphin": {
+    "path": "audio/en/word/dolphin.mp3",
+    "text": "Dolphin",
+    "lang": "en"
+  },
+  "zh|海豚": {
+    "path": "audio/zh/word/E6_B5_B7_E8_B1_9A.mp3",
+    "text": "海豚",
+    "lang": "zh"
+  },
+  "en|the dolphin is smart.": {
+    "path": "audio/en/sentence/the_dolphin_is_smart.mp3",
+    "text": "The dolphin is smart.",
+    "lang": "en"
+  },
+  "en|shark": {
+    "path": "audio/en/word/shark.mp3",
+    "text": "Shark",
+    "lang": "en"
+  },
+  "zh|鲨鱼": {
+    "path": "audio/zh/word/E9_B2_A8_E9_B1_BC.mp3",
+    "text": "鲨鱼",
+    "lang": "zh"
+  },
+  "en|the shark has sharp teeth.": {
+    "path": "audio/en/sentence/the_shark_has_sharp_teeth.mp3",
+    "text": "The shark has sharp teeth.",
+    "lang": "en"
+  },
+  "en|penguin": {
+    "path": "audio/en/word/penguin.mp3",
+    "text": "Penguin",
+    "lang": "en"
+  },
+  "zh|企鹅": {
+    "path": "audio/zh/word/E4_BC_81_E9_B9_85.mp3",
+    "text": "企鹅",
+    "lang": "zh"
+  },
+  "en|penguins live in cold places.": {
+    "path": "audio/en/sentence/penguins_live_in_cold_places.mp3",
+    "text": "Penguins live in cold places.",
+    "lang": "en"
+  },
+  "en|owl": {
+    "path": "audio/en/word/owl.mp3",
+    "text": "Owl",
+    "lang": "en"
+  },
+  "zh|猫头鹰": {
+    "path": "audio/zh/word/E7_8C_AB_E5_A4_B4_E9_B9_B0.mp3",
+    "text": "猫头鹰",
+    "lang": "zh"
+  },
+  "en|the owl can see at night.": {
+    "path": "audio/en/sentence/the_owl_can_see_at_night.mp3",
+    "text": "The owl can see at night.",
+    "lang": "en"
+  },
+  "en|eagle": {
+    "path": "audio/en/word/eagle.mp3",
+    "text": "Eagle",
+    "lang": "en"
+  },
+  "zh|鹰": {
+    "path": "audio/zh/word/E9_B9_B0.mp3",
+    "text": "鹰",
+    "lang": "zh"
+  },
+  "en|the eagle flies high.": {
+    "path": "audio/en/sentence/the_eagle_flies_high.mp3",
+    "text": "The eagle flies high.",
+    "lang": "en"
+  },
+  "en|parrot": {
+    "path": "audio/en/word/parrot.mp3",
+    "text": "Parrot",
+    "lang": "en"
+  },
+  "zh|鹦鹉": {
+    "path": "audio/zh/word/E9_B9_A6_E9_B9_89.mp3",
+    "text": "鹦鹉",
+    "lang": "zh"
+  },
+  "en|the parrot can talk.": {
+    "path": "audio/en/sentence/the_parrot_can_talk.mp3",
+    "text": "The parrot can talk.",
+    "lang": "en"
+  },
+  "en|giraffe": {
+    "path": "audio/en/word/giraffe.mp3",
+    "text": "Giraffe",
+    "lang": "en"
+  },
+  "zh|长颈鹿": {
+    "path": "audio/zh/word/E9_95_BF_E9_A2_88_E9_B9_BF.mp3",
+    "text": "长颈鹿",
+    "lang": "zh"
+  },
+  "en|the giraffe has a long neck.": {
+    "path": "audio/en/sentence/the_giraffe_has_a_long_neck.mp3",
+    "text": "The giraffe has a long neck.",
+    "lang": "en"
+  },
+  "en|zebra": {
+    "path": "audio/en/word/zebra.mp3",
+    "text": "Zebra",
+    "lang": "en"
+  },
+  "zh|斑马": {
+    "path": "audio/zh/word/E6_96_91_E9_A9_AC.mp3",
+    "text": "斑马",
+    "lang": "zh"
+  },
+  "en|zebras have black and white stripes.": {
+    "path": "audio/en/sentence/zebras_have_black_and_white_stripes.mp3",
+    "text": "Zebras have black and white stripes.",
+    "lang": "en"
+  },
+  "en|hippo": {
+    "path": "audio/en/word/hippo.mp3",
+    "text": "Hippo",
+    "lang": "en"
+  },
+  "zh|河马": {
+    "path": "audio/zh/word/E6_B2_B3_E9_A9_AC.mp3",
+    "text": "河马",
+    "lang": "zh"
+  },
+  "en|the hippo is big and heavy.": {
+    "path": "audio/en/sentence/the_hippo_is_big_and_heavy.mp3",
+    "text": "The hippo is big and heavy.",
+    "lang": "en"
+  },
+  "en|crocodile": {
+    "path": "audio/en/word/crocodile.mp3",
+    "text": "Crocodile",
+    "lang": "en"
+  },
+  "zh|鳄鱼": {
+    "path": "audio/zh/word/E9_B3_84_E9_B1_BC.mp3",
+    "text": "鳄鱼",
+    "lang": "zh"
+  },
+  "en|the crocodile has big mouth.": {
+    "path": "audio/en/sentence/the_crocodile_has_big_mouth.mp3",
+    "text": "The crocodile has big mouth.",
+    "lang": "en"
+  },
+  "en|squirrel": {
+    "path": "audio/en/word/squirrel.mp3",
+    "text": "Squirrel",
+    "lang": "en"
+  },
+  "zh|松鼠": {
+    "path": "audio/zh/word/E6_9D_BE_E9_BC_A0.mp3",
+    "text": "松鼠",
+    "lang": "zh"
+  },
+  "en|the squirrel eats nuts.": {
+    "path": "audio/en/sentence/the_squirrel_eats_nuts.mp3",
+    "text": "The squirrel eats nuts.",
+    "lang": "en"
+  },
+  "en|hedgehog": {
+    "path": "audio/en/word/hedgehog.mp3",
+    "text": "Hedgehog",
+    "lang": "en"
+  },
+  "zh|刺猬": {
+    "path": "audio/zh/word/E5_88_BA_E7_8C_AC.mp3",
+    "text": "刺猬",
+    "lang": "zh"
+  },
+  "en|the hedgehog has spikes.": {
+    "path": "audio/en/sentence/the_hedgehog_has_spikes.mp3",
+    "text": "The hedgehog has spikes.",
+    "lang": "en"
+  },
+  "en|apple": {
+    "path": "audio/en/word/apple.mp3",
+    "text": "Apple",
+    "lang": "en"
+  },
+  "zh|苹果": {
+    "path": "audio/zh/word/E8_8B_B9_E6_9E_9C.mp3",
+    "text": "苹果",
+    "lang": "zh"
+  },
+  "en|i like apples.": {
+    "path": "audio/en/sentence/i_like_apples.mp3",
+    "text": "I like apples.",
+    "lang": "en"
+  },
+  "en|banana": {
+    "path": "audio/en/word/banana.mp3",
+    "text": "Banana",
+    "lang": "en"
+  },
+  "zh|香蕉": {
+    "path": "audio/zh/word/E9_A6_99_E8_95_89.mp3",
+    "text": "香蕉",
+    "lang": "zh"
+  },
+  "en|the banana is yellow.": {
+    "path": "audio/en/sentence/the_banana_is_yellow.mp3",
+    "text": "The banana is yellow.",
+    "lang": "en"
+  },
+  "en|orange": {
+    "path": "audio/en/word/orange.mp3",
+    "text": "Orange",
+    "lang": "en"
+  },
+  "zh|橙子": {
+    "path": "audio/zh/word/E6_A9_99_E5_AD_90.mp3",
+    "text": "橙子",
+    "lang": "zh"
+  },
+  "en|the orange is round.": {
+    "path": "audio/en/sentence/the_orange_is_round.mp3",
+    "text": "The orange is round.",
+    "lang": "en"
+  },
+  "en|grape": {
+    "path": "audio/en/word/grape.mp3",
+    "text": "Grape",
+    "lang": "en"
+  },
+  "zh|葡萄": {
+    "path": "audio/zh/word/E8_91_A1_E8_90_84.mp3",
+    "text": "葡萄",
+    "lang": "zh"
+  },
+  "en|grapes are purple.": {
+    "path": "audio/en/sentence/grapes_are_purple.mp3",
+    "text": "Grapes are purple.",
+    "lang": "en"
+  },
+  "en|watermelon": {
+    "path": "audio/en/word/watermelon.mp3",
+    "text": "Watermelon",
+    "lang": "en"
+  },
+  "zh|西瓜": {
+    "path": "audio/zh/word/E8_A5_BF_E7_93_9C.mp3",
+    "text": "西瓜",
+    "lang": "zh"
+  },
+  "en|watermelon is sweet.": {
+    "path": "audio/en/sentence/watermelon_is_sweet.mp3",
+    "text": "Watermelon is sweet.",
+    "lang": "en"
+  },
+  "en|strawberry": {
+    "path": "audio/en/word/strawberry.mp3",
+    "text": "Strawberry",
+    "lang": "en"
+  },
+  "zh|草莓": {
+    "path": "audio/zh/word/E8_8D_89_E8_8E_93.mp3",
+    "text": "草莓",
+    "lang": "zh"
+  },
+  "en|i love strawberries.": {
+    "path": "audio/en/sentence/i_love_strawberries.mp3",
+    "text": "I love strawberries.",
+    "lang": "en"
+  },
+  "en|peach": {
+    "path": "audio/en/word/peach.mp3",
+    "text": "Peach",
+    "lang": "en"
+  },
+  "zh|桃子": {
+    "path": "audio/zh/word/E6_A1_83_E5_AD_90.mp3",
+    "text": "桃子",
+    "lang": "zh"
+  },
+  "en|the peach is soft.": {
+    "path": "audio/en/sentence/the_peach_is_soft.mp3",
+    "text": "The peach is soft.",
+    "lang": "en"
+  },
+  "en|pear": {
+    "path": "audio/en/word/pear.mp3",
+    "text": "Pear",
+    "lang": "en"
+  },
+  "zh|梨": {
+    "path": "audio/zh/word/E6_A2_A8.mp3",
+    "text": "梨",
+    "lang": "zh"
+  },
+  "en|the pear is green.": {
+    "path": "audio/en/sentence/the_pear_is_green.mp3",
+    "text": "The pear is green.",
+    "lang": "en"
+  },
+  "en|cherry": {
+    "path": "audio/en/word/cherry.mp3",
+    "text": "Cherry",
+    "lang": "en"
+  },
+  "zh|樱桃": {
+    "path": "audio/zh/word/E6_A8_B1_E6_A1_83.mp3",
+    "text": "樱桃",
+    "lang": "zh"
+  },
+  "en|cherries are red.": {
+    "path": "audio/en/sentence/cherries_are_red.mp3",
+    "text": "Cherries are red.",
+    "lang": "en"
+  },
+  "en|lemon": {
+    "path": "audio/en/word/lemon.mp3",
+    "text": "Lemon",
+    "lang": "en"
+  },
+  "zh|柠檬": {
+    "path": "audio/zh/word/E6_9F_A0_E6_AA_AC.mp3",
+    "text": "柠檬",
+    "lang": "zh"
+  },
+  "en|the lemon is sour.": {
+    "path": "audio/en/sentence/the_lemon_is_sour.mp3",
+    "text": "The lemon is sour.",
+    "lang": "en"
+  },
+  "en|mango": {
+    "path": "audio/en/word/mango.mp3",
+    "text": "Mango",
+    "lang": "en"
+  },
+  "zh|芒果": {
+    "path": "audio/zh/word/E8_8A_92_E6_9E_9C.mp3",
+    "text": "芒果",
+    "lang": "zh"
+  },
+  "en|mango is sweet.": {
+    "path": "audio/en/sentence/mango_is_sweet.mp3",
+    "text": "Mango is sweet.",
+    "lang": "en"
+  },
+  "en|pineapple": {
+    "path": "audio/en/word/pineapple.mp3",
+    "text": "Pineapple",
+    "lang": "en"
+  },
+  "zh|菠萝": {
+    "path": "audio/zh/word/E8_8F_A0_E8_90_9D.mp3",
+    "text": "菠萝",
+    "lang": "zh"
+  },
+  "en|the pineapple is rough.": {
+    "path": "audio/en/sentence/the_pineapple_is_rough.mp3",
+    "text": "The pineapple is rough.",
+    "lang": "en"
+  },
+  "en|kiwi": {
+    "path": "audio/en/word/kiwi.mp3",
+    "text": "Kiwi",
+    "lang": "en"
+  },
+  "zh|猕猴桃": {
+    "path": "audio/zh/word/E7_8C_95_E7_8C_B4_E6_A1_83.mp3",
+    "text": "猕猴桃",
+    "lang": "zh"
+  },
+  "en|kiwi is green inside.": {
+    "path": "audio/en/sentence/kiwi_is_green_inside.mp3",
+    "text": "Kiwi is green inside.",
+    "lang": "en"
+  },
+  "en|blueberry": {
+    "path": "audio/en/word/blueberry.mp3",
+    "text": "Blueberry",
+    "lang": "en"
+  },
+  "zh|蓝莓": {
+    "path": "audio/zh/word/E8_93_9D_E8_8E_93.mp3",
+    "text": "蓝莓",
+    "lang": "zh"
+  },
+  "en|blueberries are small.": {
+    "path": "audio/en/sentence/blueberries_are_small.mp3",
+    "text": "Blueberries are small.",
+    "lang": "en"
+  },
+  "en|coconut": {
+    "path": "audio/en/word/coconut.mp3",
+    "text": "Coconut",
+    "lang": "en"
+  },
+  "zh|椰子": {
+    "path": "audio/zh/word/E6_A4_B0_E5_AD_90.mp3",
+    "text": "椰子",
+    "lang": "zh"
+  },
+  "en|coconut has hard shell.": {
+    "path": "audio/en/sentence/coconut_has_hard_shell.mp3",
+    "text": "Coconut has hard shell.",
+    "lang": "en"
+  },
+  "en|plum": {
+    "path": "audio/en/word/plum.mp3",
+    "text": "Plum",
+    "lang": "en"
+  },
+  "zh|李子": {
+    "path": "audio/zh/word/E6_9D_8E_E5_AD_90.mp3",
+    "text": "李子",
+    "lang": "zh"
+  },
+  "en|the plum is juicy.": {
+    "path": "audio/en/sentence/the_plum_is_juicy.mp3",
+    "text": "The plum is juicy.",
+    "lang": "en"
+  },
+  "en|avocado": {
+    "path": "audio/en/word/avocado.mp3",
+    "text": "Avocado",
+    "lang": "en"
+  },
+  "zh|牛油果": {
+    "path": "audio/zh/word/E7_89_9B_E6_B2_B9_E6_9E_9C.mp3",
+    "text": "牛油果",
+    "lang": "zh"
+  },
+  "en|avocado is green.": {
+    "path": "audio/en/sentence/avocado_is_green.mp3",
+    "text": "Avocado is green.",
+    "lang": "en"
+  },
+  "en|papaya": {
+    "path": "audio/en/word/papaya.mp3",
+    "text": "Papaya",
+    "lang": "en"
+  },
+  "zh|木瓜": {
+    "path": "audio/zh/word/E6_9C_A8_E7_93_9C.mp3",
+    "text": "木瓜",
+    "lang": "zh"
+  },
+  "en|papaya is orange.": {
+    "path": "audio/en/sentence/papaya_is_orange.mp3",
+    "text": "Papaya is orange.",
+    "lang": "en"
+  },
+  "en|lychee": {
+    "path": "audio/en/word/lychee.mp3",
+    "text": "Lychee",
+    "lang": "en"
+  },
+  "zh|荔枝": {
+    "path": "audio/zh/word/E8_8D_94_E6_9E_9D.mp3",
+    "text": "荔枝",
+    "lang": "zh"
+  },
+  "en|lychee is sweet.": {
+    "path": "audio/en/sentence/lychee_is_sweet.mp3",
+    "text": "Lychee is sweet.",
+    "lang": "en"
+  },
+  "en|red": {
+    "path": "audio/en/word/red.mp3",
+    "text": "Red",
+    "lang": "en"
+  },
+  "zh|红色": {
+    "path": "audio/zh/word/E7_BA_A2_E8_89_B2.mp3",
+    "text": "红色",
+    "lang": "zh"
+  },
+  "en|the apple is red.": {
+    "path": "audio/en/sentence/the_apple_is_red.mp3",
+    "text": "The apple is red.",
+    "lang": "en"
+  },
+  "en|blue": {
+    "path": "audio/en/word/blue.mp3",
+    "text": "Blue",
+    "lang": "en"
+  },
+  "zh|蓝色": {
+    "path": "audio/zh/word/E8_93_9D_E8_89_B2.mp3",
+    "text": "蓝色",
+    "lang": "zh"
+  },
+  "en|the sky is blue.": {
+    "path": "audio/en/sentence/the_sky_is_blue.mp3",
+    "text": "The sky is blue.",
+    "lang": "en"
+  },
+  "en|green": {
+    "path": "audio/en/word/green.mp3",
+    "text": "Green",
+    "lang": "en"
+  },
+  "zh|绿色": {
+    "path": "audio/zh/word/E7_BB_BF_E8_89_B2.mp3",
+    "text": "绿色",
+    "lang": "zh"
+  },
+  "en|the grass is green.": {
+    "path": "audio/en/sentence/the_grass_is_green.mp3",
+    "text": "The grass is green.",
+    "lang": "en"
+  },
+  "en|yellow": {
+    "path": "audio/en/word/yellow.mp3",
+    "text": "Yellow",
+    "lang": "en"
+  },
+  "zh|黄色": {
+    "path": "audio/zh/word/E9_BB_84_E8_89_B2.mp3",
+    "text": "黄色",
+    "lang": "zh"
+  },
+  "en|the sun is yellow.": {
+    "path": "audio/en/sentence/the_sun_is_yellow.mp3",
+    "text": "The sun is yellow.",
+    "lang": "en"
+  },
+  "zh|橙色": {
+    "path": "audio/zh/word/E6_A9_99_E8_89_B2.mp3",
+    "text": "橙色",
+    "lang": "zh"
+  },
+  "en|the orange is orange.": {
+    "path": "audio/en/sentence/the_orange_is_orange.mp3",
+    "text": "The orange is orange.",
+    "lang": "en"
+  },
+  "en|purple": {
+    "path": "audio/en/word/purple.mp3",
+    "text": "Purple",
+    "lang": "en"
+  },
+  "zh|紫色": {
+    "path": "audio/zh/word/E7_B4_AB_E8_89_B2.mp3",
+    "text": "紫色",
+    "lang": "zh"
+  },
+  "en|the grape is purple.": {
+    "path": "audio/en/sentence/the_grape_is_purple.mp3",
+    "text": "The grape is purple.",
+    "lang": "en"
+  },
+  "en|pink": {
+    "path": "audio/en/word/pink.mp3",
+    "text": "Pink",
+    "lang": "en"
+  },
+  "zh|粉色": {
+    "path": "audio/zh/word/E7_B2_89_E8_89_B2.mp3",
+    "text": "粉色",
+    "lang": "zh"
+  },
+  "en|the flower is pink.": {
+    "path": "audio/en/sentence/the_flower_is_pink.mp3",
+    "text": "The flower is pink.",
+    "lang": "en"
+  },
+  "en|white": {
+    "path": "audio/en/word/white.mp3",
+    "text": "White",
+    "lang": "en"
+  },
+  "zh|白色": {
+    "path": "audio/zh/word/E7_99_BD_E8_89_B2.mp3",
+    "text": "白色",
+    "lang": "zh"
+  },
+  "en|snow is white.": {
+    "path": "audio/en/sentence/snow_is_white.mp3",
+    "text": "Snow is white.",
+    "lang": "en"
+  },
+  "en|black": {
+    "path": "audio/en/word/black.mp3",
+    "text": "Black",
+    "lang": "en"
+  },
+  "zh|黑色": {
+    "path": "audio/zh/word/E9_BB_91_E8_89_B2.mp3",
+    "text": "黑色",
+    "lang": "zh"
+  },
+  "en|the cat is black.": {
+    "path": "audio/en/sentence/the_cat_is_black.mp3",
+    "text": "The cat is black.",
+    "lang": "en"
+  },
+  "en|brown": {
+    "path": "audio/en/word/brown.mp3",
+    "text": "Brown",
+    "lang": "en"
+  },
+  "zh|棕色": {
+    "path": "audio/zh/word/E6_A3_95_E8_89_B2.mp3",
+    "text": "棕色",
+    "lang": "zh"
+  },
+  "en|the bear is brown.": {
+    "path": "audio/en/sentence/the_bear_is_brown.mp3",
+    "text": "The bear is brown.",
+    "lang": "en"
+  },
+  "en|gray": {
+    "path": "audio/en/word/gray.mp3",
+    "text": "Gray",
+    "lang": "en"
+  },
+  "zh|灰色": {
+    "path": "audio/zh/word/E7_81_B0_E8_89_B2.mp3",
+    "text": "灰色",
+    "lang": "zh"
+  },
+  "en|the elephant is gray.": {
+    "path": "audio/en/sentence/the_elephant_is_gray.mp3",
+    "text": "The elephant is gray.",
+    "lang": "en"
+  },
+  "en|gold": {
+    "path": "audio/en/word/gold.mp3",
+    "text": "Gold",
+    "lang": "en"
+  },
+  "zh|金色": {
+    "path": "audio/zh/word/E9_87_91_E8_89_B2.mp3",
+    "text": "金色",
+    "lang": "zh"
+  },
+  "en|the star is gold.": {
+    "path": "audio/en/sentence/the_star_is_gold.mp3",
+    "text": "The star is gold.",
+    "lang": "en"
+  },
+  "en|silver": {
+    "path": "audio/en/word/silver.mp3",
+    "text": "Silver",
+    "lang": "en"
+  },
+  "zh|银色": {
+    "path": "audio/zh/word/E9_93_B6_E8_89_B2.mp3",
+    "text": "银色",
+    "lang": "zh"
+  },
+  "en|the moon is silver.": {
+    "path": "audio/en/sentence/the_moon_is_silver.mp3",
+    "text": "The moon is silver.",
+    "lang": "en"
+  },
+  "en|rainbow": {
+    "path": "audio/en/word/rainbow.mp3",
+    "text": "Rainbow",
+    "lang": "en"
+  },
+  "zh|彩虹": {
+    "path": "audio/zh/word/E5_BD_A9_E8_99_B9.mp3",
+    "text": "彩虹",
+    "lang": "zh"
+  },
+  "en|the rainbow has many colors.": {
+    "path": "audio/en/sentence/the_rainbow_has_many_colors.mp3",
+    "text": "The rainbow has many colors.",
+    "lang": "en"
+  },
+  "en|one": {
+    "path": "audio/en/word/one.mp3",
+    "text": "One",
+    "lang": "en"
+  },
+  "zh|一": {
+    "path": "audio/zh/word/E4_B8_80.mp3",
+    "text": "一",
+    "lang": "zh"
+  },
+  "en|i have one nose.": {
+    "path": "audio/en/sentence/i_have_one_nose.mp3",
+    "text": "I have one nose.",
+    "lang": "en"
+  },
+  "en|two": {
+    "path": "audio/en/word/two.mp3",
+    "text": "Two",
+    "lang": "en"
+  },
+  "zh|二": {
+    "path": "audio/zh/word/E4_BA_8C.mp3",
+    "text": "二",
+    "lang": "zh"
+  },
+  "en|i have two eyes.": {
+    "path": "audio/en/sentence/i_have_two_eyes.mp3",
+    "text": "I have two eyes.",
+    "lang": "en"
+  },
+  "en|three": {
+    "path": "audio/en/word/three.mp3",
+    "text": "Three",
+    "lang": "en"
+  },
+  "zh|三": {
+    "path": "audio/zh/word/E4_B8_89.mp3",
+    "text": "三",
+    "lang": "zh"
+  },
+  "en|i have three apples.": {
+    "path": "audio/en/sentence/i_have_three_apples.mp3",
+    "text": "I have three apples.",
+    "lang": "en"
+  },
+  "en|four": {
+    "path": "audio/en/word/four.mp3",
+    "text": "Four",
+    "lang": "en"
+  },
+  "zh|四": {
+    "path": "audio/zh/word/E5_9B_9B.mp3",
+    "text": "四",
+    "lang": "zh"
+  },
+  "en|there are four legs.": {
+    "path": "audio/en/sentence/there_are_four_legs.mp3",
+    "text": "There are four legs.",
+    "lang": "en"
+  },
+  "en|five": {
+    "path": "audio/en/word/five.mp3",
+    "text": "Five",
+    "lang": "en"
+  },
+  "zh|五": {
+    "path": "audio/zh/word/E4_BA_94.mp3",
+    "text": "五",
+    "lang": "zh"
+  },
+  "en|i have five fingers.": {
+    "path": "audio/en/sentence/i_have_five_fingers.mp3",
+    "text": "I have five fingers.",
+    "lang": "en"
+  },
+  "en|six": {
+    "path": "audio/en/word/six.mp3",
+    "text": "Six",
+    "lang": "en"
+  },
+  "zh|六": {
+    "path": "audio/zh/word/E5_85_AD.mp3",
+    "text": "六",
+    "lang": "zh"
+  },
+  "en|six birds are flying.": {
+    "path": "audio/en/sentence/six_birds_are_flying.mp3",
+    "text": "Six birds are flying.",
+    "lang": "en"
+  },
+  "en|seven": {
+    "path": "audio/en/word/seven.mp3",
+    "text": "Seven",
+    "lang": "en"
+  },
+  "zh|七": {
+    "path": "audio/zh/word/E4_B8_83.mp3",
+    "text": "七",
+    "lang": "zh"
+  },
+  "en|seven days in a week.": {
+    "path": "audio/en/sentence/seven_days_in_a_week.mp3",
+    "text": "Seven days in a week.",
+    "lang": "en"
+  },
+  "en|eight": {
+    "path": "audio/en/word/eight.mp3",
+    "text": "Eight",
+    "lang": "en"
+  },
+  "zh|八": {
+    "path": "audio/zh/word/E5_85_AB.mp3",
+    "text": "八",
+    "lang": "zh"
+  },
+  "en|an octopus has eight arms.": {
+    "path": "audio/en/sentence/an_octopus_has_eight_arms.mp3",
+    "text": "An octopus has eight arms.",
+    "lang": "en"
+  },
+  "en|nine": {
+    "path": "audio/en/word/nine.mp3",
+    "text": "Nine",
+    "lang": "en"
+  },
+  "zh|九": {
+    "path": "audio/zh/word/E4_B9_9D.mp3",
+    "text": "九",
+    "lang": "zh"
+  },
+  "en|nine little stars.": {
+    "path": "audio/en/sentence/nine_little_stars.mp3",
+    "text": "Nine little stars.",
+    "lang": "en"
+  },
+  "en|ten": {
+    "path": "audio/en/word/ten.mp3",
+    "text": "Ten",
+    "lang": "en"
+  },
+  "zh|十": {
+    "path": "audio/zh/word/E5_8D_81.mp3",
+    "text": "十",
+    "lang": "zh"
+  },
+  "en|i have ten toes.": {
+    "path": "audio/en/sentence/i_have_ten_toes.mp3",
+    "text": "I have ten toes.",
+    "lang": "en"
+  },
+  "en|hat": {
+    "path": "audio/en/word/hat.mp3",
+    "text": "Hat",
+    "lang": "en"
+  },
+  "zh|帽子": {
+    "path": "audio/zh/word/E5_B8_BD_E5_AD_90.mp3",
+    "text": "帽子",
+    "lang": "zh"
+  },
+  "en|i wear a hat.": {
+    "path": "audio/en/sentence/i_wear_a_hat.mp3",
+    "text": "I wear a hat.",
+    "lang": "en"
+  },
+  "en|shoes": {
+    "path": "audio/en/word/shoes.mp3",
+    "text": "Shoes",
+    "lang": "en"
+  },
+  "zh|鞋子": {
+    "path": "audio/zh/word/E9_9E_8B_E5_AD_90.mp3",
+    "text": "鞋子",
+    "lang": "zh"
+  },
+  "en|i put on my shoes.": {
+    "path": "audio/en/sentence/i_put_on_my_shoes.mp3",
+    "text": "I put on my shoes.",
+    "lang": "en"
+  },
+  "en|socks": {
+    "path": "audio/en/word/socks.mp3",
+    "text": "Socks",
+    "lang": "en"
+  },
+  "zh|袜子": {
+    "path": "audio/zh/word/E8_A2_9C_E5_AD_90.mp3",
+    "text": "袜子",
+    "lang": "zh"
+  },
+  "en|my socks are warm.": {
+    "path": "audio/en/sentence/my_socks_are_warm.mp3",
+    "text": "My socks are warm.",
+    "lang": "en"
+  },
+  "en|pants": {
+    "path": "audio/en/word/pants.mp3",
+    "text": "Pants",
+    "lang": "en"
+  },
+  "zh|裤子": {
+    "path": "audio/zh/word/E8_A3_A4_E5_AD_90.mp3",
+    "text": "裤子",
+    "lang": "zh"
+  },
+  "en|i wear pants.": {
+    "path": "audio/en/sentence/i_wear_pants.mp3",
+    "text": "I wear pants.",
+    "lang": "en"
+  },
+  "en|shirt": {
+    "path": "audio/en/word/shirt.mp3",
+    "text": "Shirt",
+    "lang": "en"
+  },
+  "zh|衬衫": {
+    "path": "audio/zh/word/E8_A1_AC_E8_A1_AB.mp3",
+    "text": "衬衫",
+    "lang": "zh"
+  },
+  "en|my shirt is blue.": {
+    "path": "audio/en/sentence/my_shirt_is_blue.mp3",
+    "text": "My shirt is blue.",
+    "lang": "en"
+  },
+  "en|dress": {
+    "path": "audio/en/word/dress.mp3",
+    "text": "Dress",
+    "lang": "en"
+  },
+  "zh|连衣裙": {
+    "path": "audio/zh/word/E8_BF_9E_E8_A1_A3_E8_A3_99.mp3",
+    "text": "连衣裙",
+    "lang": "zh"
+  },
+  "en|the dress is pretty.": {
+    "path": "audio/en/sentence/the_dress_is_pretty.mp3",
+    "text": "The dress is pretty.",
+    "lang": "en"
+  },
+  "en|jacket": {
+    "path": "audio/en/word/jacket.mp3",
+    "text": "Jacket",
+    "lang": "en"
+  },
+  "zh|夹克": {
+    "path": "audio/zh/word/E5_A4_B9_E5_85_8B.mp3",
+    "text": "夹克",
+    "lang": "zh"
+  },
+  "en|i wear a jacket in winter.": {
+    "path": "audio/en/sentence/i_wear_a_jacket_in_winter.mp3",
+    "text": "I wear a jacket in winter.",
+    "lang": "en"
+  },
+  "en|scarf": {
+    "path": "audio/en/word/scarf.mp3",
+    "text": "Scarf",
+    "lang": "en"
+  },
+  "zh|围巾": {
+    "path": "audio/zh/word/E5_9B_B4_E5_B7_BE.mp3",
+    "text": "围巾",
+    "lang": "zh"
+  },
+  "en|the scarf keeps me warm.": {
+    "path": "audio/en/sentence/the_scarf_keeps_me_warm.mp3",
+    "text": "The scarf keeps me warm.",
+    "lang": "en"
+  },
+  "en|gloves": {
+    "path": "audio/en/word/gloves.mp3",
+    "text": "Gloves",
+    "lang": "en"
+  },
+  "zh|手套": {
+    "path": "audio/zh/word/E6_89_8B_E5_A5_97.mp3",
+    "text": "手套",
+    "lang": "zh"
+  },
+  "en|i wear gloves in the snow.": {
+    "path": "audio/en/sentence/i_wear_gloves_in_the_snow.mp3",
+    "text": "I wear gloves in the snow.",
+    "lang": "en"
+  },
+  "en|sweater": {
+    "path": "audio/en/word/sweater.mp3",
+    "text": "Sweater",
+    "lang": "en"
+  },
+  "zh|毛衣": {
+    "path": "audio/zh/word/E6_AF_9B_E8_A1_A3.mp3",
+    "text": "毛衣",
+    "lang": "zh"
+  },
+  "en|my sweater is cozy.": {
+    "path": "audio/en/sentence/my_sweater_is_cozy.mp3",
+    "text": "My sweater is cozy.",
+    "lang": "en"
+  },
+  "en|belt": {
+    "path": "audio/en/word/belt.mp3",
+    "text": "Belt",
+    "lang": "en"
+  },
+  "zh|腰带": {
+    "path": "audio/zh/word/E8_85_B0_E5_B8_A6.mp3",
+    "text": "腰带",
+    "lang": "zh"
+  },
+  "en|i wear a belt.": {
+    "path": "audio/en/sentence/i_wear_a_belt.mp3",
+    "text": "I wear a belt.",
+    "lang": "en"
+  },
+  "en|boots": {
+    "path": "audio/en/word/boots.mp3",
+    "text": "Boots",
+    "lang": "en"
+  },
+  "zh|靴子": {
+    "path": "audio/zh/word/E9_9D_B4_E5_AD_90.mp3",
+    "text": "靴子",
+    "lang": "zh"
+  },
+  "en|boots are for rain.": {
+    "path": "audio/en/sentence/boots_are_for_rain.mp3",
+    "text": "Boots are for rain.",
+    "lang": "en"
+  },
+  "en|slippers": {
+    "path": "audio/en/word/slippers.mp3",
+    "text": "Slippers",
+    "lang": "en"
+  },
+  "zh|拖鞋": {
+    "path": "audio/zh/word/E6_8B_96_E9_9E_8B.mp3",
+    "text": "拖鞋",
+    "lang": "zh"
+  },
+  "en|i wear slippers at home.": {
+    "path": "audio/en/sentence/i_wear_slippers_at_home.mp3",
+    "text": "I wear slippers at home.",
+    "lang": "en"
+  },
+  "en|pajamas": {
+    "path": "audio/en/word/pajamas.mp3",
+    "text": "Pajamas",
+    "lang": "en"
+  },
+  "zh|睡衣": {
+    "path": "audio/zh/word/E7_9D_A1_E8_A1_A3.mp3",
+    "text": "睡衣",
+    "lang": "zh"
+  },
+  "en|i wear pajamas to bed.": {
+    "path": "audio/en/sentence/i_wear_pajamas_to_bed.mp3",
+    "text": "I wear pajamas to bed.",
+    "lang": "en"
+  },
+  "en|door": {
+    "path": "audio/en/word/door.mp3",
+    "text": "Door",
+    "lang": "en"
+  },
+  "zh|门": {
+    "path": "audio/zh/word/E9_97_A8.mp3",
+    "text": "门",
+    "lang": "zh"
+  },
+  "en|open the door.": {
+    "path": "audio/en/sentence/open_the_door.mp3",
+    "text": "Open the door.",
+    "lang": "en"
+  },
+  "en|window": {
+    "path": "audio/en/word/window.mp3",
+    "text": "Window",
+    "lang": "en"
+  },
+  "zh|窗户": {
+    "path": "audio/zh/word/E7_AA_97_E6_88_B7.mp3",
+    "text": "窗户",
+    "lang": "zh"
+  },
+  "en|look out the window.": {
+    "path": "audio/en/sentence/look_out_the_window.mp3",
+    "text": "Look out the window.",
+    "lang": "en"
+  },
+  "en|bed": {
+    "path": "audio/en/word/bed.mp3",
+    "text": "Bed",
+    "lang": "en"
+  },
+  "zh|床": {
+    "path": "audio/zh/word/E5_BA_8A.mp3",
+    "text": "床",
+    "lang": "zh"
+  },
+  "en|i sleep on my bed.": {
+    "path": "audio/en/sentence/i_sleep_on_my_bed.mp3",
+    "text": "I sleep on my bed.",
+    "lang": "en"
+  },
+  "en|table": {
+    "path": "audio/en/word/table.mp3",
+    "text": "Table",
+    "lang": "en"
+  },
+  "zh|桌子": {
+    "path": "audio/zh/word/E6_A1_8C_E5_AD_90.mp3",
+    "text": "桌子",
+    "lang": "zh"
+  },
+  "en|the book is on the table.": {
+    "path": "audio/en/sentence/the_book_is_on_the_table.mp3",
+    "text": "The book is on the table.",
+    "lang": "en"
+  },
+  "en|chair": {
+    "path": "audio/en/word/chair.mp3",
+    "text": "Chair",
+    "lang": "en"
+  },
+  "zh|椅子": {
+    "path": "audio/zh/word/E6_A4_85_E5_AD_90.mp3",
+    "text": "椅子",
+    "lang": "zh"
+  },
+  "en|sit on the chair.": {
+    "path": "audio/en/sentence/sit_on_the_chair.mp3",
+    "text": "Sit on the chair.",
+    "lang": "en"
+  },
+  "en|sofa": {
+    "path": "audio/en/word/sofa.mp3",
+    "text": "Sofa",
+    "lang": "en"
+  },
+  "zh|沙发": {
+    "path": "audio/zh/word/E6_B2_99_E5_8F_91.mp3",
+    "text": "沙发",
+    "lang": "zh"
+  },
+  "en|i sit on the sofa.": {
+    "path": "audio/en/sentence/i_sit_on_the_sofa.mp3",
+    "text": "I sit on the sofa.",
+    "lang": "en"
+  },
+  "en|lamp": {
+    "path": "audio/en/word/lamp.mp3",
+    "text": "Lamp",
+    "lang": "en"
+  },
+  "zh|灯": {
+    "path": "audio/zh/word/E7_81_AF.mp3",
+    "text": "灯",
+    "lang": "zh"
+  },
+  "en|turn on the lamp.": {
+    "path": "audio/en/sentence/turn_on_the_lamp.mp3",
+    "text": "Turn on the lamp.",
+    "lang": "en"
+  },
+  "en|clock": {
+    "path": "audio/en/word/clock.mp3",
+    "text": "Clock",
+    "lang": "en"
+  },
+  "zh|钟": {
+    "path": "audio/zh/word/E9_92_9F.mp3",
+    "text": "钟",
+    "lang": "zh"
+  },
+  "en|the clock says 8 o'clock.": {
+    "path": "audio/en/sentence/the_clock_says_8_o_clock.mp3",
+    "text": "The clock says 8 o'clock.",
+    "lang": "en"
+  },
+  "en|mirror": {
+    "path": "audio/en/word/mirror.mp3",
+    "text": "Mirror",
+    "lang": "en"
+  },
+  "zh|镜子": {
+    "path": "audio/zh/word/E9_95_9C_E5_AD_90.mp3",
+    "text": "镜子",
+    "lang": "zh"
+  },
+  "en|i look in the mirror.": {
+    "path": "audio/en/sentence/i_look_in_the_mirror.mp3",
+    "text": "I look in the mirror.",
+    "lang": "en"
+  },
+  "en|cup": {
+    "path": "audio/en/word/cup.mp3",
+    "text": "Cup",
+    "lang": "en"
+  },
+  "zh|杯子": {
+    "path": "audio/zh/word/E6_9D_AF_E5_AD_90.mp3",
+    "text": "杯子",
+    "lang": "zh"
+  },
+  "en|i drink from a cup.": {
+    "path": "audio/en/sentence/i_drink_from_a_cup.mp3",
+    "text": "I drink from a cup.",
+    "lang": "en"
+  },
+  "en|plate": {
+    "path": "audio/en/word/plate.mp3",
+    "text": "Plate",
+    "lang": "en"
+  },
+  "zh|盘子": {
+    "path": "audio/zh/word/E7_9B_98_E5_AD_90.mp3",
+    "text": "盘子",
+    "lang": "zh"
+  },
+  "en|the food is on the plate.": {
+    "path": "audio/en/sentence/the_food_is_on_the_plate.mp3",
+    "text": "The food is on the plate.",
+    "lang": "en"
+  },
+  "en|spoon": {
+    "path": "audio/en/word/spoon.mp3",
+    "text": "Spoon",
+    "lang": "en"
+  },
+  "zh|勺子": {
+    "path": "audio/zh/word/E5_8B_BA_E5_AD_90.mp3",
+    "text": "勺子",
+    "lang": "zh"
+  },
+  "en|i eat with a spoon.": {
+    "path": "audio/en/sentence/i_eat_with_a_spoon.mp3",
+    "text": "I eat with a spoon.",
+    "lang": "en"
+  },
+  "en|fork": {
+    "path": "audio/en/word/fork.mp3",
+    "text": "Fork",
+    "lang": "en"
+  },
+  "zh|叉子": {
+    "path": "audio/zh/word/E5_8F_89_E5_AD_90.mp3",
+    "text": "叉子",
+    "lang": "zh"
+  },
+  "en|i use a fork.": {
+    "path": "audio/en/sentence/i_use_a_fork.mp3",
+    "text": "I use a fork.",
+    "lang": "en"
+  },
+  "en|knife": {
+    "path": "audio/en/word/knife.mp3",
+    "text": "Knife",
+    "lang": "en"
+  },
+  "zh|刀": {
+    "path": "audio/zh/word/E5_88_80.mp3",
+    "text": "刀",
+    "lang": "zh"
+  },
+  "en|be careful with the knife.": {
+    "path": "audio/en/sentence/be_careful_with_the_knife.mp3",
+    "text": "Be careful with the knife.",
+    "lang": "en"
+  },
+  "en|bowl": {
+    "path": "audio/en/word/bowl.mp3",
+    "text": "Bowl",
+    "lang": "en"
+  },
+  "zh|碗": {
+    "path": "audio/zh/word/E7_A2_97.mp3",
+    "text": "碗",
+    "lang": "zh"
+  },
+  "en|i eat soup from a bowl.": {
+    "path": "audio/en/sentence/i_eat_soup_from_a_bowl.mp3",
+    "text": "I eat soup from a bowl.",
+    "lang": "en"
+  },
+  "en|phone": {
+    "path": "audio/en/word/phone.mp3",
+    "text": "Phone",
+    "lang": "en"
+  },
+  "zh|电话": {
+    "path": "audio/zh/word/E7_94_B5_E8_AF_9D.mp3",
+    "text": "电话",
+    "lang": "zh"
+  },
+  "en|mom is on the phone.": {
+    "path": "audio/en/sentence/mom_is_on_the_phone.mp3",
+    "text": "Mom is on the phone.",
+    "lang": "en"
+  },
+  "en|key": {
+    "path": "audio/en/word/key.mp3",
+    "text": "Key",
+    "lang": "en"
+  },
+  "zh|钥匙": {
+    "path": "audio/zh/word/E9_92_A5_E5_8C_99.mp3",
+    "text": "钥匙",
+    "lang": "zh"
+  },
+  "en|this is my key.": {
+    "path": "audio/en/sentence/this_is_my_key.mp3",
+    "text": "This is my key.",
+    "lang": "en"
+  },
+  "en|book": {
+    "path": "audio/en/word/book.mp3",
+    "text": "Book",
+    "lang": "en"
+  },
+  "zh|书": {
+    "path": "audio/zh/word/E4_B9_A6.mp3",
+    "text": "书",
+    "lang": "zh"
+  },
+  "en|i read a book.": {
+    "path": "audio/en/sentence/i_read_a_book.mp3",
+    "text": "I read a book.",
+    "lang": "en"
+  },
+  "en|pillow": {
+    "path": "audio/en/word/pillow.mp3",
+    "text": "Pillow",
+    "lang": "en"
+  },
+  "zh|枕头": {
+    "path": "audio/zh/word/E6_9E_95_E5_A4_B4.mp3",
+    "text": "枕头",
+    "lang": "zh"
+  },
+  "en|my pillow is soft.": {
+    "path": "audio/en/sentence/my_pillow_is_soft.mp3",
+    "text": "My pillow is soft.",
+    "lang": "en"
+  },
+  "en|blanket": {
+    "path": "audio/en/word/blanket.mp3",
+    "text": "Blanket",
+    "lang": "en"
+  },
+  "zh|毯子": {
+    "path": "audio/zh/word/E6_AF_AF_E5_AD_90.mp3",
+    "text": "毯子",
+    "lang": "zh"
+  },
+  "en|the blanket is warm.": {
+    "path": "audio/en/sentence/the_blanket_is_warm.mp3",
+    "text": "The blanket is warm.",
+    "lang": "en"
+  },
+  "en|car": {
+    "path": "audio/en/word/car.mp3",
+    "text": "Car",
+    "lang": "en"
+  },
+  "zh|汽车": {
+    "path": "audio/zh/word/E6_B1_BD_E8_BD_A6.mp3",
+    "text": "汽车",
+    "lang": "zh"
+  },
+  "en|the car goes fast.": {
+    "path": "audio/en/sentence/the_car_goes_fast.mp3",
+    "text": "The car goes fast.",
+    "lang": "en"
+  },
+  "en|bus": {
+    "path": "audio/en/word/bus.mp3",
+    "text": "Bus",
+    "lang": "en"
+  },
+  "zh|公交车": {
+    "path": "audio/zh/word/E5_85_AC_E4_BA_A4_E8_BD_A6.mp3",
+    "text": "公交车",
+    "lang": "zh"
+  },
+  "en|i ride the bus.": {
+    "path": "audio/en/sentence/i_ride_the_bus.mp3",
+    "text": "I ride the bus.",
+    "lang": "en"
+  },
+  "en|bike": {
+    "path": "audio/en/word/bike.mp3",
+    "text": "Bike",
+    "lang": "en"
+  },
+  "zh|自行车": {
+    "path": "audio/zh/word/E8_87_AA_E8_A1_8C_E8_BD_A6.mp3",
+    "text": "自行车",
+    "lang": "zh"
+  },
+  "en|i can ride a bike.": {
+    "path": "audio/en/sentence/i_can_ride_a_bike.mp3",
+    "text": "I can ride a bike.",
+    "lang": "en"
+  },
+  "en|train": {
+    "path": "audio/en/word/train.mp3",
+    "text": "Train",
+    "lang": "en"
+  },
+  "zh|火车": {
+    "path": "audio/zh/word/E7_81_AB_E8_BD_A6.mp3",
+    "text": "火车",
+    "lang": "zh"
+  },
+  "en|the train is long.": {
+    "path": "audio/en/sentence/the_train_is_long.mp3",
+    "text": "The train is long.",
+    "lang": "en"
+  },
+  "en|plane": {
+    "path": "audio/en/word/plane.mp3",
+    "text": "Plane",
+    "lang": "en"
+  },
+  "zh|飞机": {
+    "path": "audio/zh/word/E9_A3_9E_E6_9C_BA.mp3",
+    "text": "飞机",
+    "lang": "zh"
+  },
+  "en|the plane flies in the sky.": {
+    "path": "audio/en/sentence/the_plane_flies_in_the_sky.mp3",
+    "text": "The plane flies in the sky.",
+    "lang": "en"
+  },
+  "en|boat": {
+    "path": "audio/en/word/boat.mp3",
+    "text": "Boat",
+    "lang": "en"
+  },
+  "zh|船": {
+    "path": "audio/zh/word/E8_88_B9.mp3",
+    "text": "船",
+    "lang": "zh"
+  },
+  "en|the boat floats on water.": {
+    "path": "audio/en/sentence/the_boat_floats_on_water.mp3",
+    "text": "The boat floats on water.",
+    "lang": "en"
+  },
+  "en|truck": {
+    "path": "audio/en/word/truck.mp3",
+    "text": "Truck",
+    "lang": "en"
+  },
+  "zh|卡车": {
+    "path": "audio/zh/word/E5_8D_A1_E8_BD_A6.mp3",
+    "text": "卡车",
+    "lang": "zh"
+  },
+  "en|the truck carries things.": {
+    "path": "audio/en/sentence/the_truck_carries_things.mp3",
+    "text": "The truck carries things.",
+    "lang": "en"
+  },
+  "en|helicopter": {
+    "path": "audio/en/word/helicopter.mp3",
+    "text": "Helicopter",
+    "lang": "en"
+  },
+  "zh|直升机": {
+    "path": "audio/zh/word/E7_9B_B4_E5_8D_87_E6_9C_BA.mp3",
+    "text": "直升机",
+    "lang": "zh"
+  },
+  "en|the helicopter flies up.": {
+    "path": "audio/en/sentence/the_helicopter_flies_up.mp3",
+    "text": "The helicopter flies up.",
+    "lang": "en"
+  },
+  "en|subway": {
+    "path": "audio/en/word/subway.mp3",
+    "text": "Subway",
+    "lang": "en"
+  },
+  "zh|地铁": {
+    "path": "audio/zh/word/E5_9C_B0_E9_93_81.mp3",
+    "text": "地铁",
+    "lang": "zh"
+  },
+  "en|the subway goes underground.": {
+    "path": "audio/en/sentence/the_subway_goes_underground.mp3",
+    "text": "The subway goes underground.",
+    "lang": "en"
+  },
+  "en|taxi": {
+    "path": "audio/en/word/taxi.mp3",
+    "text": "Taxi",
+    "lang": "en"
+  },
+  "zh|出租车": {
+    "path": "audio/zh/word/E5_87_BA_E7_A7_9F_E8_BD_A6.mp3",
+    "text": "出租车",
+    "lang": "zh"
+  },
+  "en|let's take a taxi.": {
+    "path": "audio/en/sentence/let_s_take_a_taxi.mp3",
+    "text": "Let's take a taxi.",
+    "lang": "en"
+  },
+  "en|ambulance": {
+    "path": "audio/en/word/ambulance.mp3",
+    "text": "Ambulance",
+    "lang": "en"
+  },
+  "zh|救护车": {
+    "path": "audio/zh/word/E6_95_91_E6_8A_A4_E8_BD_A6.mp3",
+    "text": "救护车",
+    "lang": "zh"
+  },
+  "en|the ambulance helps people.": {
+    "path": "audio/en/sentence/the_ambulance_helps_people.mp3",
+    "text": "The ambulance helps people.",
+    "lang": "en"
+  },
+  "en|fire truck": {
+    "path": "audio/en/word/fire_truck.mp3",
+    "text": "Fire truck",
+    "lang": "en"
+  },
+  "zh|消防车": {
+    "path": "audio/zh/word/E6_B6_88_E9_98_B2_E8_BD_A6.mp3",
+    "text": "消防车",
+    "lang": "zh"
+  },
+  "en|the fire truck is red.": {
+    "path": "audio/en/sentence/the_fire_truck_is_red.mp3",
+    "text": "The fire truck is red.",
+    "lang": "en"
+  },
+  "en|police car": {
+    "path": "audio/en/word/police_car.mp3",
+    "text": "Police car",
+    "lang": "en"
+  },
+  "zh|警车": {
+    "path": "audio/zh/word/E8_AD_A6_E8_BD_A6.mp3",
+    "text": "警车",
+    "lang": "zh"
+  },
+  "en|the police car goes fast.": {
+    "path": "audio/en/sentence/the_police_car_goes_fast.mp3",
+    "text": "The police car goes fast.",
+    "lang": "en"
+  },
+  "en|scooter": {
+    "path": "audio/en/word/scooter.mp3",
+    "text": "Scooter",
+    "lang": "en"
+  },
+  "zh|滑板车": {
+    "path": "audio/zh/word/E6_BB_91_E6_9D_BF_E8_BD_A6.mp3",
+    "text": "滑板车",
+    "lang": "zh"
+  },
+  "en|i ride my scooter.": {
+    "path": "audio/en/sentence/i_ride_my_scooter.mp3",
+    "text": "I ride my scooter.",
+    "lang": "en"
+  },
+  "en|ship": {
+    "path": "audio/en/word/ship.mp3",
+    "text": "Ship",
+    "lang": "en"
+  },
+  "zh|轮船": {
+    "path": "audio/zh/word/E8_BD_AE_E8_88_B9.mp3",
+    "text": "轮船",
+    "lang": "zh"
+  },
+  "en|the ship is very big.": {
+    "path": "audio/en/sentence/the_ship_is_very_big.mp3",
+    "text": "The ship is very big.",
+    "lang": "en"
+  },
+  "en|bread": {
+    "path": "audio/en/word/bread.mp3",
+    "text": "Bread",
+    "lang": "en"
+  },
+  "zh|面包": {
+    "path": "audio/zh/word/E9_9D_A2_E5_8C_85.mp3",
+    "text": "面包",
+    "lang": "zh"
+  },
+  "en|i eat bread for breakfast.": {
+    "path": "audio/en/sentence/i_eat_bread_for_breakfast.mp3",
+    "text": "I eat bread for breakfast.",
+    "lang": "en"
+  },
+  "en|rice": {
+    "path": "audio/en/word/rice.mp3",
+    "text": "Rice",
+    "lang": "en"
+  },
+  "zh|米饭": {
+    "path": "audio/zh/word/E7_B1_B3_E9_A5_AD.mp3",
+    "text": "米饭",
+    "lang": "zh"
+  },
+  "en|i like to eat rice.": {
+    "path": "audio/en/sentence/i_like_to_eat_rice.mp3",
+    "text": "I like to eat rice.",
+    "lang": "en"
+  },
+  "en|noodles": {
+    "path": "audio/en/word/noodles.mp3",
+    "text": "Noodles",
+    "lang": "en"
+  },
+  "zh|面条": {
+    "path": "audio/zh/word/E9_9D_A2_E6_9D_A1.mp3",
+    "text": "面条",
+    "lang": "zh"
+  },
+  "en|i eat noodles with chopsticks.": {
+    "path": "audio/en/sentence/i_eat_noodles_with_chopsticks.mp3",
+    "text": "I eat noodles with chopsticks.",
+    "lang": "en"
+  },
+  "en|egg": {
+    "path": "audio/en/word/egg.mp3",
+    "text": "Egg",
+    "lang": "en"
+  },
+  "zh|鸡蛋": {
+    "path": "audio/zh/word/E9_B8_A1_E8_9B_8B.mp3",
+    "text": "鸡蛋",
+    "lang": "zh"
+  },
+  "en|the egg is round.": {
+    "path": "audio/en/sentence/the_egg_is_round.mp3",
+    "text": "The egg is round.",
+    "lang": "en"
+  },
+  "en|milk": {
+    "path": "audio/en/word/milk.mp3",
+    "text": "Milk",
+    "lang": "en"
+  },
+  "zh|牛奶": {
+    "path": "audio/zh/word/E7_89_9B_E5_A5_B6.mp3",
+    "text": "牛奶",
+    "lang": "zh"
+  },
+  "en|i drink milk every day.": {
+    "path": "audio/en/sentence/i_drink_milk_every_day.mp3",
+    "text": "I drink milk every day.",
+    "lang": "en"
+  },
+  "en|cheese": {
+    "path": "audio/en/word/cheese.mp3",
+    "text": "Cheese",
+    "lang": "en"
+  },
+  "zh|奶酪": {
+    "path": "audio/zh/word/E5_A5_B6_E9_85_AA.mp3",
+    "text": "奶酪",
+    "lang": "zh"
+  },
+  "en|cheese is yellow.": {
+    "path": "audio/en/sentence/cheese_is_yellow.mp3",
+    "text": "Cheese is yellow.",
+    "lang": "en"
+  },
+  "en|cake": {
+    "path": "audio/en/word/cake.mp3",
+    "text": "Cake",
+    "lang": "en"
+  },
+  "zh|蛋糕": {
+    "path": "audio/zh/word/E8_9B_8B_E7_B3_95.mp3",
+    "text": "蛋糕",
+    "lang": "zh"
+  },
+  "en|the cake is sweet.": {
+    "path": "audio/en/sentence/the_cake_is_sweet.mp3",
+    "text": "The cake is sweet.",
+    "lang": "en"
+  },
+  "en|cookie": {
+    "path": "audio/en/word/cookie.mp3",
+    "text": "Cookie",
+    "lang": "en"
+  },
+  "zh|饼干": {
+    "path": "audio/zh/word/E9_A5_BC_E5_B9_B2.mp3",
+    "text": "饼干",
+    "lang": "zh"
+  },
+  "en|i like cookies.": {
+    "path": "audio/en/sentence/i_like_cookies.mp3",
+    "text": "I like cookies.",
+    "lang": "en"
+  },
+  "en|candy": {
+    "path": "audio/en/word/candy.mp3",
+    "text": "Candy",
+    "lang": "en"
+  },
+  "zh|糖果": {
+    "path": "audio/zh/word/E7_B3_96_E6_9E_9C.mp3",
+    "text": "糖果",
+    "lang": "zh"
+  },
+  "en|candy is sweet.": {
+    "path": "audio/en/sentence/candy_is_sweet.mp3",
+    "text": "Candy is sweet.",
+    "lang": "en"
+  },
+  "en|ice cream": {
+    "path": "audio/en/word/ice_cream.mp3",
+    "text": "Ice cream",
+    "lang": "en"
+  },
+  "zh|冰淇淋": {
+    "path": "audio/zh/word/E5_86_B0_E6_B7_87_E6_B7_8B.mp3",
+    "text": "冰淇淋",
+    "lang": "zh"
+  },
+  "en|ice cream is cold.": {
+    "path": "audio/en/sentence/ice_cream_is_cold.mp3",
+    "text": "Ice cream is cold.",
+    "lang": "en"
+  },
+  "en|pizza": {
+    "path": "audio/en/word/pizza.mp3",
+    "text": "Pizza",
+    "lang": "en"
+  },
+  "zh|披萨": {
+    "path": "audio/zh/word/E6_8A_AB_E8_90_A8.mp3",
+    "text": "披萨",
+    "lang": "zh"
+  },
+  "en|i love pizza.": {
+    "path": "audio/en/sentence/i_love_pizza.mp3",
+    "text": "I love pizza.",
+    "lang": "en"
+  },
+  "en|hamburger": {
+    "path": "audio/en/word/hamburger.mp3",
+    "text": "Hamburger",
+    "lang": "en"
+  },
+  "zh|汉堡包": {
+    "path": "audio/zh/word/E6_B1_89_E5_A0_A1_E5_8C_85.mp3",
+    "text": "汉堡包",
+    "lang": "zh"
+  },
+  "en|the hamburger is yummy.": {
+    "path": "audio/en/sentence/the_hamburger_is_yummy.mp3",
+    "text": "The hamburger is yummy.",
+    "lang": "en"
+  },
+  "en|sandwich": {
+    "path": "audio/en/word/sandwich.mp3",
+    "text": "Sandwich",
+    "lang": "en"
+  },
+  "zh|三明治": {
+    "path": "audio/zh/word/E4_B8_89_E6_98_8E_E6_B2_BB.mp3",
+    "text": "三明治",
+    "lang": "zh"
+  },
+  "en|i make a sandwich.": {
+    "path": "audio/en/sentence/i_make_a_sandwich.mp3",
+    "text": "I make a sandwich.",
+    "lang": "en"
+  },
+  "en|soup": {
+    "path": "audio/en/word/soup.mp3",
+    "text": "Soup",
+    "lang": "en"
+  },
+  "zh|汤": {
+    "path": "audio/zh/word/E6_B1_A4.mp3",
+    "text": "汤",
+    "lang": "zh"
+  },
+  "en|the soup is hot.": {
+    "path": "audio/en/sentence/the_soup_is_hot.mp3",
+    "text": "The soup is hot.",
+    "lang": "en"
+  },
+  "en|juice": {
+    "path": "audio/en/word/juice.mp3",
+    "text": "Juice",
+    "lang": "en"
+  },
+  "zh|果汁": {
+    "path": "audio/zh/word/E6_9E_9C_E6_B1_81.mp3",
+    "text": "果汁",
+    "lang": "zh"
+  },
+  "en|i drink orange juice.": {
+    "path": "audio/en/sentence/i_drink_orange_juice.mp3",
+    "text": "I drink orange juice.",
+    "lang": "en"
+  },
+  "en|water": {
+    "path": "audio/en/word/water.mp3",
+    "text": "Water",
+    "lang": "en"
+  },
+  "zh|水": {
+    "path": "audio/zh/word/E6_B0_B4.mp3",
+    "text": "水",
+    "lang": "zh"
+  },
+  "en|i drink water.": {
+    "path": "audio/en/sentence/i_drink_water.mp3",
+    "text": "I drink water.",
+    "lang": "en"
+  },
+  "en|chips": {
+    "path": "audio/en/word/chips.mp3",
+    "text": "Chips",
+    "lang": "en"
+  },
+  "zh|薯片": {
+    "path": "audio/zh/word/E8_96_AF_E7_89_87.mp3",
+    "text": "薯片",
+    "lang": "zh"
+  },
+  "en|chips are crispy.": {
+    "path": "audio/en/sentence/chips_are_crispy.mp3",
+    "text": "Chips are crispy.",
+    "lang": "en"
+  },
+  "en|donut": {
+    "path": "audio/en/word/donut.mp3",
+    "text": "Donut",
+    "lang": "en"
+  },
+  "zh|甜甜圈": {
+    "path": "audio/zh/word/E7_94_9C_E7_94_9C_E5_9C_88.mp3",
+    "text": "甜甜圈",
+    "lang": "zh"
+  },
+  "en|the donut has a hole.": {
+    "path": "audio/en/sentence/the_donut_has_a_hole.mp3",
+    "text": "The donut has a hole.",
+    "lang": "en"
+  },
+  "en|head": {
+    "path": "audio/en/word/head.mp3",
+    "text": "Head",
+    "lang": "en"
+  },
+  "zh|头": {
+    "path": "audio/zh/word/E5_A4_B4.mp3",
+    "text": "头",
+    "lang": "zh"
+  },
+  "en|i nod my head.": {
+    "path": "audio/en/sentence/i_nod_my_head.mp3",
+    "text": "I nod my head.",
+    "lang": "en"
+  },
+  "en|hair": {
+    "path": "audio/en/word/hair.mp3",
+    "text": "Hair",
+    "lang": "en"
+  },
+  "zh|头发": {
+    "path": "audio/zh/word/E5_A4_B4_E5_8F_91.mp3",
+    "text": "头发",
+    "lang": "zh"
+  },
+  "en|my hair is black.": {
+    "path": "audio/en/sentence/my_hair_is_black.mp3",
+    "text": "My hair is black.",
+    "lang": "en"
+  },
+  "en|eye": {
+    "path": "audio/en/word/eye.mp3",
+    "text": "Eye",
+    "lang": "en"
+  },
+  "zh|眼睛": {
+    "path": "audio/zh/word/E7_9C_BC_E7_9D_9B.mp3",
+    "text": "眼睛",
+    "lang": "zh"
+  },
+  "en|i see with my eyes.": {
+    "path": "audio/en/sentence/i_see_with_my_eyes.mp3",
+    "text": "I see with my eyes.",
+    "lang": "en"
+  },
+  "en|ear": {
+    "path": "audio/en/word/ear.mp3",
+    "text": "Ear",
+    "lang": "en"
+  },
+  "zh|耳朵": {
+    "path": "audio/zh/word/E8_80_B3_E6_9C_B5.mp3",
+    "text": "耳朵",
+    "lang": "zh"
+  },
+  "en|i hear with my ears.": {
+    "path": "audio/en/sentence/i_hear_with_my_ears.mp3",
+    "text": "I hear with my ears.",
+    "lang": "en"
+  },
+  "en|nose": {
+    "path": "audio/en/word/nose.mp3",
+    "text": "Nose",
+    "lang": "en"
+  },
+  "zh|鼻子": {
+    "path": "audio/zh/word/E9_BC_BB_E5_AD_90.mp3",
+    "text": "鼻子",
+    "lang": "zh"
+  },
+  "en|i smell with my nose.": {
+    "path": "audio/en/sentence/i_smell_with_my_nose.mp3",
+    "text": "I smell with my nose.",
+    "lang": "en"
+  },
+  "en|mouth": {
+    "path": "audio/en/word/mouth.mp3",
+    "text": "Mouth",
+    "lang": "en"
+  },
+  "zh|嘴巴": {
+    "path": "audio/zh/word/E5_98_B4_E5_B7_B4.mp3",
+    "text": "嘴巴",
+    "lang": "zh"
+  },
+  "en|i eat with my mouth.": {
+    "path": "audio/en/sentence/i_eat_with_my_mouth.mp3",
+    "text": "I eat with my mouth.",
+    "lang": "en"
+  },
+  "en|teeth": {
+    "path": "audio/en/word/teeth.mp3",
+    "text": "Teeth",
+    "lang": "en"
+  },
+  "zh|牙齿": {
+    "path": "audio/zh/word/E7_89_99_E9_BD_BF.mp3",
+    "text": "牙齿",
+    "lang": "zh"
+  },
+  "en|i brush my teeth.": {
+    "path": "audio/en/sentence/i_brush_my_teeth.mp3",
+    "text": "I brush my teeth.",
+    "lang": "en"
+  },
+  "en|tongue": {
+    "path": "audio/en/word/tongue.mp3",
+    "text": "Tongue",
+    "lang": "en"
+  },
+  "zh|舌头": {
+    "path": "audio/zh/word/E8_88_8C_E5_A4_B4.mp3",
+    "text": "舌头",
+    "lang": "zh"
+  },
+  "en|i taste with my tongue.": {
+    "path": "audio/en/sentence/i_taste_with_my_tongue.mp3",
+    "text": "I taste with my tongue.",
+    "lang": "en"
+  },
+  "en|hand": {
+    "path": "audio/en/word/hand.mp3",
+    "text": "Hand",
+    "lang": "en"
+  },
+  "zh|手": {
+    "path": "audio/zh/word/E6_89_8B.mp3",
+    "text": "手",
+    "lang": "zh"
+  },
+  "en|i wave my hand.": {
+    "path": "audio/en/sentence/i_wave_my_hand.mp3",
+    "text": "I wave my hand.",
+    "lang": "en"
+  },
+  "en|finger": {
+    "path": "audio/en/word/finger.mp3",
+    "text": "Finger",
+    "lang": "en"
+  },
+  "zh|手指": {
+    "path": "audio/zh/word/E6_89_8B_E6_8C_87.mp3",
+    "text": "手指",
+    "lang": "zh"
+  },
+  "en|i have ten fingers.": {
+    "path": "audio/en/sentence/i_have_ten_fingers.mp3",
+    "text": "I have ten fingers.",
+    "lang": "en"
+  },
+  "en|arm": {
+    "path": "audio/en/word/arm.mp3",
+    "text": "Arm",
+    "lang": "en"
+  },
+  "zh|手臂": {
+    "path": "audio/zh/word/E6_89_8B_E8_87_82.mp3",
+    "text": "手臂",
+    "lang": "zh"
+  },
+  "en|i raise my arm.": {
+    "path": "audio/en/sentence/i_raise_my_arm.mp3",
+    "text": "I raise my arm.",
+    "lang": "en"
+  },
+  "en|leg": {
+    "path": "audio/en/word/leg.mp3",
+    "text": "Leg",
+    "lang": "en"
+  },
+  "zh|腿": {
+    "path": "audio/zh/word/E8_85_BF.mp3",
+    "text": "腿",
+    "lang": "zh"
+  },
+  "en|i run with my legs.": {
+    "path": "audio/en/sentence/i_run_with_my_legs.mp3",
+    "text": "I run with my legs.",
+    "lang": "en"
+  },
+  "en|foot": {
+    "path": "audio/en/word/foot.mp3",
+    "text": "Foot",
+    "lang": "en"
+  },
+  "zh|脚": {
+    "path": "audio/zh/word/E8_84_9A.mp3",
+    "text": "脚",
+    "lang": "zh"
+  },
+  "en|i stand on my feet.": {
+    "path": "audio/en/sentence/i_stand_on_my_feet.mp3",
+    "text": "I stand on my feet.",
+    "lang": "en"
+  },
+  "en|toes": {
+    "path": "audio/en/word/toes.mp3",
+    "text": "Toes",
+    "lang": "en"
+  },
+  "zh|脚趾": {
+    "path": "audio/zh/word/E8_84_9A_E8_B6_BE.mp3",
+    "text": "脚趾",
+    "lang": "zh"
+  },
+  "en|knee": {
+    "path": "audio/en/word/knee.mp3",
+    "text": "Knee",
+    "lang": "en"
+  },
+  "zh|膝盖": {
+    "path": "audio/zh/word/E8_86_9D_E7_9B_96.mp3",
+    "text": "膝盖",
+    "lang": "zh"
+  },
+  "en|i bend my knee.": {
+    "path": "audio/en/sentence/i_bend_my_knee.mp3",
+    "text": "I bend my knee.",
+    "lang": "en"
+  },
+  "en|shoulder": {
+    "path": "audio/en/word/shoulder.mp3",
+    "text": "Shoulder",
+    "lang": "en"
+  },
+  "zh|肩膀": {
+    "path": "audio/zh/word/E8_82_A9_E8_86_80.mp3",
+    "text": "肩膀",
+    "lang": "zh"
+  },
+  "en|i shrug my shoulders.": {
+    "path": "audio/en/sentence/i_shrug_my_shoulders.mp3",
+    "text": "I shrug my shoulders.",
+    "lang": "en"
+  },
+  "en|tummy": {
+    "path": "audio/en/word/tummy.mp3",
+    "text": "Tummy",
+    "lang": "en"
+  },
+  "zh|肚子": {
+    "path": "audio/zh/word/E8_82_9A_E5_AD_90.mp3",
+    "text": "肚子",
+    "lang": "zh"
+  },
+  "en|my tummy is full.": {
+    "path": "audio/en/sentence/my_tummy_is_full.mp3",
+    "text": "My tummy is full.",
+    "lang": "en"
+  },
+  "en|back": {
+    "path": "audio/en/word/back.mp3",
+    "text": "Back",
+    "lang": "en"
+  },
+  "zh|背": {
+    "path": "audio/zh/word/E8_83_8C.mp3",
+    "text": "背",
+    "lang": "zh"
+  },
+  "en|i carry it on my back.": {
+    "path": "audio/en/sentence/i_carry_it_on_my_back.mp3",
+    "text": "I carry it on my back.",
+    "lang": "en"
+  },
+  "en|face": {
+    "path": "audio/en/word/face.mp3",
+    "text": "Face",
+    "lang": "en"
+  },
+  "zh|脸": {
+    "path": "audio/zh/word/E8_84_B8.mp3",
+    "text": "脸",
+    "lang": "zh"
+  },
+  "en|i wash my face.": {
+    "path": "audio/en/sentence/i_wash_my_face.mp3",
+    "text": "I wash my face.",
+    "lang": "en"
+  },
+  "en|cheek": {
+    "path": "audio/en/word/cheek.mp3",
+    "text": "Cheek",
+    "lang": "en"
+  },
+  "zh|脸颊": {
+    "path": "audio/zh/word/E8_84_B8_E9_A2_8A.mp3",
+    "text": "脸颊",
+    "lang": "zh"
+  },
+  "en|my cheeks are pink.": {
+    "path": "audio/en/sentence/my_cheeks_are_pink.mp3",
+    "text": "My cheeks are pink.",
+    "lang": "en"
+  },
+  "en|sun": {
+    "path": "audio/en/word/sun.mp3",
+    "text": "Sun",
+    "lang": "en"
+  },
+  "zh|太阳": {
+    "path": "audio/zh/word/E5_A4_AA_E9_98_B3.mp3",
+    "text": "太阳",
+    "lang": "zh"
+  },
+  "en|the sun is bright.": {
+    "path": "audio/en/sentence/the_sun_is_bright.mp3",
+    "text": "The sun is bright.",
+    "lang": "en"
+  },
+  "en|rain": {
+    "path": "audio/en/word/rain.mp3",
+    "text": "Rain",
+    "lang": "en"
+  },
+  "zh|雨": {
+    "path": "audio/zh/word/E9_9B_A8.mp3",
+    "text": "雨",
+    "lang": "zh"
+  },
+  "en|it is raining.": {
+    "path": "audio/en/sentence/it_is_raining.mp3",
+    "text": "It is raining.",
+    "lang": "en"
+  },
+  "en|snow": {
+    "path": "audio/en/word/snow.mp3",
+    "text": "Snow",
+    "lang": "en"
+  },
+  "zh|雪": {
+    "path": "audio/zh/word/E9_9B_AA.mp3",
+    "text": "雪",
+    "lang": "zh"
+  },
+  "en|cloud": {
+    "path": "audio/en/word/cloud.mp3",
+    "text": "Cloud",
+    "lang": "en"
+  },
+  "zh|云": {
+    "path": "audio/zh/word/E4_BA_91.mp3",
+    "text": "云",
+    "lang": "zh"
+  },
+  "en|the cloud is white.": {
+    "path": "audio/en/sentence/the_cloud_is_white.mp3",
+    "text": "The cloud is white.",
+    "lang": "en"
+  },
+  "en|wind": {
+    "path": "audio/en/word/wind.mp3",
+    "text": "Wind",
+    "lang": "en"
+  },
+  "zh|风": {
+    "path": "audio/zh/word/E9_A3_8E.mp3",
+    "text": "风",
+    "lang": "zh"
+  },
+  "en|the wind blows.": {
+    "path": "audio/en/sentence/the_wind_blows.mp3",
+    "text": "The wind blows.",
+    "lang": "en"
+  },
+  "en|i see a rainbow.": {
+    "path": "audio/en/sentence/i_see_a_rainbow.mp3",
+    "text": "I see a rainbow.",
+    "lang": "en"
+  },
+  "en|star": {
+    "path": "audio/en/word/star.mp3",
+    "text": "Star",
+    "lang": "en"
+  },
+  "zh|星星": {
+    "path": "audio/zh/word/E6_98_9F_E6_98_9F.mp3",
+    "text": "星星",
+    "lang": "zh"
+  },
+  "en|stars shine at night.": {
+    "path": "audio/en/sentence/stars_shine_at_night.mp3",
+    "text": "Stars shine at night.",
+    "lang": "en"
+  },
+  "en|moon": {
+    "path": "audio/en/word/moon.mp3",
+    "text": "Moon",
+    "lang": "en"
+  },
+  "zh|月亮": {
+    "path": "audio/zh/word/E6_9C_88_E4_BA_AE.mp3",
+    "text": "月亮",
+    "lang": "zh"
+  },
+  "en|the moon is round.": {
+    "path": "audio/en/sentence/the_moon_is_round.mp3",
+    "text": "The moon is round.",
+    "lang": "en"
+  },
+  "en|lightning": {
+    "path": "audio/en/word/lightning.mp3",
+    "text": "Lightning",
+    "lang": "en"
+  },
+  "zh|闪电": {
+    "path": "audio/zh/word/E9_97_AA_E7_94_B5.mp3",
+    "text": "闪电",
+    "lang": "zh"
+  },
+  "en|lightning is bright.": {
+    "path": "audio/en/sentence/lightning_is_bright.mp3",
+    "text": "Lightning is bright.",
+    "lang": "en"
+  },
+  "en|thunder": {
+    "path": "audio/en/word/thunder.mp3",
+    "text": "Thunder",
+    "lang": "en"
+  },
+  "zh|雷": {
+    "path": "audio/zh/word/E9_9B_B7.mp3",
+    "text": "雷",
+    "lang": "zh"
+  },
+  "en|thunder is loud.": {
+    "path": "audio/en/sentence/thunder_is_loud.mp3",
+    "text": "Thunder is loud.",
+    "lang": "en"
+  },
+  "en|hot": {
+    "path": "audio/en/word/hot.mp3",
+    "text": "Hot",
+    "lang": "en"
+  },
+  "zh|热": {
+    "path": "audio/zh/word/E7_83_AD.mp3",
+    "text": "热",
+    "lang": "zh"
+  },
+  "en|it is hot today.": {
+    "path": "audio/en/sentence/it_is_hot_today.mp3",
+    "text": "It is hot today.",
+    "lang": "en"
+  },
+  "en|cold": {
+    "path": "audio/en/word/cold.mp3",
+    "text": "Cold",
+    "lang": "en"
+  },
+  "zh|冷": {
+    "path": "audio/zh/word/E5_86_B7.mp3",
+    "text": "冷",
+    "lang": "zh"
+  },
+  "en|it is cold outside.": {
+    "path": "audio/en/sentence/it_is_cold_outside.mp3",
+    "text": "It is cold outside.",
+    "lang": "en"
+  },
+  "en|good morning!": {
+    "path": "audio/en/sentence/good_20morning.mp3",
+    "text": "Good morning!",
+    "lang": "en"
+  },
+  "en|good night!": {
+    "path": "audio/en/sentence/good_20night.mp3",
+    "text": "Good night!",
+    "lang": "en"
+  },
+  "en|i love you.": {
+    "path": "audio/en/sentence/i_love_you.mp3",
+    "text": "I love you.",
+    "lang": "en"
+  },
+  "en|thank you.": {
+    "path": "audio/en/sentence/thank_you.mp3",
+    "text": "Thank you.",
+    "lang": "en"
+  },
+  "en|you're welcome.": {
+    "path": "audio/en/sentence/you_re_welcome.mp3",
+    "text": "You're welcome.",
+    "lang": "en"
+  },
+  "en|i'm sorry.": {
+    "path": "audio/en/sentence/i_m_sorry.mp3",
+    "text": "I'm sorry.",
+    "lang": "en"
+  },
+  "en|it's okay.": {
+    "path": "audio/en/sentence/it_s_okay.mp3",
+    "text": "It's okay.",
+    "lang": "en"
+  },
+  "en|please.": {
+    "path": "audio/en/sentence/please.mp3",
+    "text": "Please.",
+    "lang": "en"
+  },
+  "en|excuse me.": {
+    "path": "audio/en/sentence/excuse_me.mp3",
+    "text": "Excuse me.",
+    "lang": "en"
+  },
+  "en|how are you?": {
+    "path": "audio/en/sentence/how_20are_20you_3F.mp3",
+    "text": "How are you?",
+    "lang": "en"
+  },
+  "en|i'm fine.": {
+    "path": "audio/en/sentence/i_m_fine.mp3",
+    "text": "I'm fine.",
+    "lang": "en"
+  },
+  "en|what's your name?": {
+    "path": "audio/en/sentence/what_s_20your_20name_3F.mp3",
+    "text": "What's your name?",
+    "lang": "en"
+  },
+  "en|my name is...": {
+    "path": "audio/en/sentence/my_name_is.mp3",
+    "text": "My name is...",
+    "lang": "en"
+  },
+  "en|how old are you?": {
+    "path": "audio/en/sentence/how_20old_20are_20you_3F.mp3",
+    "text": "How old are you?",
+    "lang": "en"
+  },
+  "en|i am 3 years old.": {
+    "path": "audio/en/sentence/i_am_3_years_old.mp3",
+    "text": "I am 3 years old.",
+    "lang": "en"
+  },
+  "en|let's go!": {
+    "path": "audio/en/sentence/let_s_20go.mp3",
+    "text": "Let's go!",
+    "lang": "en"
+  },
+  "en|come here.": {
+    "path": "audio/en/sentence/come_here.mp3",
+    "text": "Come here.",
+    "lang": "en"
+  },
+  "en|look at me!": {
+    "path": "audio/en/sentence/look_20at_20me.mp3",
+    "text": "Look at me!",
+    "lang": "en"
+  },
+  "en|i can do it!": {
+    "path": "audio/en/sentence/i_20can_20do_20it.mp3",
+    "text": "I can do it!",
+    "lang": "en"
+  },
+  "en|well done!": {
+    "path": "audio/en/sentence/well_20done.mp3",
+    "text": "Well done!",
+    "lang": "en"
+  },
+  "en|good job!": {
+    "path": "audio/en/sentence/good_20job.mp3",
+    "text": "Good job!",
+    "lang": "en"
+  },
+  "en|try again.": {
+    "path": "audio/en/sentence/try_again.mp3",
+    "text": "Try again.",
+    "lang": "en"
+  },
+  "en|don't give up!": {
+    "path": "audio/en/sentence/don_t_20give_20up.mp3",
+    "text": "Don't give up!",
+    "lang": "en"
+  },
+  "en|i'm hungry.": {
+    "path": "audio/en/sentence/i_m_hungry.mp3",
+    "text": "I'm hungry.",
+    "lang": "en"
+  },
+  "en|i'm thirsty.": {
+    "path": "audio/en/sentence/i_m_thirsty.mp3",
+    "text": "I'm thirsty.",
+    "lang": "en"
+  },
+  "en|i'm tired.": {
+    "path": "audio/en/sentence/i_m_tired.mp3",
+    "text": "I'm tired.",
+    "lang": "en"
+  },
+  "en|i'm happy.": {
+    "path": "audio/en/sentence/i_m_happy.mp3",
+    "text": "I'm happy.",
+    "lang": "en"
+  },
+  "en|i'm scared.": {
+    "path": "audio/en/sentence/i_m_scared.mp3",
+    "text": "I'm scared.",
+    "lang": "en"
+  },
+  "en|help me!": {
+    "path": "audio/en/sentence/help_20me.mp3",
+    "text": "Help me!",
+    "lang": "en"
+  },
+  "en|wait for me!": {
+    "path": "audio/en/sentence/wait_20for_20me.mp3",
+    "text": "Wait for me!",
+    "lang": "en"
+  },
+  "en|me too!": {
+    "path": "audio/en/sentence/me_20too.mp3",
+    "text": "Me too!",
+    "lang": "en"
+  },
+  "en|i like it!": {
+    "path": "audio/en/sentence/i_20like_20it.mp3",
+    "text": "I like it!",
+    "lang": "en"
+  },
+  "en|i don't like it.": {
+    "path": "audio/en/sentence/i_don_t_like_it.mp3",
+    "text": "I don't like it.",
+    "lang": "en"
+  },
+  "en|may i come in?": {
+    "path": "audio/en/sentence/may_20i_20come_20in_3F.mp3",
+    "text": "May I come in?",
+    "lang": "en"
+  },
+  "en|let me see.": {
+    "path": "audio/en/sentence/let_me_see.mp3",
+    "text": "Let me see.",
+    "lang": "en"
+  },
+  "en|what is this?": {
+    "path": "audio/en/sentence/what_20is_20this_3F.mp3",
+    "text": "What is this?",
+    "lang": "en"
+  },
+  "en|what color is it?": {
+    "path": "audio/en/sentence/what_20color_20is_20it_3F.mp3",
+    "text": "What color is it?",
+    "lang": "en"
+  },
+  "en|how many?": {
+    "path": "audio/en/sentence/how_20many_3F.mp3",
+    "text": "How many?",
+    "lang": "en"
+  },
+  "en|it's time to eat.": {
+    "path": "audio/en/sentence/it_s_time_to_eat.mp3",
+    "text": "It's time to eat.",
+    "lang": "en"
+  },
+  "en|it's time to sleep.": {
+    "path": "audio/en/sentence/it_s_time_to_sleep.mp3",
+    "text": "It's time to sleep.",
+    "lang": "en"
+  },
+  "en|wake up!": {
+    "path": "audio/en/sentence/wake_20up.mp3",
+    "text": "Wake up!",
+    "lang": "en"
+  },
+  "en|let's clean up.": {
+    "path": "audio/en/sentence/let_s_clean_up.mp3",
+    "text": "Let's clean up.",
+    "lang": "en"
+  },
+  "en|be careful!": {
+    "path": "audio/en/sentence/be_20careful.mp3",
+    "text": "Be careful!",
+    "lang": "en"
+  },
+  "en|have fun!": {
+    "path": "audio/en/sentence/have_20fun.mp3",
+    "text": "Have fun!",
+    "lang": "en"
+  },
+  "en|see you later!": {
+    "path": "audio/en/sentence/see_20you_20later.mp3",
+    "text": "See you later!",
+    "lang": "en"
+  },
+  "en|see you tomorrow!": {
+    "path": "audio/en/sentence/see_20you_20tomorrow.mp3",
+    "text": "See you tomorrow!",
+    "lang": "en"
+  }
+}

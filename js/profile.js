@@ -89,6 +89,15 @@ function renderSettings() {
     if (status.zhVoices && status.zhVoices.length) {
       engineH += '<div class="pf-setting-hint">🎧 中文语音：' + esc(status.zhVoices.join('、')) + '</div>';
     }
+    // 播放模式提示：原生不可用时（微信 X5 / 无 TTS 的安卓 WebView）告知走哪种音频
+    const nativeOk = status.available && status.voiceCount > 0;
+    const inWeChat = (typeof isWeChatBrowser === 'function') && isWeChatBrowser();
+    if (nativeOk) {
+      engineH += '<div class="pf-setting-hint">🔊 当前播放模式：原生语音合成</div>';
+    } else {
+      const modeText = inWeChat ? '微信兼容模式（预生成音频 → 在线百度TTS）' : '音频兜底模式（预生成音频 → 在线百度TTS）';
+      engineH += '<div class="pf-setting-hint">🔊 当前播放模式：' + esc(modeText) + '</div>';
+    }
     engineH += '</div>';
   }
   let h = engineH;

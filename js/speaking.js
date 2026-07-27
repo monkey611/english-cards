@@ -225,24 +225,48 @@ function playLine(idx) {
 
 function speakBotLine(text, onend) {
   const stt = loadSettings();
+  // 高亮当前 bot 气泡
+  const bubbles = document.querySelectorAll('#spkChat .spk-bubble.bot');
+  const last = bubbles[bubbles.length - 1];
+  if (last) last.classList.add('speaking');
+  const clearHL = function () { if (last) last.classList.remove('speaking'); };
+
+  // 引擎可用性：微信 X5 / 无 TTS 的安卓 WebView，原生不可用 → 走 audio-player 兜底
+  const status = (typeof speechEngineStatus === 'function') ? speechEngineStatus() : null;
+  const nativeAvailable = status && status.available && status.voiceCount > 0;
+  if (!nativeAvailable && typeof playAudio === 'function') {
+    playAudio(text, 'en-US').then(function () {
+      clearHL();
+      if (onend) onend();
+    });
+    return;
+  }
+
   try {
     const u = new SpeechSynthesisUtterance(text);
     u.rate = stt.speechRate;
     u.pitch = speechPitch();
     u.volume = 1.0;
-    applyVoice(u, 'en-US');
-    // 高亮当前 bot 气泡
-    const bubbles = document.querySelectorAll('#spkChat .spk-bubble.bot');
-    const last = bubbles[bubbles.length - 1];
-    if (last) last.classList.add('speaking');
+    const voiceOk = applyVoice(u, 'en-US');
+    if (!voiceOk && typeof playAudio === 'function') {
+      // 运行中发现 voices 为空，兜底
+      playAudio(text, 'en-US').then(function () {
+        clearHL();
+        if (onend) onend();
+      });
+      return;
+    }
     safeSpeak(u, function () {
-      if (last) last.classList.remove('speaking');
+      clearHL();
       if (onend) onend();
     }, function () {
-      if (last) last.classList.remove('speaking');
+      clearHL();
       if (onend) onend();
     });
-  } catch (e) { if (onend) onend(); }
+  } catch (e) {
+    clearHL();
+    if (onend) onend();
+  }
 }
 
 function appendBubble(side, en, zh, extraClass) {
