@@ -1,9 +1,12 @@
-// ========== 统计 ==========
+// ========== 统计（按当前级别过滤）==========
 // 词汇数 = 词汇主题(VOCAB_THEME_IDS)内按 en 去重后的数量，与闯关题库/我的页保持一致
-function calcStats() {
+let currentLevel = null; // 当前目录展示的词汇级别（与 settings.vocabLevel 同步；null 时从设置读取）
+function calcStats(level) {
+  const lv = level || currentLevel || getVocabLevel();
   let words = 0, phrases = 0, dialogues = 0;
   const seen = {};
   THEMES.forEach(t => {
+    if ((t.level || 'starter') !== lv) return;
     if (VOCAB_THEME_IDS.indexOf(t.id) >= 0) {
       t.items.forEach(it => {
         if (it.en) { const k = String(it.en).toLowerCase(); if (!seen[k]) { seen[k] = true; words++; } }
@@ -25,23 +28,46 @@ function themeMastery(theme) {
   return { mastered: mastered, total: total, pct: total > 0 ? mastered / total : 0 };
 }
 
-// ========== 推荐下一个主题（C2）==========
-// 优先推荐"已开始且最接近完成"的主题，其次推荐第一个未开始主题
+// ========== 主题分组（用于目录分隔符）==========
+// 按主题类型分组：音标 / 词汇 / 短句 / 对话 / 故事 / 听力
+function themeSection(theme) {
+  if (theme.group === 'phonetics') return 'phonetics';
+  if (theme.id === 'phrases') return 'phrases';
+  if (theme.id === 'dialogue') return 'dialogue';
+  if (theme.id === 'stories') return 'stories';
+  if (theme.id === 'listening') return 'listening';
+  return 'vocab';
+}
+function groupLabel(section) {
+  switch (section) {
+    case 'phonetics': return '🔤 音标启蒙';
+    case 'vocab':     return '📚 词汇';
+    case 'phrases':   return '💬 实用短句';
+    case 'dialogue':  return '👥 情景对话';
+    case 'stories':   return '📖 寓言故事';
+    case 'listening': return '👂 听力练习';
+    default:          return '📚 学习内容';
+  }
+}
+
+// ========== 推荐下一个主题（C2，级别感知）==========
+// 优先推荐"已开始且最接近完成"的主题，其次推荐第一个未开始主题（仅当前级别）
 function recommendTheme() {
   let started = null;
   let fresh = null;
   let allDone = true;
   let hasVocab = false;
-  THEMES.forEach(function (t) {
+  THEMES.forEach(function (t, ti) {
+    if ((t.level || 'starter') !== currentLevel) return;
     const m = themeMastery(t);
     if (!m) return;
     hasVocab = true;
     if (m.pct < 1) {
       allDone = false;
       if (m.pct > 0) {
-        if (!started || m.pct > started.pct) started = { theme: t, mastered: m.mastered, total: m.total, pct: m.pct };
+        if (!started || m.pct > started.pct) started = { theme: t, idx: ti, mastered: m.mastered, total: m.total, pct: m.pct };
       } else if (!fresh) {
-        fresh = { theme: t, mastered: 0, total: m.total, pct: 0 };
+        fresh = { theme: t, idx: ti, mastered: 0, total: m.total, pct: 0 };
       }
     }
   });
@@ -58,9 +84,9 @@ function recommendBannerHtml() {
   const rec = recommendTheme();
   if (!rec) return '';
   if (rec.allDone) {
-    return '<div class="catalog-recommend done"><span class="cr-icon">🏆</span><span class="cr-text">太棒了！所有主题都掌握啦！</span></div>';
+    return '<div class="catalog-recommend done"><span class="cr-icon">🏆</span><span class="cr-text">太棒了！' + esc(levelName(currentLevel)) + '级主题都掌握啦！</span></div>';
   }
-  const ti = THEMES.indexOf(rec.theme);
+  const ti = (rec.idx !== undefined) ? rec.idx : THEMES.indexOf(rec.theme);
   const remain = rec.total - rec.mastered;
   const name = cleanThemeName(rec.theme.name);
   let h = '<div class="catalog-recommend" data-theme="' + ti + '">';
@@ -80,7 +106,7 @@ function bindRecommendBanner() {
   if (!el) return;
   el.addEventListener('click', function () {
     const ti = parseInt(el.dataset.theme);
-    const group = catalogContent.querySelectorAll('.catalog-group')[ti];
+    const group = catalogContent.querySelector('.catalog-group[data-theme-idx="' + ti + '"]');
     if (!group) return;
     const navHeight = document.getElementById('catalogNav').offsetHeight;
     const top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
@@ -91,12 +117,15 @@ function bindRecommendBanner() {
 }
 
 // 局部刷新目录的进度数据（不重建 DOM，保留滚动位置）—— 学习进度变化后调用
+// 通过 data-theme-idx 定位每个分组（避免过滤后索引错位）
 function refreshCatalogProgress() {
   const groups = catalogContent.querySelectorAll('.catalog-group');
   if (!groups.length) return;
-  THEMES.forEach(function (theme, ti) {
-    const group = groups[ti];
-    if (!group) return;
+  groups.forEach(function (group) {
+    const ti = parseInt(group.dataset.themeIdx);
+    if (isNaN(ti)) return;
+    const theme = THEMES[ti];
+    if (!theme) return;
     const m = themeMastery(theme);
     if (!m) return;
     const bar = group.querySelector('.catalog-progress-fill');
@@ -144,16 +173,59 @@ function refreshCatalogProgress() {
 }
 
 // ========== 渲染目录 ==========
+// 切换词汇级别：更新设置 + 重渲染目录与统计
+function switchVocabLevel(level) {
+  if (level === currentLevel) return;
+  currentLevel = level;
+  setVocabLevel(level);
+  calcStats(level);
+  renderCatalog();
+  catalog.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function renderCatalog() {
-  // 渲染导航
+  // 同步当前级别（首次渲染 / 从设置恢复）
+  currentLevel = getVocabLevel();
+
+  // 级别切换控件（启蒙 / 小学 / 中学）
+  const headerStats = document.querySelector('.catalog-stats');
+  let levelSwitch = document.getElementById('catalogLevelSwitch');
+  if (!levelSwitch) {
+    levelSwitch = document.createElement('div');
+    levelSwitch.className = 'catalog-level-switch';
+    levelSwitch.id = 'catalogLevelSwitch';
+    if (headerStats && headerStats.parentNode) {
+      headerStats.parentNode.insertBefore(levelSwitch, headerStats.nextSibling);
+    } else {
+      catalogContent.parentNode.insertBefore(levelSwitch, catalogContent);
+    }
+  }
+  let lvHtml = '';
+  VOCAB_LEVELS.forEach(function (v) {
+    const active = v.id === currentLevel ? ' active' : '';
+    lvHtml += '<button type="button" class="level-btn' + active + '" data-level="' + v.id + '">' +
+      '<span class="lv-icon">' + v.icon + '</span><span>' + v.name + '</span>' +
+      '<span class="lv-desc">' + v.desc + '</span></button>';
+  });
+  levelSwitch.innerHTML = lvHtml;
+  levelSwitch.querySelectorAll('.level-btn').forEach(function (b) {
+    b.addEventListener('click', function () { switchVocabLevel(b.dataset.level); });
+  });
+
+  // 当前级别可见主题（带原 THEMES 索引）
+  const visible = [];
+  THEMES.forEach(function (theme, ti) {
+    if ((theme.level || 'starter') === currentLevel) visible.push({ theme: theme, ti: ti });
+  });
+
+  // 渲染导航（仅当前级别）
   const nav = document.getElementById('catalogNav');
   const navInner = document.getElementById('catalogNavInner');
   let navHtml = '';
-  THEMES.forEach((theme, ti) => {
-    const icon = theme.icon || theme.name.match(/^\S+/)?.[0] || '📚';
-    const iconClean = (icon || '').replace(/[^a-zA-Z0-9À-ɏЀ-ӿ؀-ۿ一-鿿぀-ゟ゠-ヿ☀-⟯\uD800-􏰀-\uDFFF]/g, '').trim() || '📚';
-    navHtml += '<div class="catalog-nav-item" data-nav-theme="' + ti + '">' +
-      '<span class="nav-icon">' + theme.icon + '</span>' +
+  visible.forEach(function (v) {
+    const theme = v.theme;
+    navHtml += '<div class="catalog-nav-item" data-nav-theme="' + v.ti + '">' +
+      '<span class="nav-icon">' + (theme.icon || '📚') + '</span>' +
       '<span>' + theme.name.replace(/[^一-龥A-Za-z0-9\s]/g, '').trim() + '</span>' +
     '</div>';
   });
@@ -163,58 +235,69 @@ function renderCatalog() {
   const navToggle = document.getElementById('navToggle');
   let navCollapsed = false;
   if (navToggle) {
-    // 点击折叠/展开（贴在左侧）
-    navToggle.addEventListener('click', function() {
+    navToggle.onclick = function() {
       navCollapsed = !navCollapsed;
       nav.classList.toggle('collapsed', navCollapsed);
       navToggle.textContent = navCollapsed ? '▶' : '◀';
       navToggle.classList.toggle('collapsed', navCollapsed);
-    });
-
-    // 点击导航项时展开
+    };
     navInner.querySelectorAll('.catalog-nav-item').forEach(function(el) {
-      el.addEventListener('click', function() {
+      el.onclick = function() {
         if (navCollapsed) {
           navCollapsed = false;
           nav.classList.remove('collapsed');
           navToggle.textContent = '◀';
           navToggle.classList.remove('collapsed');
         }
-        var ti = parseInt(el.dataset.navTheme);
-        var group = catalogContent.querySelectorAll('.catalog-group')[ti];
+        const ti = parseInt(el.dataset.navTheme);
+        const group = catalogContent.querySelector('.catalog-group[data-theme-idx="' + ti + '"]');
         if (group) {
           navInner.querySelectorAll('.catalog-nav-item').forEach(function(n) { n.classList.remove('active'); });
           el.classList.add('active');
-          var navHeight = document.getElementById('catalogNav').offsetHeight;
-          var top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
+          const navHeight = document.getElementById('catalogNav').offsetHeight;
+          const top = group.getBoundingClientRect().top + catalog.scrollTop - navHeight - 10;
           catalog.scrollTo({ top: top, behavior: 'smooth' });
           setTimeout(function() {
             navInner.querySelectorAll('.catalog-nav-item').forEach(function(n) { n.classList.remove('active'); });
           }, 1500);
         }
-      });
+      };
     });
   }
 
-  // 滑动自动隐藏
-  let lastScrollTop = 0;
-  catalog.addEventListener('scroll', function() {
-    var scrollTop = catalog.scrollTop;
-    if (scrollTop > 60 && scrollTop > lastScrollTop + 10 && !navCollapsed) {
-      nav.classList.add('hide-nav');
-    } else if (scrollTop < lastScrollTop - 10 || scrollTop < 60) {
-      nav.classList.remove('hide-nav');
-    }
-    lastScrollTop = scrollTop;
-  });
+  // 滑动自动隐藏导航（只绑一次）
+  if (!renderCatalog._scrollBound) {
+    let lastScrollTop = 0;
+    let _navCollapsed = false;
+    catalog.addEventListener('scroll', function() {
+      _navCollapsed = nav.classList.contains('collapsed');
+      const scrollTop = catalog.scrollTop;
+      if (scrollTop > 60 && scrollTop > lastScrollTop + 10 && !_navCollapsed) {
+        nav.classList.add('hide-nav');
+      } else if (scrollTop < lastScrollTop - 10 || scrollTop < 60) {
+        nav.classList.remove('hide-nav');
+      }
+      lastScrollTop = scrollTop;
+    });
+    renderCatalog._scrollBound = true;
+  }
 
   let html = '';
   // 推荐下一个主题横幅（C2）
   html += recommendBannerHtml();
-  THEMES.forEach((theme, ti) => {
+  // 按分组渲染主题，分组切换时插入分隔符
+  let lastSection = '';
+  visible.forEach(function (v) {
+    const theme = v.theme;
+    const ti = v.ti;
+    const section = themeSection(theme);
+    if (section !== lastSection) {
+      html += '<div class="catalog-group-divider">' + groupLabel(section) + '</div>';
+      lastSection = section;
+    }
     const m = themeMastery(theme);
-    html += `<div class="catalog-group">`;
-    let titleHtml = theme.name;
+    html += `<div class="catalog-group" data-theme-idx="${ti}">`;
+    let titleHtml = esc(theme.name);
     if (m) titleHtml += ` <span class="catalog-group-mastered">${m.mastered}/${m.total}</span>`;
     html += `<div class="catalog-group-title">${titleHtml}</div>`;
     if (m) {
@@ -225,14 +308,17 @@ function renderCatalog() {
       const delay = (ii % 12) * 0.05;
       const got = m && isMastered(item.en);
       html += `<div class="catalog-item${got ? ' mastered' : ''}" data-theme="${ti}" data-index="${ii}" style="animation-delay:${delay}s">
-        <span class="icon">${item.emoji}</span>
-        <div class="name">${item.en}</div>
-        <div class="count">${item.zh}</div>
+        <span class="icon">${item.emoji || '📚'}</span>
+        <div class="name">${esc(String(item.en))}</div>
+        <div class="count">${esc(String(item.zh))}</div>
         ${got ? '<span class="mastered-mark">✓</span>' : ''}
       </div>`;
     });
     html += `</div></div>`;
   });
+  if (!visible.length) {
+    html += '<div class="catalog-empty">该级别暂无内容</div>';
+  }
   catalogContent.innerHTML = html;
 
   // 推荐横幅点击：滚动到对应主题并高亮

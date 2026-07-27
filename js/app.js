@@ -3,6 +3,11 @@ function switchTab(tab) {
   if (tab === currentTab) return;
   window.speechSynthesis.cancel();
   finishSpeak();
+  // 离开口语页时清理识别状态
+  if (currentTab === 'speaking' && typeof closeScenario === 'function' && _spkState) {
+    try { _spkState.rec && _spkState.rec.stop(); } catch (e) {}
+    _spkState = null;
+  }
   currentTab = tab;
   // 按钮高亮
   tabBar.querySelectorAll('.tab-item').forEach(b => {
@@ -11,6 +16,7 @@ function switchTab(tab) {
   // 页面切换：home 显示目录页，其余隐藏
   catalog.classList.toggle('hidden', tab !== 'home');
   pageChallenge.classList.toggle('active', tab === 'challenge');
+  pageSpeaking.classList.toggle('active', tab === 'speaking');
   pageProfile.classList.toggle('active', tab === 'profile');
   // 非阅读器状态下确保 Tab 栏可见
   tabBar.classList.remove('hide');
@@ -18,6 +24,7 @@ function switchTab(tab) {
   if (tab === 'home') refreshCatalogProgress();
   // 首次进入时渲染对应页面
   if (tab === 'challenge') renderChallengeHome();
+  if (tab === 'speaking') renderSpeakingHome();
   if (tab === 'profile') renderProfileHome();
 }
 

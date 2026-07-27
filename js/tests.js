@@ -6,9 +6,11 @@ function runTests() {
     if (cond) { pass++; log.push('  ✅ PASS | ' + name + (info ? ' | ' + info : '')); }
     else { fail++; log.push('  ❌ FAIL | ' + name + (info ? ' | ' + info : '')); }
   }
-  // 备份真实进度，测试后恢复
+  // 备份真实进度与设置，测试后恢复
   const backupRaw = localStorage.getItem(STORAGE_KEY);
+  const backupSetRaw = localStorage.getItem(SETTINGS_KEY);
   const backupProg = _progress ? JSON.parse(JSON.stringify(_progress)) : null;
+  const backupSet = _settings ? JSON.parse(JSON.stringify(_settings)) : null;
   try {
     _progress = null; resetProgress();
     log.push('[1] seededRandom 确定性');
@@ -20,9 +22,19 @@ function runTests() {
     ok('不同种子产生不同序列', seq1[0] !== r3(), 'seq1[0]=' + seq1[0] + ', r3[0]≠');
     ok('随机值落在 [0,1)', seq1[0] >= 0 && seq1[0] < 1, 'val=' + seq1[0]);
 
-    log.push('[2] buildQuestionPool 题库');
-    const pool = buildQuestionPool();
-    ok('词汇量 >= 800', pool.words.length >= 800, 'words=' + pool.words.length);
+    log.push('[2] buildQuestionPool 题库（按级别分层）');
+    const poolStarter = buildQuestionPool('starter');
+    const poolPrimary = buildQuestionPool('primary');
+    const poolMiddle = buildQuestionPool('middle');
+    const totalWords = poolStarter.words.length + poolPrimary.words.length + poolMiddle.words.length;
+    ok('三级词汇总量 >= 800', totalWords >= 800, 'total=' + totalWords);
+    ok('启蒙级词汇 >= 200', poolStarter.words.length >= 200, 'starter=' + poolStarter.words.length);
+    ok('小学级词汇 >= 200', poolPrimary.words.length >= 200, 'primary=' + poolPrimary.words.length);
+    ok('中学级词汇 >= 200', poolMiddle.words.length >= 200, 'middle=' + poolMiddle.words.length);
+    // 验证级别过滤生效：中学题库的词来自 ms-* 中学主题，不含启蒙/小学主题词
+    ok('中学题库仅含 ms-* 主题', poolMiddle.words.every(function (w) { return w.themeId.indexOf('ms-') === 0; }), '非ms主题数=' + poolMiddle.words.filter(function(w){return w.themeId.indexOf('ms-')!==0;}).length);
+    ok('启蒙题库不含 ms-* 主题', !poolStarter.words.some(function (w) { return w.themeId.indexOf('ms-') === 0; }), '');
+    const pool = poolStarter;
     ok('词汇按 en 去重', new Set(pool.words.map(function (w) { return w.en.toLowerCase(); })).size === pool.words.length, 'distinct=' + new Set(pool.words.map(function (w) { return w.en.toLowerCase(); })).size);
     ok('句子题库 > 20', pool.sentences.length > 20, 'sentences=' + pool.sentences.length);
     ok('词汇项含 en/zh 字段', pool.words.every(function (w) { return w.en && w.zh; }), 'sample=' + pool.words[0].en + '/' + pool.words[0].zh);
@@ -79,14 +91,24 @@ function runTests() {
     saveProgress(); _progress = null;
     const resC = markTodayDone({ stars: 5, correct: 5, total: 15 });
     ok('断卡后 current 重置为 1', resC.streak.current === 1, 'current=' + resC.streak.current);
-    // D: 同日重复 -> alreadyDone
+    // D: 同日重试 -> alreadyDone + isRetry，且 attemptCount 递增、best 更新
     _progress = null; resetProgress();
     markTodayDone({ stars: 10, correct: 10, total: 15 });
     _progress = null;
     const resD = markTodayDone({ stars: 15, correct: 15, total: 15 });
-    ok('同日重复 alreadyDone=true', resD.alreadyDone === true, '');
+    ok('同日重试 alreadyDone=true', resD.alreadyDone === true, '');
+    ok('同日重试 isRetry=true', resD.isRetry === true, '');
+    ok('重试 attemptCount=2', resD.attemptCount === 2, 'attemptCount=' + resD.attemptCount);
+    ok('重试 best 取较优(15星)', resD.best && resD.best.stars === 15, 'best.stars=' + (resD.best ? resD.best.stars : '?'));
+    // 第三次重试成绩更差，best 不变
+    _progress = null;
+    const resD2 = markTodayDone({ stars: 5, correct: 5, total: 15 });
+    ok('第三次重试 attemptCount=3', resD2.attemptCount === 3, 'attemptCount=' + resD2.attemptCount);
+    ok('成绩更差时 best 不变(仍15星)', resD2.best && resD2.best.stars === 15, 'best.stars=' + (resD2.best ? resD2.best.stars : '?'));
+    // 重试不重复计算 streak
+    ok('重试不重复计算 streak（仍=1）', resD.streak.current === 1, 'current=' + resD.streak.current);
 
-    log.push('[7] checkTrophies 奖杯触发');
+    log.push('[7] checkTrophies 奖杯触发 + 重试全对');
     // master_10
     _progress = null; resetProgress();
     for (let i = 0; i < 10; i++) addMastered('mword' + i);
@@ -100,10 +122,16 @@ function runTests() {
     saveProgress(); _progress = null;
     const resS3 = markTodayDone({ stars: 12, correct: 12, total: 15 });
     ok('连续 3 天得 streak_3', resS3.newTrophies.indexOf('streak_3') >= 0, 'current=' + resS3.streak.current + ' trophies=' + resS3.newTrophies.join(','));
-    // all_correct
+    // all_correct：首次未全对，重试全对也能触发
+    _progress = null; resetProgress();
+    markTodayDone({ stars: 10, correct: 10, total: 15 });
+    _progress = null;
+    const resRetry = markTodayDone({ stars: 15, correct: 15, total: 15 });
+    ok('重试全对得 all_correct', resRetry.newTrophies.indexOf('all_correct') >= 0, 'trophies=' + resRetry.newTrophies.join(','));
+    // 首次全对
     _progress = null; resetProgress();
     const resAll = markTodayDone({ stars: 15, correct: 15, total: 15 });
-    ok('全对得 all_correct', resAll.newTrophies.indexOf('all_correct') >= 0, 'trophies=' + resAll.newTrophies.join(','));
+    ok('首次全对得 all_correct', resAll.newTrophies.indexOf('all_correct') >= 0, 'trophies=' + resAll.newTrophies.join(','));
 
     log.push('[8] 未掌握优先抽取');
     _progress = null; resetProgress();
@@ -114,14 +142,68 @@ function runTests() {
     const wordQs = qs3.filter(function (q) { return q.kind === 'word'; });
     const unmasteredInQuiz = wordQs.filter(function (q) { return !isMastered(q.item.en); }).length;
     ok('未掌握优先（未掌握词占比高）', unmasteredInQuiz >= 5, '未掌握=' + unmasteredInQuiz + '/10');
+
+    log.push('[9] 词汇级别设置');
+    _settings = null;
+    setVocabLevel('middle');
+    ok('setVocabLevel 后 getVocabLevel=middle', getVocabLevel() === 'middle', 'level=' + getVocabLevel());
+    ok('levelName(middle)=中学', levelName('middle') === '中学', 'name=' + levelName('middle'));
+    ok('levelName(starter)=启蒙', levelName('starter') === '启蒙', '');
+    ok('levelName(primary)=小学', levelName('primary') === '小学', '');
+    ok('VOCAB_LEVELS 含 3 个级别', VOCAB_LEVELS.length === 3, 'len=' + VOCAB_LEVELS.length);
+    // buildQuestionPool 默认取设置中的级别
+    _settings = null;
+    setVocabLevel('primary');
+    const poolBySetting = buildQuestionPool();
+    ok('buildQuestionPool 默认按设置级别', poolBySetting.words.length === poolPrimary.words.length, '默认=' + poolBySetting.words.length + ' primary=' + poolPrimary.words.length);
+    // 恢复默认设置
+    _settings = null;
+    setVocabLevel('starter');
+
+    log.push('[10] 音标模块完整性（26字母）');
+    const lettersTheme = THEMES.find(function (t) { return t.id === 'phonetics-letters'; });
+    ok('存在 phonetics-letters 主题', !!lettersTheme, '');
+    ok('字母条目数 = 26', lettersTheme && lettersTheme.items.length === 26, 'count=' + (lettersTheme ? lettersTheme.items.length : 0));
+    const letters = lettersTheme ? lettersTheme.items.map(function (it) { return it.en; }).join('') : '';
+    ok('26 字母 A-Z 齐全', letters === 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'letters=' + letters);
+    const vowelsTheme = THEMES.find(function (t) { return t.id === 'phonetics-vowels'; });
+    const consTheme = THEMES.find(function (t) { return t.id === 'phonetics-consonants'; });
+    ok('元音主题条目 >= 20', vowelsTheme && vowelsTheme.items.length >= 20, 'vowels=' + (vowelsTheme ? vowelsTheme.items.length : 0));
+    ok('辅音主题条目 >= 24', consTheme && consTheme.items.length >= 24, 'consonants=' + (consTheme ? consTheme.items.length : 0));
+    ok('音标主题 level=starter', lettersTheme && lettersTheme.level === 'starter', '');
+    ok('音标主题 group=phonetics', lettersTheme && lettersTheme.group === 'phonetics', '');
+
+    log.push('[11] 口语练习场景数据');
+    ok('SPEAKING_SCENARIOS 数量 >= 6', SPEAKING_SCENARIOS.length >= 6, 'count=' + SPEAKING_SCENARIOS.length);
+    let speakingOk = true, speakingErr = '';
+    SPEAKING_SCENARIOS.forEach(function (sc) {
+      if (!sc.id || !sc.title || !sc.lines || !sc.lines.length) { speakingOk = false; speakingErr = sc.id || '?'; }
+      // 至少含 1 个 bot 行 + 1 个 user 行
+      const hasBot = sc.lines.some(function (l) { return l.side === 'bot'; });
+      const hasUser = sc.lines.some(function (l) { return l.side === 'user'; });
+      if (!hasBot || !hasUser) { speakingOk = false; speakingErr = sc.id; }
+      // user 行必须有 accept 数组
+      sc.lines.forEach(function (l) {
+        if (l.side === 'user' && (!l.accept || !l.accept.length)) { speakingOk = false; speakingErr = sc.id; }
+      });
+    });
+    ok('所有场景含 bot+user 行且 user 行有 accept', speakingOk, speakingErr ? 'err=' + speakingErr : '');
+    ok('所有场景行含 en/zh', SPEAKING_SCENARIOS.every(function (sc) { return sc.lines.every(function (l) { return l.en && l.zh; }); }), '');
+    // 覆盖各级别
+    const lvSet = {};
+    SPEAKING_SCENARIOS.forEach(function (sc) { lvSet[sc.level] = true; });
+    ok('口语场景覆盖 starter/primary/middle', lvSet.starter && lvSet.primary && lvSet.middle, Object.keys(lvSet).join(','));
   } catch (e) {
     log.push('  ⚠️ 测试异常: ' + e.message);
     fail++;
   } finally {
-    // 恢复真实进度
+    // 恢复真实进度与设置
     if (backupRaw !== null) localStorage.setItem(STORAGE_KEY, backupRaw);
     else localStorage.removeItem(STORAGE_KEY);
+    if (backupSetRaw !== null) localStorage.setItem(SETTINGS_KEY, backupSetRaw);
+    else localStorage.removeItem(SETTINGS_KEY);
     _progress = backupProg;
+    _settings = backupSet;
   }
   // 输出
   console.log('%c===== 数据层单元测试 =====', 'color:#C4A882;font-weight:bold;font-size:15px');

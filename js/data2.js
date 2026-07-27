@@ -6,7 +6,7 @@
 (function () {
   const newThemes = [
   {
-    id: 'family', name: '👨‍👩‍👧 我的家人', icon: '👨‍👩‍👧',
+    id: 'family', level: 'starter', name: '👨‍👩‍👧 我的家人', icon: '👨‍👩‍👧',
     items: [
       { en: 'Father', phonetic: '/ˈfɑːðər/', zh: '爸爸', emoji: '👨', sentence: 'This is my father.', sentenceZh: '这是我爸爸。' },
       { en: 'Mother', phonetic: '/ˈmʌðər/', zh: '妈妈', emoji: '👩', sentence: 'This is my mother.', sentenceZh: '这是我妈妈。' },
@@ -35,7 +35,7 @@
     ]
   },
   {
-    id: 'school', name: '🎒 学校用品', icon: '🎒',
+    id: 'school', level: 'primary', name: '🎒 学校用品', icon: '🎒',
     items: [
       { en: 'Pen', phonetic: '/pen/', zh: '钢笔', emoji: '🖊️', sentence: 'I write with a pen.', sentenceZh: '我用钢笔写字。' },
       { en: 'Pencil', phonetic: '/ˈpensl/', zh: '铅笔', emoji: '✏️', sentence: 'The pencil is yellow.', sentenceZh: '铅笔是黄色的。' },
@@ -68,7 +68,7 @@
     ]
   },
   {
-    id: 'nature', name: '🌳 自然万物', icon: '🌳',
+    id: 'nature', level: 'primary', name: '🌳 自然万物', icon: '🌳',
     items: [
       { en: 'Tree', phonetic: '/triː/', zh: '树', emoji: '🌳', sentence: 'The tree is tall.', sentenceZh: '树很高。' },
       { en: 'Flower', phonetic: '/ˈflaʊər/', zh: '花', emoji: '🌸', sentence: 'The flower is pretty.', sentenceZh: '花很漂亮。' },
@@ -109,7 +109,7 @@
     ]
   },
   {
-    id: 'sports', name: '⚽ 运动游戏', icon: '⚽',
+    id: 'sports', level: 'primary', name: '⚽ 运动游戏', icon: '⚽',
     items: [
       { en: 'Football', phonetic: '/ˈfʊtbɔːl/', zh: '足球', emoji: '⚽', sentence: 'I play football.', sentenceZh: '我踢足球。' },
       { en: 'Basketball', phonetic: '/ˈbɑːskɪtbɔːl/', zh: '篮球', emoji: '🏀', sentence: 'I like basketball.', sentenceZh: '我喜欢篮球。' },
@@ -138,7 +138,7 @@
     ]
   },
   {
-    id: 'insects', name: '🐛 昆虫世界', icon: '🐛',
+    id: 'insects', level: 'starter', name: '🐛 昆虫世界', icon: '🐛',
     items: [
       { en: 'Ant', phonetic: '/ænt/', zh: '蚂蚁', emoji: '🐜', sentence: 'The ant is small.', sentenceZh: '蚂蚁很小。' },
       { en: 'Bee', phonetic: '/biː/', zh: '蜜蜂', emoji: '🐝', sentence: 'The bee makes honey.', sentenceZh: '蜜蜂酿蜜。' },
@@ -165,7 +165,7 @@
     ]
   },
   {
-    id: 'sea', name: '🦀 海洋动物', icon: '🦀',
+    id: 'sea', level: 'starter', name: '🦀 海洋动物', icon: '🦀',
     items: [
       { en: 'Octopus', phonetic: '/ˈɒktəpəs/', zh: '章鱼', emoji: '🐙', sentence: 'The octopus has eight arms.', sentenceZh: '章鱼有八条腕。' },
       { en: 'Squid', phonetic: '/skwɪd/', zh: '鱿鱼', emoji: '🦑', sentence: 'The squid swims fast.', sentenceZh: '鱿鱼游得快。' },
@@ -206,7 +206,7 @@
     ]
   },
   {
-    id: 'birds', name: '🦜 鸟类', icon: '🦜',
+    id: 'birds', level: 'starter', name: '🦜 鸟类', icon: '🦜',
     items: [
       { en: 'Robin', phonetic: '/ˈrɒbɪn/', zh: '知更鸟', emoji: '🐦', sentence: 'The robin is red.', sentenceZh: '知更鸟是红色的。' },
       { en: 'Sparrow', phonetic: '/ˈspærəʊ/', zh: '麻雀', emoji: '🐦', sentence: 'The sparrow is small.', sentenceZh: '麻雀很小。' },
@@ -235,7 +235,7 @@
     ]
   },
   {
-    id: 'drinks', name: '🥤 饮品', icon: '🥤',
+    id: 'drinks', level: 'starter', name: '🥤 饮品', icon: '🥤',
     items: [
       { en: 'Water', phonetic: '/ˈwɔːtər/', zh: '水', emoji: '💧', sentence: 'I drink water.', sentenceZh: '我喝水。' },
       { en: 'Milk', phonetic: '/mɪlk/', zh: '牛奶', emoji: '🥛', sentence: 'I drink milk.', sentenceZh: '我喝牛奶。' },
@@ -258,7 +258,7 @@
     ]
   },
   {
-    id: 'snacks', name: '🍩 零食点心', icon: '🍩',
+    id: 'snacks', level: 'starter', name: '🍩 零食点心', icon: '🍩',
     items: [
       { en: 'Cookie', phonetic: '/ˈkʊki/', zh: '饼干', emoji: '🍪', sentence: 'I like cookies.', sentenceZh: '我喜欢饼干。' },
       { en: 'Candy', phonetic: '/ˈkændi/', zh: '糖果', emoji: '🍬', sentence: 'Candy is sweet.', sentenceZh: '糖果是甜的。' },
@@ -287,7 +287,7 @@
     ]
   },
   {
-    id: 'music', name: '🎹 乐器', icon: '🎹',
+    id: 'music', level: 'primary', name: '🎹 乐器', icon: '🎹',
     items: [
       { en: 'Piano', phonetic: '/piˈænəʊ/', zh: '钢琴', emoji: '🎹', sentence: 'I play the piano.', sentenceZh: '我弹钢琴。' },
       { en: 'Guitar', phonetic: '/ɡɪˈtɑːr/', zh: '吉他', emoji: '🎸', sentence: 'He plays the guitar.', sentenceZh: '他弹吉他。' },
@@ -312,7 +312,7 @@
     ]
   },
   {
-    id: 'furniture', name: '🛋️ 家具电器', icon: '🛋️',
+    id: 'furniture', level: 'primary', name: '🛋️ 家具电器', icon: '🛋️',
     items: [
       { en: 'Sofa', phonetic: '/ˈsəʊfə/', zh: '沙发', emoji: '🛋️', sentence: 'I sit on the sofa.', sentenceZh: '我坐在沙发上。' },
       { en: 'Bed', phonetic: '/bed/', zh: '床', emoji: '🛏️', sentence: 'I sleep on my bed.', sentenceZh: '我睡在床上。' },
@@ -339,7 +339,7 @@
     ]
   },
   {
-    id: 'plants', name: '🪴 植物', icon: '🪴',
+    id: 'plants', level: 'primary', name: '🪴 植物', icon: '🪴',
     items: [
       { en: 'Plant', phonetic: '/plɑːnt/', zh: '植物', emoji: '🪴', sentence: 'I water the plant.', sentenceZh: '我给植物浇水。' },
       { en: 'Tree', phonetic: '/triː/', zh: '树', emoji: '🌳', sentence: 'The tree gives shade.', sentenceZh: '树能乘凉。' },
@@ -366,7 +366,7 @@
     ]
   },
   {
-    id: 'adjectives', name: '✨ 形容词', icon: '✨',
+    id: 'adjectives', level: 'primary', name: '✨ 形容词', icon: '✨',
     items: [
       { en: 'Big', phonetic: '/bɪɡ/', zh: '大的', emoji: '🐘', sentence: 'The elephant is big.', sentenceZh: '大象很大。' },
       { en: 'Small', phonetic: '/smɔːl/', zh: '小的', emoji: '🐭', sentence: 'The mouse is small.', sentenceZh: '老鼠很小。' },
@@ -411,7 +411,7 @@
     ]
   },
   {
-    id: 'verbs2', name: '🏃 更多动作', icon: '🏃',
+    id: 'verbs2', level: 'primary', name: '🏃 更多动作', icon: '🏃',
     items: [
       { en: 'Think', phonetic: '/θɪŋk/', zh: '思考', emoji: '🤔', sentence: 'I think hard.', sentenceZh: '我认真思考。' },
       { en: 'Remember', phonetic: '/rɪˈmembər/', zh: '记得', emoji: '🧠', sentence: 'I remember it.', sentenceZh: '我记得。' },
@@ -457,7 +457,7 @@
     ]
   },
   {
-    id: 'tools', name: '🔧 工具', icon: '🔧',
+    id: 'tools', level: 'primary', name: '🔧 工具', icon: '🔧',
     items: [
       { en: 'Hammer', phonetic: '/ˈhæmər/', zh: '锤子', emoji: '🔨', sentence: 'I use a hammer.', sentenceZh: '我用锤子。' },
       { en: 'Screwdriver', phonetic: '/ˈskruːdraɪvər/', zh: '螺丝刀', emoji: '🪛', sentence: 'Dad uses a screwdriver.', sentenceZh: '爸爸用螺丝刀。' },
@@ -478,7 +478,7 @@
     ]
   },
   {
-    id: 'classroom', name: '🏫 课堂用语', icon: '🏫',
+    id: 'classroom', level: 'primary', name: '🏫 课堂用语', icon: '🏫',
     items: [
       { en: 'Listen', phonetic: '/ˈlɪsn/', zh: '听', emoji: '👂', sentence: 'Listen to the teacher.', sentenceZh: '听老师讲。' },
       { en: 'Look', phonetic: '/lʊk/', zh: '看', emoji: '👀', sentence: 'Look at the board.', sentenceZh: '看黑板。' },
@@ -504,7 +504,7 @@
     ]
   },
   {
-    id: 'space', name: '🚀 太空探索', icon: '🚀',
+    id: 'space', level: 'primary', name: '🚀 太空探索', icon: '🚀',
     items: [
       { en: 'Rocket', phonetic: '/ˈrɒkɪt/', zh: '火箭', emoji: '🚀', sentence: 'The rocket flies high.', sentenceZh: '火箭飞得高。' },
       { en: 'Astronaut', phonetic: '/ˈæstrənɔːt/', zh: '宇航员', emoji: '👨‍🚀', sentence: 'The astronaut goes to space.', sentenceZh: '宇航员去太空。' },
@@ -545,7 +545,7 @@
     ]
   },
   {
-    id: 'tableware', name: '🍽️ 餐具', icon: '🍽️',
+    id: 'tableware', level: 'primary', name: '🍽️ 餐具', icon: '🍽️',
     items: [
       { en: 'Fork', phonetic: '/fɔːk/', zh: '叉子', emoji: '🍴', sentence: 'I eat with a fork.', sentenceZh: '我用叉子吃。' },
       { en: 'Spoon', phonetic: '/spuːn/', zh: '勺子', emoji: '🥄', sentence: 'I eat with a spoon.', sentenceZh: '我用勺子吃。' },

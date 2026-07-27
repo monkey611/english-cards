@@ -39,7 +39,9 @@ const confettiContainer = $('confettiContainer');
 const tabBar = $('tabBar');
 const pageChallenge = $('pageChallenge');
 const pageProfile = $('pageProfile');
+const pageSpeaking = $('pageSpeaking');
 const challengeContent = $('challengeContent');
 const profileContent = $('profileContent');
+const speakingContent = $('speakingContent');
 let currentTab = 'home';
 

@@ -1,4 +1,5 @@
   /* ========== 我的页 ========== */
+  .pf-level-banner { background:linear-gradient(135deg,var(--primary-light),var(--card-bg)); border:2px solid var(--primary); border-radius:16px; padding:10px 16px; margin-bottom:14px; font-size:14px; font-weight:800; color:var(--text); text-align:center; }
   .pf-section { background:var(--card-bg); border-radius:20px; padding:16px; margin-bottom:14px; box-shadow:0 4px 14px var(--shadow); }
   .pf-section-title { font-size:16px; font-weight:900; color:var(--text); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
   .pf-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }

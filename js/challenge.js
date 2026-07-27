@@ -37,23 +37,29 @@ function playText(text, lang) {
   } catch (e) {}
 }
 
-// 闯关首页
+// 闯关首页（支持无限次闯关：已完成时显示最佳成绩 + 再闯一次按钮）
 function renderChallengeHome() {
   const p = loadProgress();
   const done = isTodayDone();
   const rec = getTodayRecord();
+  const level = getVocabLevel();
   let html = '<div class="ch-start">';
   if (done && rec) {
+    const best = rec.best || { stars: rec.stars, correct: rec.correct, total: rec.total };
+    const attempts = rec.attemptCount || 1;
     html += '<div class="ch-done-icon">✅</div>';
     html += '<div class="ch-start-title">今日已完成！</div>';
-    html += '<div class="ch-done-stats">⭐ ' + rec.stars + ' · 正确 ' + rec.correct + '/' + rec.total + ' · 🔥 ' + p.streak.current + ' 天</div>';
-    html += '<div class="ch-done-tip">明天再来挑战吧 ✨</div>';
+    html += '<div class="ch-done-stats">🏆 最佳 ⭐ ' + (best.stars || 0) + ' · 正确 ' + (best.correct || 0) + '/' + (best.total || rec.total) + ' · 🔥 ' + p.streak.current + ' 天</div>';
+    if (attempts > 1) html += '<div class="ch-done-tip">已挑战 ' + attempts + ' 次，继续刷新最佳成绩！</div>';
+    else html += '<div class="ch-done-tip">不限次数，再来挑战刷新最佳成绩 ✨</div>';
+    html += '<button class="ch-start-btn" id="chStartBtn">再闯一次</button>';
   } else {
     html += '<div class="ch-start-icon">🎮</div>';
     html += '<div class="ch-start-title">英语闯关</div>';
-    html += '<div class="ch-start-sub">每日 15 题 · 选择 + 拼词 + 听力</div>';
+    html += '<div class="ch-start-sub">每日 15 题 · 选择 + 拼词 + 听力 · 不限次数</div>';
     html += '<div class="ch-start-stats">';
-    html += '<div>🔥 连续 ' + p.streak.current + ' 天</div>';
+    html += '<div>� ' + esc(levelName(level)) + '词库</div>';
+    html += '<div>� 连续 ' + p.streak.current + ' 天</div>';
     html += '<div>⭐ 累计 ' + p.totalStars + '</div>';
     html += '</div>';
     html += '<button class="ch-start-btn" id="chStartBtn">开始闯关</button>';
@@ -64,8 +70,11 @@ function renderChallengeHome() {
   if (btn) btn.addEventListener('click', startChallenge);
 }
 
+// 开始闯关：重试时用不同种子（今日日期 + 重试序号），保证每次题目不同
 function startChallenge() {
-  const questions = generateDailyQuestions();
+  const attempt = getTodayAttemptCount();
+  const seed = attempt > 0 ? getToday() + '-r' + (attempt + 1) : getToday();
+  const questions = generateDailyQuestions(seed);
   challengeState = { questions: questions, idx: 0, correctCount: 0, stars: 0, answered: false, wrong: [] };
   renderQuestion(0);
 }
@@ -327,7 +336,14 @@ function finishChallenge() {
   html += '<div class="ch-result-title">' + title + '</div>';
   html += '<div class="ch-result-stars">⭐ × ' + stars + '</div>';
   html += '<div class="ch-result-acc">正确率 ' + Math.round(acc * 100) + '%（' + correct + '/' + total + '）</div>';
-  html += '<div class="ch-result-streak">🔥 连续打卡 ' + done.streak.current + ' 天</div>';
+  if (done.isRetry && done.best) {
+    const b = done.best;
+    const isNewBest = (b.stars === stars && b.correct === correct);
+    if (isNewBest) html += '<div class="ch-result-best new">🎉 刷新最佳成绩！</div>';
+    else html += '<div class="ch-result-best">🏆 最佳 ⭐ ' + (b.stars || 0) + ' · ' + (b.correct || 0) + '/' + (b.total || total) + '（第 ' + done.attemptCount + ' 次）</div>';
+  } else {
+    html += '<div class="ch-result-streak">🔥 连续打卡 ' + done.streak.current + ' 天</div>';
+  }
   if (done.newTrophies && done.newTrophies.length) {
     let tHtml = '';
     done.newTrophies.forEach(function (tid) { const m = TROPHY_META[tid]; if (m) tHtml += '<span class="new-trophy">' + m.icon + ' ' + esc(m.name) + '</span>'; });
@@ -341,7 +357,10 @@ function finishChallenge() {
     });
     html += '</div></div>';
   }
+  html += '<div class="ch-result-actions">';
+  html += '<button class="ch-result-btn primary" id="chRetryBtn">🔄 再闯一次</button>';
   html += '<button class="ch-result-btn" id="chResultBtn">查看我的进度</button>';
+  html += '</div>';
   html += '</div>';
   challengeContent.innerHTML = html;
   showConfetti();
@@ -349,6 +368,8 @@ function finishChallenge() {
   challengeContent.querySelectorAll('.ri-play').forEach(function (b) {
     b.addEventListener('click', function () { playText(b.dataset.en, 'en-US'); });
   });
+  const retryBtn = document.getElementById('chRetryBtn');
+  if (retryBtn) retryBtn.addEventListener('click', startChallenge);
   const btn = document.getElementById('chResultBtn');
   if (btn) btn.addEventListener('click', function () { switchTab('profile'); });
 }

@@ -54,9 +54,13 @@
   .ch-result-stars { font-size:30px; font-weight:900; color:var(--accent); margin-top:16px; }
   .ch-result-acc { font-size:16px; color:var(--text-light); margin-top:8px; }
   .ch-result-streak { font-size:16px; font-weight:800; color:var(--primary); margin-top:8px; }
+  .ch-result-best { font-size:15px; font-weight:700; color:var(--text-light); margin-top:8px; }
+  .ch-result-best.new { font-size:17px; font-weight:900; color:var(--accent); animation:titleWave 1.5s ease infinite; }
   .ch-result-trophies { margin-top:16px; font-size:15px; color:var(--text); }
   .ch-result-trophies .new-trophy { display:inline-block; margin:4px 6px; padding:6px 12px; background:var(--yellow); border-radius:14px; font-weight:800; animation:titleWave 1.5s ease infinite; }
-  .ch-result-btn { margin-top:28px; padding:14px 40px; font-size:18px; font-weight:900; color:#fff; background:linear-gradient(135deg,var(--primary),var(--accent)); border:none; border-radius:28px; box-shadow:0 6px 16px var(--shadow-strong); cursor:pointer; }
+  .ch-result-actions { margin-top:28px; display:flex; flex-direction:column; gap:12px; align-items:center; }
+  .ch-result-btn { padding:13px 36px; font-size:17px; font-weight:900; color:var(--text); background:var(--card-bg); border:2px solid var(--primary-light); border-radius:28px; box-shadow:0 4px 12px var(--shadow); cursor:pointer; min-width:200px; }
+  .ch-result-btn.primary { color:#fff; background:linear-gradient(135deg,var(--primary),var(--accent)); border:none; box-shadow:0 6px 16px var(--shadow-strong); }
   .ch-result-btn:active { transform:scale(0.95); }
 
   .float-star { position:fixed; left:50%; top:40%; transform:translateX(-50%); font-size:36px; font-weight:900; color:var(--accent); z-index:300; pointer-events:none; animation:floatStar 1s ease forwards; }

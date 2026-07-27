@@ -9,16 +9,26 @@ function renderProfileHome() {
   const p = loadProgress();
   const pool = buildQuestionPool();
   const totalVocab = pool.words.length;
-  const masteredCount = Object.keys(p.masteredWords).length;
+  // 已掌握词汇按当前级别统计（与闯关题库/目录保持一致）
+  const level = getVocabLevel();
+  const masteredCount = pool.words.filter(function (w) { return isMastered(w.en); }).length;
   const todayDone = isTodayDone();
+  const todayRec = getTodayRecord();
   let html = '';
+  // 级别提示
+  html += '<div class="pf-level-banner">📚 当前词库：' + esc(levelName(level)) + '级 · 共 ' + totalVocab + ' 词</div>';
   // 统计
   html += '<div class="pf-section"><div class="pf-section-title">📊 学习统计</div><div class="pf-stats">';
   html += statCard(p.totalStars, '累计星星', '⭐');
   html += statCard(masteredCount + '/' + totalVocab, '已掌握词汇', '📚');
   html += statCard(p.streak.current, '连续打卡', '🔥');
   html += statCard(p.streak.longest, '最长连击', '🏅');
-  html += statCard(todayDone ? '已完成' : '未完成', '今日闯关', todayDone ? '✅' : '⭕');
+  if (todayDone && todayRec) {
+    const attempts = todayRec.attemptCount || 1;
+    html += statCard(attempts + '次', '今日闯关', '✅');
+  } else {
+    html += statCard('未完成', '今日闯关', '⭕');
+  }
   html += '</div></div>';
   // 打卡日历（包裹一层，便于切月局部刷新 C3）
   html += '<div class="pf-section"><div class="pf-section-title">📅 打卡日历</div>';

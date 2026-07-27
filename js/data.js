@@ -2,61 +2,98 @@
 // 词库数据
 // ============================================================
 const THEMES = [
+  // ===== 音标总览（group:'phonetics'）三分类：元音 / 辅音 / 字母 =====
   {
-    id: 'phonetics', name: '🔊 音标入门', icon: '🔊',
+    id: 'phonetics-vowels', name: ' vowel 元音', icon: '�️', kind: 'phonetics', group: 'phonetics', level: 'starter',
     items: [
-      { en: '/iː/', zh: '长音 i', emoji: '🐑', phonetic: 'iː', sentence: 'Sheep /ʃiːp/', sentenceZh: '绵羊，长音 i 的发音' },
-      { en: '/ɪ/', zh: '短音 i', emoji: '🐷', phonetic: 'ɪ', sentence: 'Pig /pɪg/', sentenceZh: '猪，短音 i 的发音' },
-      { en: '/e/', zh: '短音 e', emoji: '🥚', phonetic: 'e', sentence: 'Egg /eg/', sentenceZh: '鸡蛋，短音 e 的发音' },
-      { en: '/æ/', zh: '梅花音 æ', emoji: '🐱', phonetic: 'æ', sentence: 'Cat /kæt/', sentenceZh: '猫，嘴巴张大发的音' },
-      { en: '/ɑː/', zh: '长音 a', emoji: '🚗', phonetic: 'ɑː', sentence: 'Car /kɑːr/', sentenceZh: '汽车，嘴巴张大' },
-      { en: '/ʌ/', zh: '短音 a', emoji: '🦆', phonetic: 'ʌ', sentence: 'Duck /dʌk/', sentenceZh: '鸭子，短促的音' },
-      { en: '/ɔː/', zh: '长音 o', emoji: '🚪', phonetic: 'ɔː', sentence: 'Door /dɔːr/', sentenceZh: '门，圆唇长音' },
-      { en: '/ɒ/', zh: '短音 o', emoji: '🐶', phonetic: 'ɒ', sentence: 'Dog /dɒg/', sentenceZh: '狗，短促圆唇' },
-      { en: '/uː/', zh: '长音 u', emoji: '🌙', phonetic: 'uː', sentence: 'Moon /muːn/', sentenceZh: '月亮，长音 u' },
-      { en: '/ʊ/', zh: '短音 u', emoji: '📖', phonetic: 'ʊ', sentence: 'Book /bʊk/', sentenceZh: '书，短音 u' },
-      { en: '/ɜː/', zh: '长音 er', emoji: '🐦', phonetic: 'ɜː', sentence: 'Bird /bɜːd/', sentenceZh: '鸟，卷舌长音' },
-      { en: '/ə/', zh: '弱音 schwa', emoji: '🐼', phonetic: 'ə', sentence: 'Panda /ˈpændə/', sentenceZh: '熊猫，最轻松的音' },
-      { en: '/eɪ/', zh: '双元音 ei', emoji: '🐍', phonetic: 'eɪ', sentence: 'Snake /sneɪk/', sentenceZh: '蛇，由 e 滑向 i' },
-      { en: '/aɪ/', zh: '双元音 ai', emoji: '🪁', phonetic: 'aɪ', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，由 a 滑向 i' },
-      { en: '/ɔɪ/', zh: '双元音 oi', emoji: '🧸', phonetic: 'ɔɪ', sentence: 'Toy /tɔɪ/', sentenceZh: '玩具，由 o 滑向 i' },
-      { en: '/aʊ/', zh: '双元音 au', emoji: '🐭', phonetic: 'aʊ', sentence: 'Mouse /maʊs/', sentenceZh: '老鼠，由 a 滑向 u' },
-      { en: '/əʊ/', zh: '双元音 əʊ', emoji: '☎️', phonetic: 'əʊ', sentence: 'Phone /fəʊn/', sentenceZh: '电话，由 ə 滑向 u' },
-      { en: '/ɪə/', zh: '双元音 iə', emoji: '🦌', phonetic: 'ɪə', sentence: 'Deer /dɪər/', sentenceZh: '鹿，由 i 滑向 ə' },
-      { en: '/eə/', zh: '双元音 eə', emoji: '🐻', phonetic: 'eə', sentence: 'Bear /beər/', sentenceZh: '熊，由 e 滑向 ə' },
-      { en: '/ʊə/', zh: '双元音 uə', emoji: '💊', phonetic: 'ʊə', sentence: 'Cure /kjʊər/', sentenceZh: '治愈，由 u 滑向 ə' },
-      { en: '/p/', zh: '清辅音 p', emoji: '🐧', phonetic: 'p', sentence: 'Penguin /ˈpeŋɡwɪn/', sentenceZh: '企鹅，双唇爆破' },
-      { en: '/b/', zh: '浊辅音 b', emoji: '🐰', phonetic: 'b', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，双唇爆破' },
-      { en: '/t/', zh: '清辅音 t', emoji: '🐯', phonetic: 't', sentence: 'Tiger /ˈtaɪɡər/', sentenceZh: '老虎，舌尖爆破' },
-      { en: '/d/', zh: '浊辅音 d', emoji: '🐬', phonetic: 'd', sentence: 'Dolphin /ˈdɒlfɪn/', sentenceZh: '海豚，舌尖爆破' },
-      { en: '/k/', zh: '清辅音 k', emoji: '🪁', phonetic: 'k', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，舌根爆破' },
-      { en: '/ɡ/', zh: '浊辅音 g', emoji: '🦒', phonetic: 'ɡ', sentence: 'Giraffe /dʒɪˈrɑːf/', sentenceZh: '长颈鹿，舌根爆破' },
-      { en: '/f/', zh: '清辅音 f', emoji: '🐟', phonetic: 'f', sentence: 'Fish /fɪʃ/', sentenceZh: '鱼，上齿咬下唇' },
-      { en: '/v/', zh: '浊辅音 v', emoji: '🚐', phonetic: 'v', sentence: 'Van /væn/', sentenceZh: '面包车，上齿咬下唇' },
-      { en: '/θ/', zh: '清辅音 th', emoji: '👍', phonetic: 'θ', sentence: 'Thank /θæŋk/', sentenceZh: '谢谢，舌尖轻触上齿' },
-      { en: '/ð/', zh: '浊辅音 th', emoji: '👨‍👩‍👧', phonetic: 'ð', sentence: 'Mother /ˈmʌðər/', sentenceZh: '妈妈，舌尖轻触上齿' },
-      { en: '/s/', zh: '清辅音 s', emoji: '☀️', phonetic: 's', sentence: 'Sun /sʌn/', sentenceZh: '太阳，舌尖靠近上齿龈' },
-      { en: '/z/', zh: '浊辅音 z', emoji: '🦓', phonetic: 'z', sentence: 'Zebra /ˈziːbrə/', sentenceZh: '斑马，舌尖靠近上齿龈' },
-      { en: '/ʃ/', zh: '清辅音 sh', emoji: '👟', phonetic: 'ʃ', sentence: 'Shoe /ʃuː/', sentenceZh: '鞋子，嘴巴撅起' },
-      { en: '/ʒ/', zh: '浊辅音 zh', emoji: '🎱', phonetic: 'ʒ', sentence: 'Measure /ˈmeʒər/', sentenceZh: '测量，嘴巴撅起' },
-      { en: '/h/', zh: '清辅音 h', emoji: '🐎', phonetic: 'h', sentence: 'Horse /hɔːrs/', sentenceZh: '马，轻轻哈气' },
-      { en: '/m/', zh: '鼻音 m', emoji: '🐵', phonetic: 'm', sentence: 'Monkey /ˈmʌŋki/', sentenceZh: '猴子，双唇闭拢' },
-      { en: '/n/', zh: '鼻音 n', emoji: '👃', phonetic: 'n', sentence: 'Nose /nəʊz/', sentenceZh: '鼻子，舌尖抵上齿龈' },
-      { en: '/ŋ/', zh: '后鼻音 ng', emoji: '🎵', phonetic: 'ŋ', sentence: 'Song /sɒŋ/', sentenceZh: '歌曲，舌根抬起' },
-      { en: '/l/', zh: '舌侧音 l', emoji: '🦁', phonetic: 'l', sentence: 'Lion /ˈlaɪən/', sentenceZh: '狮子，舌尖抵上齿龈' },
-      { en: '/r/', zh: '卷舌音 r', emoji: '🐰', phonetic: 'r', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，舌尖卷起' },
-      { en: '/j/', zh: '半元音 y', emoji: '🟡', phonetic: 'j', sentence: 'Yellow /ˈjeləʊ/', sentenceZh: '黄色，像发 i 但更短' },
-      { en: '/w/', zh: '半元音 w', emoji: '🌊', phonetic: 'w', sentence: 'Water /ˈwɔːtər/', sentenceZh: '水，像发 u 但更短' },
-      { en: '/tʃ/', zh: '清辅音 ch', emoji: '🧀', phonetic: 'tʃ', sentence: 'Cheese /tʃiːz/', sentenceZh: '奶酪，像吃' },
-      { en: '/dʒ/', zh: '浊辅音 j', emoji: '🍊', phonetic: 'dʒ', sentence: 'Juice /dʒuːs/', sentenceZh: '果汁，像知' },
-      { en: '/tr/', zh: '清辅音 tr', emoji: '🚂', phonetic: 'tr', sentence: 'Train /treɪn/', sentenceZh: '火车，像踹' },
-      { en: '/dr/', zh: '浊辅音 dr', emoji: '🥁', phonetic: 'dr', sentence: 'Drum /drʌm/', sentenceZh: '鼓，像抓' },
-      { en: '/ts/', zh: '清辅音 ts', emoji: '🐱', phonetic: 'ts', sentence: 'Cats /kæts/', sentenceZh: '猫们，像刺' },
-      { en: '/dz/', zh: '浊辅音 dz', emoji: '✋', phonetic: 'dz', sentence: 'Hands /hændz/', sentenceZh: '手们，像子' },
+      { en: '/iː/', zh: '长音 i', emoji: '🐑', phonetic: 'iː', subgroup: 'monophthong', sentence: 'Sheep /ʃiːp/', sentenceZh: '绵羊，长音 i 的发音' },
+      { en: '/ɪ/', zh: '短音 i', emoji: '🐷', phonetic: 'ɪ', subgroup: 'monophthong', sentence: 'Pig /pɪg/', sentenceZh: '猪，短音 i 的发音' },
+      { en: '/e/', zh: '短音 e', emoji: '🥚', phonetic: 'e', subgroup: 'monophthong', sentence: 'Egg /eg/', sentenceZh: '鸡蛋，短音 e 的发音' },
+      { en: '/æ/', zh: '梅花音 æ', emoji: '🐱', phonetic: 'æ', subgroup: 'monophthong', sentence: 'Cat /kæt/', sentenceZh: '猫，嘴巴张大发的音' },
+      { en: '/ɑː/', zh: '长音 a', emoji: '🚗', phonetic: 'ɑː', subgroup: 'monophthong', sentence: 'Car /kɑːr/', sentenceZh: '汽车，嘴巴张大' },
+      { en: '/ʌ/', zh: '短音 a', emoji: '🦆', phonetic: 'ʌ', subgroup: 'monophthong', sentence: 'Duck /dʌk/', sentenceZh: '鸭子，短促的音' },
+      { en: '/ɔː/', zh: '长音 o', emoji: '🚪', phonetic: 'ɔː', subgroup: 'monophthong', sentence: 'Door /dɔːr/', sentenceZh: '门，圆唇长音' },
+      { en: '/ɒ/', zh: '短音 o', emoji: '🐶', phonetic: 'ɒ', subgroup: 'monophthong', sentence: 'Dog /dɒg/', sentenceZh: '狗，短促圆唇' },
+      { en: '/uː/', zh: '长音 u', emoji: '🌙', phonetic: 'uː', subgroup: 'monophthong', sentence: 'Moon /muːn/', sentenceZh: '月亮，长音 u' },
+      { en: '/ʊ/', zh: '短音 u', emoji: '📖', phonetic: 'ʊ', subgroup: 'monophthong', sentence: 'Book /bʊk/', sentenceZh: '书，短音 u' },
+      { en: '/ɜː/', zh: '长音 er', emoji: '🐦', phonetic: 'ɜː', subgroup: 'monophthong', sentence: 'Bird /bɜːd/', sentenceZh: '鸟，卷舌长音' },
+      { en: '/ə/', zh: '弱音 schwa', emoji: '🐼', phonetic: 'ə', subgroup: 'monophthong', sentence: 'Panda /ˈpændə/', sentenceZh: '熊猫，最轻松的音' },
+      { en: '/eɪ/', zh: '双元音 ei', emoji: '🐍', phonetic: 'eɪ', subgroup: 'diphthong', sentence: 'Snake /sneɪk/', sentenceZh: '蛇，由 e 滑向 i' },
+      { en: '/aɪ/', zh: '双元音 ai', emoji: '🪁', phonetic: 'aɪ', subgroup: 'diphthong', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，由 a 滑向 i' },
+      { en: '/ɔɪ/', zh: '双元音 oi', emoji: '🧸', phonetic: 'ɔɪ', subgroup: 'diphthong', sentence: 'Toy /tɔɪ/', sentenceZh: '玩具，由 o 滑向 i' },
+      { en: '/aʊ/', zh: '双元音 au', emoji: '🐭', phonetic: 'aʊ', subgroup: 'diphthong', sentence: 'Mouse /maʊs/', sentenceZh: '老鼠，由 a 滑向 u' },
+      { en: '/əʊ/', zh: '双元音 əʊ', emoji: '☎️', phonetic: 'əʊ', subgroup: 'diphthong', sentence: 'Phone /fəʊn/', sentenceZh: '电话，由 ə 滑向 u' },
+      { en: '/ɪə/', zh: '双元音 iə', emoji: '🦌', phonetic: 'ɪə', subgroup: 'diphthong', sentence: 'Deer /dɪər/', sentenceZh: '鹿，由 i 滑向 ə' },
+      { en: '/eə/', zh: '双元音 eə', emoji: '🐻', phonetic: 'eə', subgroup: 'diphthong', sentence: 'Bear /beər/', sentenceZh: '熊，由 e 滑向 ə' },
+      { en: '/ʊə/', zh: '双元音 uə', emoji: '💊', phonetic: 'ʊə', subgroup: 'diphthong', sentence: 'Cure /kjʊər/', sentenceZh: '治愈，由 u 滑向 ə' }
     ]
   },
   {
-    id: 'pronouns', name: '👤 指示代词', icon: '👤',
+    id: 'phonetics-consonants', name: ' consonant 辅音', icon: '👄', kind: 'phonetics', group: 'phonetics', level: 'starter',
+    items: [
+      { en: '/p/', zh: '清辅音 p', emoji: '🐧', phonetic: 'p', subgroup: 'plosive', sentence: 'Penguin /ˈpeŋɡwɪn/', sentenceZh: '企鹅，双唇爆破' },
+      { en: '/b/', zh: '浊辅音 b', emoji: '🐰', phonetic: 'b', subgroup: 'plosive', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，双唇爆破' },
+      { en: '/t/', zh: '清辅音 t', emoji: '🐯', phonetic: 't', subgroup: 'plosive', sentence: 'Tiger /ˈtaɪɡər/', sentenceZh: '老虎，舌尖爆破' },
+      { en: '/d/', zh: '浊辅音 d', emoji: '🐬', phonetic: 'd', subgroup: 'plosive', sentence: 'Dolphin /ˈdɒlfɪn/', sentenceZh: '海豚，舌尖爆破' },
+      { en: '/k/', zh: '清辅音 k', emoji: '🪁', phonetic: 'k', subgroup: 'plosive', sentence: 'Kite /kaɪt/', sentenceZh: '风筝，舌根爆破' },
+      { en: '/ɡ/', zh: '浊辅音 g', emoji: '🦒', phonetic: 'ɡ', subgroup: 'plosive', sentence: 'Giraffe /dʒɪˈrɑːf/', sentenceZh: '长颈鹿，舌根爆破' },
+      { en: '/f/', zh: '清辅音 f', emoji: '🐟', phonetic: 'f', subgroup: 'fricative', sentence: 'Fish /fɪʃ/', sentenceZh: '鱼，上齿咬下唇' },
+      { en: '/v/', zh: '浊辅音 v', emoji: '🚐', phonetic: 'v', subgroup: 'fricative', sentence: 'Van /væn/', sentenceZh: '面包车，上齿咬下唇' },
+      { en: '/θ/', zh: '清辅音 th', emoji: '👍', phonetic: 'θ', subgroup: 'fricative', sentence: 'Thank /θæŋk/', sentenceZh: '谢谢，舌尖轻触上齿' },
+      { en: '/ð/', zh: '浊辅音 th', emoji: '👨‍👩‍👧', phonetic: 'ð', subgroup: 'fricative', sentence: 'Mother /ˈmʌðər/', sentenceZh: '妈妈，舌尖轻触上齿' },
+      { en: '/s/', zh: '清辅音 s', emoji: '☀️', phonetic: 's', subgroup: 'fricative', sentence: 'Sun /sʌn/', sentenceZh: '太阳，舌尖靠近上齿龈' },
+      { en: '/z/', zh: '浊辅音 z', emoji: '🦓', phonetic: 'z', subgroup: 'fricative', sentence: 'Zebra /ˈziːbrə/', sentenceZh: '斑马，舌尖靠近上齿龈' },
+      { en: '/ʃ/', zh: '清辅音 sh', emoji: '👟', phonetic: 'ʃ', subgroup: 'fricative', sentence: 'Shoe /ʃuː/', sentenceZh: '鞋子，嘴巴撅起' },
+      { en: '/ʒ/', zh: '浊辅音 zh', emoji: '🎱', phonetic: 'ʒ', subgroup: 'fricative', sentence: 'Measure /ˈmeʒər/', sentenceZh: '测量，嘴巴撅起' },
+      { en: '/h/', zh: '清辅音 h', emoji: '🐎', phonetic: 'h', subgroup: 'fricative', sentence: 'Horse /hɔːrs/', sentenceZh: '马，轻轻哈气' },
+      { en: '/tʃ/', zh: '清辅音 ch', emoji: '🧀', phonetic: 'tʃ', subgroup: 'affricate', sentence: 'Cheese /tʃiːz/', sentenceZh: '奶酪，像吃' },
+      { en: '/dʒ/', zh: '浊辅音 j', emoji: '🍊', phonetic: 'dʒ', subgroup: 'affricate', sentence: 'Juice /dʒuːs/', sentenceZh: '果汁，像知' },
+      { en: '/tr/', zh: '清辅音 tr', emoji: '🚂', phonetic: 'tr', subgroup: 'affricate', sentence: 'Train /treɪn/', sentenceZh: '火车，像踹' },
+      { en: '/dr/', zh: '浊辅音 dr', emoji: '🥁', phonetic: 'dr', subgroup: 'affricate', sentence: 'Drum /drʌm/', sentenceZh: '鼓，像抓' },
+      { en: '/ts/', zh: '清辅音 ts', emoji: '🐱', phonetic: 'ts', subgroup: 'affricate', sentence: 'Cats /kæts/', sentenceZh: '猫们，像刺' },
+      { en: '/dz/', zh: '浊辅音 dz', emoji: '✋', phonetic: 'dz', subgroup: 'affricate', sentence: 'Hands /hændz/', sentenceZh: '手们，像子' },
+      { en: '/m/', zh: '鼻音 m', emoji: '🐵', phonetic: 'm', subgroup: 'nasal', sentence: 'Monkey /ˈmʌŋki/', sentenceZh: '猴子，双唇闭拢' },
+      { en: '/n/', zh: '鼻音 n', emoji: '👃', phonetic: 'n', subgroup: 'nasal', sentence: 'Nose /nəʊz/', sentenceZh: '鼻子，舌尖抵上齿龈' },
+      { en: '/ŋ/', zh: '后鼻音 ng', emoji: '🎵', phonetic: 'ŋ', subgroup: 'nasal', sentence: 'Song /sɒŋ/', sentenceZh: '歌曲，舌根抬起' },
+      { en: '/l/', zh: '舌侧音 l', emoji: '🦁', phonetic: 'l', subgroup: 'lateral', sentence: 'Lion /ˈlaɪən/', sentenceZh: '狮子，舌尖抵上齿龈' },
+      { en: '/r/', zh: '卷舌音 r', emoji: '🐰', phonetic: 'r', subgroup: 'approximant', sentence: 'Rabbit /ˈræbɪt/', sentenceZh: '兔子，舌尖卷起' },
+      { en: '/j/', zh: '半元音 y', emoji: '🟡', phonetic: 'j', subgroup: 'approximant', sentence: 'Yellow /ˈjeləʊ/', sentenceZh: '黄色，像发 i 但更短' },
+      { en: '/w/', zh: '半元音 w', emoji: '🌊', phonetic: 'w', subgroup: 'approximant', sentence: 'Water /ˈwɔːtər/', sentenceZh: '水，像发 u 但更短' }
+    ]
+  },
+  {
+    id: 'phonetics-letters', name: ' alphabet 字母发音', icon: '🔤', kind: 'phonetics', group: 'phonetics', level: 'starter',
+    items: [
+      { en: 'A', zh: '字母 A', emoji: '🍎', phonetic: '/eɪ/', subgroup: 'letter', sentence: 'A is for Apple.', sentenceZh: 'A 代表苹果。' },
+      { en: 'B', zh: '字母 B', emoji: '🍌', phonetic: '/biː/', subgroup: 'letter', sentence: 'B is for Banana.', sentenceZh: 'B 代表香蕉。' },
+      { en: 'C', zh: '字母 C', emoji: '🐱', phonetic: '/siː/', subgroup: 'letter', sentence: 'C is for Cat.', sentenceZh: 'C 代表猫。' },
+      { en: 'D', zh: '字母 D', emoji: '🐶', phonetic: '/diː/', subgroup: 'letter', sentence: 'D is for Dog.', sentenceZh: 'D 代表狗。' },
+      { en: 'E', zh: '字母 E', emoji: '🥚', phonetic: '/iː/', subgroup: 'letter', sentence: 'E is for Egg.', sentenceZh: 'E 代表鸡蛋。' },
+      { en: 'F', zh: '字母 F', emoji: '🐟', phonetic: '/ef/', subgroup: 'letter', sentence: 'F is for Fish.', sentenceZh: 'F 代表鱼。' },
+      { en: 'G', zh: '字母 G', emoji: '👧', phonetic: '/dʒiː/', subgroup: 'letter', sentence: 'G is for Girl.', sentenceZh: 'G 代表女孩。' },
+      { en: 'H', zh: '字母 H', emoji: '�', phonetic: '/eɪtʃ/', subgroup: 'letter', sentence: 'H is for Hat.', sentenceZh: 'H 代表帽子。' },
+      { en: 'I', zh: '字母 I', emoji: '🧊', phonetic: '/aɪ/', subgroup: 'letter', sentence: 'I is for Ice.', sentenceZh: 'I 代表冰。' },
+      { en: 'J', zh: '字母 J', emoji: '🧃', phonetic: '/dʒeɪ/', subgroup: 'letter', sentence: 'J is for Juice.', sentenceZh: 'J 代表果汁。' },
+      { en: 'K', zh: '字母 K', emoji: '🪁', phonetic: '/keɪ/', subgroup: 'letter', sentence: 'K is for Kite.', sentenceZh: 'K 代表风筝。' },
+      { en: 'L', zh: '字母 L', emoji: '🦁', phonetic: '/el/', subgroup: 'letter', sentence: 'L is for Lion.', sentenceZh: 'L 代表狮子。' },
+      { en: 'M', zh: '字母 M', emoji: '🌙', phonetic: '/em/', subgroup: 'letter', sentence: 'M is for Moon.', sentenceZh: 'M 代表月亮。' },
+      { en: 'N', zh: '字母 N', emoji: '�', phonetic: '/en/', subgroup: 'letter', sentence: 'N is for Nose.', sentenceZh: 'N 代表鼻子。' },
+      { en: 'O', zh: '字母 O', emoji: '🍊', phonetic: '/əʊ/', subgroup: 'letter', sentence: 'O is for Orange.', sentenceZh: 'O 代表橙子。' },
+      { en: 'P', zh: '字母 P', emoji: '🐷', phonetic: '/piː/', subgroup: 'letter', sentence: 'P is for Pig.', sentenceZh: 'P 代表猪。' },
+      { en: 'Q', zh: '字母 Q', emoji: '👸', phonetic: '/kjuː/', subgroup: 'letter', sentence: 'Q is for Queen.', sentenceZh: 'Q 代表女王。' },
+      { en: 'R', zh: '字母 R', emoji: '🐰', phonetic: '/ɑːr/', subgroup: 'letter', sentence: 'R is for Rabbit.', sentenceZh: 'R 代表兔子。' },
+      { en: 'S', zh: '字母 S', emoji: '☀️', phonetic: '/es/', subgroup: 'letter', sentence: 'S is for Sun.', sentenceZh: 'S 代表太阳。' },
+      { en: 'T', zh: '字母 T', emoji: '🐯', phonetic: '/tiː/', subgroup: 'letter', sentence: 'T is for Tiger.', sentenceZh: 'T 代表老虎。' },
+      { en: 'U', zh: '字母 U', emoji: '☂️', phonetic: '/juː/', subgroup: 'letter', sentence: 'U is for Umbrella.', sentenceZh: 'U 代表雨伞。' },
+      { en: 'V', zh: '字母 V', emoji: '�', phonetic: '/viː/', subgroup: 'letter', sentence: 'V is for Van.', sentenceZh: 'V 代表面包车。' },
+      { en: 'W', zh: '字母 W', emoji: '⌚', phonetic: '/ˈdʌbəljuː/', subgroup: 'letter', sentence: 'W is for Watch.', sentenceZh: 'W 代表手表。' },
+      { en: 'X', zh: '字母 X', emoji: '❎', phonetic: '/eks/', subgroup: 'letter', sentence: 'X is for X-ray.', sentenceZh: 'X 代表 X 光。' },
+      { en: 'Y', zh: '字母 Y', emoji: '🟡', phonetic: '/waɪ/', subgroup: 'letter', sentence: 'Y is for Yellow.', sentenceZh: 'Y 代表黄色。' },
+      { en: 'Z', zh: '字母 Z', emoji: '🦓', phonetic: '/zed/', subgroup: 'letter', sentence: 'Z is for Zebra.', sentenceZh: 'Z 代表斑马。' }
+    ]
+  },
+  {
+    id: 'pronouns', level: 'starter', name: '👤 指示代词', icon: '👤',
     items: [
       { en: 'I', zh: '我', emoji: '🙋', sentence: 'I am a boy.', sentenceZh: '我是一个男孩。' },
       { en: 'You', zh: '你', emoji: '👉', sentence: 'You are my friend.', sentenceZh: '你是我的朋友。' },
@@ -92,7 +129,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'time', name: '⏰ 时间日期', icon: '⏰',
+    id: 'time', level: 'primary', name: '⏰ 时间日期', icon: '⏰',
     items: [
       { en: 'Today', zh: '今天', emoji: '📅', sentence: 'Today is sunny.', sentenceZh: '今天是晴天。' },
       { en: 'Tomorrow', zh: '明天', emoji: '🌅', sentence: 'See you tomorrow!', sentenceZh: '明天见！' },
@@ -128,7 +165,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'emotions', name: '😊 情绪表达', icon: '😊',
+    id: 'emotions', level: 'starter', name: '😊 情绪表达', icon: '😊',
     items: [
       { en: 'Happy', zh: '开心', emoji: '😊', sentence: 'I am happy!', sentenceZh: '我很开心！' },
       { en: 'Sad', zh: '难过', emoji: '😢', sentence: 'Don\'t be sad.', sentenceZh: '别难过。' },
@@ -148,7 +185,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'places', name: '🏙️ 地点场所', icon: '🏙️',
+    id: 'places', level: 'starter', name: '🏙️ 地点场所', icon: '🏙️',
     items: [
       { en: 'School', zh: '学校', emoji: '🏫', sentence: 'I go to school.', sentenceZh: '我去上学。' },
       { en: 'Park', zh: '公园', emoji: '🌳', sentence: 'Let\'s go to the park.', sentenceZh: '我们去公园吧。' },
@@ -171,7 +208,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'animals', name: '🐾 动物', icon: '🐾',
+    id: 'animals', level: 'starter', name: '🐾 动物', icon: '🐾',
     items: [
       { en: 'Dog', zh: '狗', emoji: '🐶', sentence: 'I have a dog.', sentenceZh: '我有一只狗。' },
       { en: 'Cat', zh: '猫', emoji: '🐱', sentence: 'The cat is cute.', sentenceZh: '这只猫很可爱。' },
@@ -216,7 +253,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'fruits', name: '🍎 水果', icon: '🍎',
+    id: 'fruits', level: 'starter', name: '🍎 水果', icon: '🍎',
     items: [
       { en: 'Apple', zh: '苹果', emoji: '🍎', sentence: 'I like apples.', sentenceZh: '我喜欢苹果。' },
       { en: 'Banana', zh: '香蕉', emoji: '🍌', sentence: 'The banana is yellow.', sentenceZh: '香蕉是黄色的。' },
@@ -240,7 +277,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'vegetables', name: '🥦 蔬菜', icon: '🥦',
+    id: 'vegetables', level: 'starter', name: '🥦 蔬菜', icon: '🥦',
     items: [
       { en: 'Carrot', zh: '胡萝卜', emoji: '🥕', sentence: 'Carrots are orange.', sentenceZh: '胡萝卜是橙色的。' },
       { en: 'Broccoli', zh: '西兰花', emoji: '🥦', sentence: 'Broccoli is green.', sentenceZh: '西兰花是绿色的。' },
@@ -261,7 +298,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'colors', name: '🎨 颜色', icon: '🎨',
+    id: 'colors', level: 'starter', name: '🎨 颜色', icon: '🎨',
     items: [
       { en: 'Red', zh: '红色', emoji: '🔴', sentence: 'The apple is red.', sentenceZh: '苹果是红色的。' },
       { en: 'Blue', zh: '蓝色', emoji: '🔵', sentence: 'The sky is blue.', sentenceZh: '天空是蓝色的。' },
@@ -280,7 +317,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'numbers', name: '🔢 数字', icon: '🔢',
+    id: 'numbers', level: 'starter', name: '🔢 数字', icon: '🔢',
     items: [
       { en: 'One', zh: '一', emoji: '1️⃣', sentence: 'I have one nose.', sentenceZh: '我有一个鼻子。' },
       { en: 'Two', zh: '二', emoji: '2️⃣', sentence: 'I have two eyes.', sentenceZh: '我有两只眼睛。' },
@@ -295,7 +332,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'toys', name: '🧸 玩具', icon: '🧸',
+    id: 'toys', level: 'starter', name: '🧸 玩具', icon: '🧸',
     items: [
       { en: 'Ball', zh: '球', emoji: '⚽', sentence: 'I can play ball.', sentenceZh: '我会玩球。' },
       { en: 'Doll', zh: '娃娃', emoji: '🪆', sentence: 'The doll is pretty.', sentenceZh: '娃娃很漂亮。' },
@@ -314,7 +351,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'clothes', name: '👗 衣服', icon: '👗',
+    id: 'clothes', level: 'starter', name: '👗 衣服', icon: '👗',
     items: [
       { en: 'Hat', zh: '帽子', emoji: '🧢', sentence: 'I wear a hat.', sentenceZh: '我戴帽子。' },
       { en: 'Shoes', zh: '鞋子', emoji: '👟', sentence: 'I put on my shoes.', sentenceZh: '我穿上鞋子。' },
@@ -333,7 +370,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'home', name: '🏠 家', icon: '🏠',
+    id: 'home', level: 'starter', name: '🏠 家', icon: '🏠',
     items: [
       { en: 'Door', zh: '门', emoji: '🚪', sentence: 'Open the door.', sentenceZh: '打开门。' },
       { en: 'Window', zh: '窗户', emoji: '🪟', sentence: 'Look out the window.', sentenceZh: '看窗外。' },
@@ -358,7 +395,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'transport', name: '🚗 交通', icon: '🚗',
+    id: 'transport', level: 'starter', name: '🚗 交通', icon: '🚗',
     items: [
       { en: 'Car', zh: '汽车', emoji: '🚗', sentence: 'The car goes fast.', sentenceZh: '汽车开得很快。' },
       { en: 'Bus', zh: '公交车', emoji: '🚌', sentence: 'I ride the bus.', sentenceZh: '我坐公交车。' },
@@ -378,7 +415,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'food', name: '🍔 食物', icon: '🍔',
+    id: 'food', level: 'starter', name: '🍔 食物', icon: '🍔',
     items: [
       { en: 'Bread', zh: '面包', emoji: '🍞', sentence: 'I eat bread for breakfast.', sentenceZh: '我早餐吃面包。' },
       { en: 'Rice', zh: '米饭', emoji: '🍚', sentence: 'I like to eat rice.', sentenceZh: '我喜欢吃米饭。' },
@@ -401,7 +438,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'body', name: '👶 身体', icon: '👶',
+    id: 'body', level: 'starter', name: '👶 身体', icon: '👶',
     items: [
       { en: 'Head', zh: '头', emoji: '🗣️', sentence: 'I nod my head.', sentenceZh: '我点点头。' },
       { en: 'Hair', zh: '头发', emoji: '💇', sentence: 'My hair is black.', sentenceZh: '我的头发是黑色的。' },
@@ -426,7 +463,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'weather', name: '🌤️ 天气', icon: '🌤️',
+    id: 'weather', level: 'starter', name: '🌤️ 天气', icon: '🌤️',
     items: [
       { en: 'Sun', zh: '太阳', emoji: '☀️', sentence: 'The sun is bright.', sentenceZh: '太阳很亮。' },
       { en: 'Rain', zh: '雨', emoji: '🌧️', sentence: 'It is raining.', sentenceZh: '正在下雨。' },
@@ -443,7 +480,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'actions', name: '🎵 动作', icon: '🎵',
+    id: 'actions', level: 'starter', name: '🎵 动作', icon: '🎵',
     items: [
       { en: 'Run', zh: '跑', emoji: '🏃', sentence: 'I can run fast.', sentenceZh: '我能跑得很快。' },
       { en: 'Jump', zh: '跳', emoji: '🤸', sentence: 'I like to jump.', sentenceZh: '我喜欢跳。' },
@@ -487,7 +524,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'shapes', name: '⬛ 形状', icon: '⬛',
+    id: 'shapes', level: 'starter', name: '⬛ 形状', icon: '⬛',
     items: [
       { en: 'Circle', zh: '圆形', emoji: '⭕', sentence: 'The sun is a circle.', sentenceZh: '太阳是圆的。' },
       { en: 'Square', zh: '正方形', emoji: '🟨', sentence: 'The window is a square.', sentenceZh: '窗户是正方形的。' },
@@ -502,7 +539,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'opposites', name: '🔄 反义词', icon: '🔄',
+    id: 'opposites', level: 'starter', name: '🔄 反义词', icon: '🔄',
     items: [
       { en: 'Big / Small', zh: '大 / 小', emoji: '🐘🐭', sentence: 'The elephant is big, the mouse is small.', sentenceZh: '大象大，老鼠小。' },
       { en: 'Hot / Cold', zh: '热 / 冷', emoji: '🥵🥶', sentence: 'The sun is hot, ice is cold.', sentenceZh: '太阳热，冰冷。' },
@@ -522,7 +559,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'jobs', name: '👨‍⚕️ 职业', icon: '👨‍⚕️',
+    id: 'jobs', level: 'primary', name: '👨‍⚕️ 职业', icon: '👨‍⚕️',
     items: [
       { en: 'Doctor', zh: '医生', emoji: '👨‍⚕️', sentence: 'The doctor helps sick people.', sentenceZh: '医生帮助病人。' },
       { en: 'Nurse', zh: '护士', emoji: '👩‍⚕️', sentence: 'The nurse is kind.', sentenceZh: '护士很温柔。' },
@@ -539,7 +576,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'phrases', name: '💬 日常短句', icon: '💬',
+    id: 'phrases', level: 'starter', name: '💬 日常短句', icon: '💬',
     items: [
       { en: 'Good morning!', zh: '早上好！', emoji: '🌅', sentence: '', sentenceZh: '' },
       { en: 'Good night!', zh: '晚安！', emoji: '🌙', sentence: '', sentenceZh: '' },
@@ -590,7 +627,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'dialogue', name: '🗣️ 情景对话', icon: '🗣️',
+    id: 'dialogue', level: 'starter', name: '🗣️ 情景对话', icon: '🗣️',
     items: [
       { en: 'Hello!', zh: '你好！', emoji: '👋', sentence: 'Nice to meet you!', sentenceZh: '很高兴认识你！', roleA: '小明', roleB: '小红' },
       { en: 'What\'s your name?', zh: '你叫什么名字？', emoji: '🧒', sentence: 'My name is Lily.', sentenceZh: '我叫莉莉。', roleA: '老师', roleB: '莉莉' },
@@ -625,7 +662,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'stories', name: '📖 寓言故事', icon: '📖',
+    id: 'stories', level: 'primary', name: '📖 寓言故事', icon: '📖',
     items: [
       { en: 'The Tortoise and the Hare', zh: '龟兔赛跑', emoji: '🐢🐰', story: 'Once upon a time, there was a hare who was very proud of how fast he could run. He laughed at the tortoise for being so slow. The tortoise said, "Let\'s have a race!" The hare agreed and they started running. The hare ran very fast and soon was far ahead. He thought, "I am so fast, I can take a nap." So he fell asleep under a tree. The tortoise kept walking slowly and steadily. He passed the sleeping hare and reached the finish line first. When the hare woke up, it was too late! The tortoise had won.', storyZh: '从前有一只兔子很骄傲自己跑得快。他嘲笑乌龟爬得慢。乌龟说我们来比赛吧。兔子答应了。兔子跑得很快远远领先。他想我这么快可以打个盹。于是他在树下睡着了。乌龟慢慢地稳稳地一直走。他超过了睡着的兔子先到达终点。兔子醒来时已经太晚了。乌龟赢了。' },
       { en: 'The Lion and the Mouse', zh: '狮子和老鼠', emoji: '🦁🐭', story: 'A lion was sleeping in the forest. A little mouse ran over his nose and woke him up. The lion caught the mouse and was going to eat him. The mouse said, "Please let me go! One day I might help you." The lion laughed, "How could a tiny mouse help me?" But he let the mouse go. Later, the lion got caught in a hunter\'s net. He roared loudly. The mouse heard him and came running. He gnawed through the ropes with his sharp teeth and set the lion free. The lion said, "Thank you, little friend!"', storyZh: '一头狮子在森林里睡觉。一只小老鼠跑过他的鼻子把他吵醒了。狮子抓住老鼠准备吃掉他。老鼠说请放了我吧有一天我可能会帮你。狮子笑了说你这么小怎么能帮我。但他还是放了老鼠。后来狮子被猎人的网抓住了。他大声吼叫。老鼠听到后跑来了。他用锋利的牙齿咬断绳子把狮子救了出来。狮子说谢谢你小朋友。' },
@@ -640,7 +677,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'listening', name: '👂 听力练习', icon: '👂',
+    id: 'listening', level: 'primary', name: '👂 听力练习', icon: '👂',
     items: [
       { en: 'Morning Routine', zh: '早上起床', emoji: '🌅', story: 'Good morning! Time to wake up. Open your eyes, stretch your arms, and get out of bed. Let\'s wash your face and brush your teeth. Now put on your clothes. What a nice day! Let\'s have breakfast. Eat your bread and drink your milk. Yummy! Now let\'s go to school!', storyZh: '早上好！该起床了。睁开眼睛，伸个懒腰，下床吧。我们洗脸刷牙。穿上衣服。多好的天气！吃早餐吧。吃面包喝牛奶。好吃！现在我们去上学吧！', duration: '3分钟' },
       { en: 'At the Park', zh: '在公园', emoji: '🌳', story: 'Let\'s go to the park! Look at the green trees and beautiful flowers. The birds are singing in the sky. I see a dog running on the grass. Children are playing on the swings and slides. Let\'s fly a kite! The wind is blowing gently. Oh, look! A butterfly is flying around. What a happy day at the park!', storyZh: '我们去公园吧！看绿色的树和美丽的花。鸟儿在天空中歌唱。我看到一只狗在草地上跑。孩子们在荡秋千和滑滑梯。我们放风筝吧！风轻轻地吹。哦，看！一只蝴蝶在飞。在公园真开心！', duration: '3分钟' },
