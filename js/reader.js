@@ -343,6 +343,8 @@ function openReader(theme, index) {
   reader.classList.add('active');
   tabBar.classList.add('hide');
   showCard(false);
+  // 预加载当前词和下一个词的音频（消除首次点击朗读的下载延迟）
+  preloadCurrentAndNext();
 }
 
 // ========== 显示卡片 ==========
@@ -500,6 +502,7 @@ function goPrev() {
     finishSpeak();
     currentIndex--;
     showCard(true);
+    preloadCurrentAndNext();
   }
 }
 
@@ -509,12 +512,23 @@ function goNext() {
     finishSpeak();
     currentIndex++;
     showCard(true);
+    preloadCurrentAndNext();
     // 最后一个卡片时触发彩纸
     if (currentIndex === currentTheme.items.length - 1) {
       setTimeout(showConfetti, 500);
     }
   } else {
     closeReader();
+  }
+}
+
+// 预加载当前词和下一个词的音频（消除点击朗读时的下载延迟）
+function preloadCurrentAndNext() {
+  if (!currentTheme || typeof preloadItemAudio !== 'function') return;
+  const stt = (typeof loadSettings === 'function') ? loadSettings() : {};
+  preloadItemAudio(currentTheme.items[currentIndex], currentTheme.id, stt.zhDialect);
+  if (currentIndex < currentTheme.items.length - 1) {
+    preloadItemAudio(currentTheme.items[currentIndex + 1], currentTheme.id, stt.zhDialect);
   }
 }
 

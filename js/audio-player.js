@@ -10,11 +10,18 @@ function isWeChatBrowser() {
   } catch (e) { return false; }
 }
 
-// 预生成音频清单（启动时 fetch audio/manifest.json 加载）
+// 预生成音频清单
+// 优先用内联的 window._audioManifest（audio-manifest.js 同步加载，无 fetch 延迟）
+// 兜底 fetch audio/manifest.json（未加载内联文件时）
 let _audioManifest = null;
 let _manifestLoading = null;
 function loadAudioManifest() {
   if (_audioManifest) return Promise.resolve(_audioManifest);
+  // 优先用内联清单（同步可用，零延迟）
+  if (typeof window !== 'undefined' && window._audioManifest) {
+    _audioManifest = window._audioManifest;
+    return Promise.resolve(_audioManifest);
+  }
   if (_manifestLoading) return _manifestLoading;
   _manifestLoading = new Promise(function (resolve) {
     fetch('audio/manifest.json', { cache: 'force-cache' })
@@ -46,7 +53,7 @@ function normalizeAudioKey(text, lang) {
 
 // 播放本地预生成音频
 // 返回 Promise<bool>：是否成功播放
-// 优化：每次新建 Audio（避免缓存元素 pause/play 冲突），超时 4s（本地应秒播），超时按失败处理
+// 优化：下载阶段超时 2s（开始播放前），一旦开始播放取消超时等 onended；避免慢下载导致重叠播放
 function playLocalAudio(text, lang) {
   return loadAudioManifest().then(function (manifest) {
     const key = normalizeAudioKey(text, lang);
@@ -59,19 +66,26 @@ function playLocalAudio(text, lang) {
       audio.preload = 'auto';
       _currentAudio = audio;
       let resolved = false;
+      let downloadTimer = null;
       const finish = function (ok) {
         if (resolved) return;
         resolved = true;
+        if (downloadTimer) { clearTimeout(downloadTimer); downloadTimer = null; }
         audio.onended = null; audio.onerror = null;
         resolve(ok);
       };
       audio.onended = function () { finish(true); };
       audio.onerror = function () { finish(false); };
-      // 超时 4 秒（本地音频应秒播，超时说明下载慢，让 remote 接管）
-      setTimeout(function () { finish(false); }, 4000);
+      // 下载阶段超时 2 秒：本地音频应秒播，超时说明 GitHub Pages 下载慢，让 remote 接管
+      downloadTimer = setTimeout(function () { finish(false); }, 2000);
       try {
         const p = audio.play();
-        if (p && p.then) p.then(function () {}).catch(function () { finish(false); });
+        if (p && p.then) {
+          p.then(function () {
+            // 已开始播放：取消下载超时，等 onended 自然结束（播放阶段不再有超时）
+            if (downloadTimer) { clearTimeout(downloadTimer); downloadTimer = null; }
+          }).catch(function () { finish(false); });
+        }
       } catch (e) { finish(false); }
     });
   });
@@ -99,19 +113,26 @@ function playRemoteAudio(text, lang) {
       stopAudioPlayback();
       _currentAudio = audio;
       let resolved = false;
+      let downloadTimer = null;
       const finish = function (ok) {
         if (resolved) return;
         resolved = true;
+        if (downloadTimer) { clearTimeout(downloadTimer); downloadTimer = null; }
         audio.onended = null; audio.onerror = null;
         resolve(ok);
       };
       audio.onended = function () { finish(true); };
       audio.onerror = function () { finish(false); };
-      // 超时 5 秒（在线 TTS 首包较慢，超过则让 native 接管）
-      setTimeout(function () { finish(false); }, 5000);
+      // 下载阶段超时 4 秒（在线 TTS 首包较慢，超过则让 native 接管）
+      downloadTimer = setTimeout(function () { finish(false); }, 4000);
       try {
         const p = audio.play();
-        if (p && p.then) p.then(function () {}).catch(function () { finish(false); });
+        if (p && p.then) {
+          p.then(function () {
+            // 已开始播放：取消下载超时，等 onended
+            if (downloadTimer) { clearTimeout(downloadTimer); downloadTimer = null; }
+          }).catch(function () { finish(false); });
+        }
       } catch (e) { finish(false); }
     };
     // 节流：距离上次 < 300ms 时等待剩余时间再发，不直接失败（避免多段朗读丢词）
@@ -193,7 +214,38 @@ function playAudio(text, lang, opts) {
   });
 }
 
-// 启动时预加载 manifest（非阻塞）
-if (typeof window !== 'undefined') {
-  setTimeout(loadAudioManifest, 500);
+// 启动时立即读取内联 manifest（同步，零延迟）
+if (typeof window !== 'undefined' && window._audioManifest) {
+  _audioManifest = window._audioManifest;
+}
+
+// ========== 音频预加载（消除首次播放下载延迟）==========
+// 用户进入主题/翻页时，后台预下载当前词和下一个词的 MP3，点击朗读时秒播
+const _preloadedSet = {};
+const _preloadPool = []; // 保留引用避免被 GC 回收导致下载取消
+function preloadOne(text, lang) {
+  if (!text) return;
+  if (!_audioManifest) return;
+  const key = normalizeAudioKey(text, lang);
+  if (_preloadedSet[key]) return; // 已预加载
+  _preloadedSet[key] = true;
+  const entry = _audioManifest[key];
+  if (!entry || !entry.path) return;
+  try {
+    const a = new Audio(entry.path);
+    a.preload = 'auto';
+    a.volume = 0; // 静音，防止预加载触发播放
+    _preloadPool.push(a);
+  } catch (e) {}
+}
+// 预加载一个词的所有朗读片段（与 speak() 的 parts 逻辑一致）
+function preloadItemAudio(item, themeId, zhDialect) {
+  if (!item || !_audioManifest) return;
+  const zh = zhDialect === 'cantonese' ? 'zh-HK' : 'zh-CN';
+  preloadOne(item.zh, zh);
+  preloadOne(item.en, 'en-US');
+  if (item.sentence) {
+    preloadOne(item.sentenceZh, zh);
+    preloadOne(item.sentence, 'en-US');
+  }
 }
