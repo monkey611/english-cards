@@ -121,15 +121,48 @@ function playRemoteAudio(text, lang) {
 }
 
 // 当前播放模式查询（用于诊断）
-// 返回: 'native' | 'local' | 'remote' | 'unavailable'
+// 返回: 'hd-local' | 'hd-remote' | 'hd-native-fallback' | 'native' | 'unavailable'
 function currentPlayMode() {
+  const stt = (typeof loadSettings === 'function') ? loadSettings() : {};
   const status = (typeof speechEngineStatus === 'function') ? speechEngineStatus() : null;
-  if (status && status.available && status.zhCount > 0) return 'native';
-  if (isWeChatBrowser()) {
-    if (_audioManifest && Object.keys(_audioManifest).length > 0) return 'local-or-remote';
-    return 'remote';
+  const nativeOk = status && status.available && status.voiceCount > 0;
+  // 高清模式：预生成 → 在线百度 → 原生兜底
+  if (stt.voiceQuality === 'hd') {
+    if (_audioManifest && Object.keys(_audioManifest).length > 0) return 'hd-local';
+    if (nativeOk) return 'hd-native-fallback';
+    return 'hd-remote';
   }
-  return 'native';
+  // 标准模式：原生优先，audio-player 兜底
+  if (nativeOk) return 'native';
+  if (_audioManifest && Object.keys(_audioManifest).length > 0) return 'hd-local';
+  return 'unavailable';
+}
+
+// 原生 TTS 兜底（高清模式下预生成+在线都失败时使用，避免无声）
+// 返回 Promise<bool>：是否成功排队播放（不保证播完，仅表示已提交）
+function playNativeTTS(text, lang) {
+  return new Promise(function (resolve) {
+    if (typeof window === 'undefined' || !window.speechSynthesis || typeof SpeechSynthesisUtterance === 'undefined') {
+      resolve(false); return;
+    }
+    let voices = [];
+    try { voices = window.speechSynthesis.getVoices() || []; } catch (e) {}
+    if (!voices.length) { resolve(false); return; }
+    try {
+      const u = new SpeechSynthesisUtterance(text);
+      const stt = (typeof loadSettings === 'function') ? loadSettings() : {};
+      u.rate = stt.speechRate || 0.85;
+      u.volume = 1.0;
+      if (typeof applyVoice === 'function') applyVoice(u, lang || 'en-US');
+      let done = false;
+      u.onend = function () { if (!done) { done = true; resolve(true); } };
+      u.onerror = function () { if (!done) { done = true; resolve(false); } };
+      // 超时兜底 8s
+      setTimeout(function () { if (!done) { done = true; resolve(true); } }, 8000);
+      window.speechSynthesis.speak(u);
+      try { window.speechSynthesis.resume(); } catch (e) {}
+    } catch (e) { resolve(false); }
+  });
 }
 
 // 统一播放入口（调用方在原生 TTS 失败/不可用时调用）
@@ -150,9 +183,12 @@ function playAudio(text, lang, opts) {
         if (opts.onPlayed) opts.onPlayed('remote');
         return true;
       }
-      // 全失败
-      if (opts.onUnavailable) opts.onUnavailable();
-      return false;
+      // 第4层：原生 TTS 兜底（避免无网络时无声）
+      return playNativeTTS(text, lang).then(function (ok3) {
+        if (ok3) { if (opts.onPlayed) opts.onPlayed('native'); return true; }
+        if (opts.onUnavailable) opts.onUnavailable();
+        return false;
+      });
     });
   });
 }

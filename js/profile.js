@@ -75,6 +75,15 @@ function bindCalendarNav() {
 }
 
 // ========== 设置 UI（D4：语速 / 音效 / 振动）==========
+// 音质模式提示文案：高清模式百度TTS不支持音色/方言切换，需告知用户
+function voiceQualityHint() {
+  const stt = loadSettings();
+  if (stt.voiceQuality === 'hd') {
+    return '高清模式：用百度TTS朗读，音色自然，但男声/女声、普通话/粤语设置在此模式下不生效。预生成内容离线秒播，其他内容需联网。';
+  }
+  return '标准模式：用系统语音合成，离线即时，支持音色/方言切换。音色偏机械时可切回高清。';
+}
+
 function renderSettings() {
   const stt = loadSettings();
   // 语音引擎诊断（安卓 WebView voices 为空时引导用户）
@@ -89,18 +98,29 @@ function renderSettings() {
     if (status.zhVoices && status.zhVoices.length) {
       engineH += '<div class="pf-setting-hint">🎧 中文语音：' + esc(status.zhVoices.join('、')) + '</div>';
     }
-    // 播放模式提示：原生不可用时（微信 X5 / 无 TTS 的安卓 WebView）告知走哪种音频
-    const nativeOk = status.available && status.voiceCount > 0;
-    const inWeChat = (typeof isWeChatBrowser === 'function') && isWeChatBrowser();
-    if (nativeOk) {
-      engineH += '<div class="pf-setting-hint">🔊 当前播放模式：原生语音合成</div>';
-    } else {
-      const modeText = inWeChat ? '微信兼容模式（预生成音频 → 在线百度TTS）' : '音频兜底模式（预生成音频 → 在线百度TTS）';
-      engineH += '<div class="pf-setting-hint">🔊 当前播放模式：' + esc(modeText) + '</div>';
-    }
+    // 播放模式提示（高清/标准两种模式都告知走哪种音频）
+    const mode = (typeof currentPlayMode === 'function') ? currentPlayMode() : 'native';
+    const modeLabels = {
+      'hd-local': '高清模式：预生成音频（离线·自然）',
+      'hd-remote': '高清模式：在线百度TTS（需联网）',
+      'hd-native-fallback': '高清模式：原生TTS兜底（预生成+在线均失败）',
+      'native': '标准模式：原生语音合成',
+      'unavailable': '无可播放音源，请检查网络'
+    };
+    const modeText = modeLabels[mode] || ('标准模式：原生语音合成');
+    engineH += '<div class="pf-setting-hint">🔊 当前播放模式：' + esc(modeText) + '</div>';
     engineH += '</div>';
   }
   let h = engineH;
+  // 语音音质（高清百度TTS / 标准系统TTS）
+  h += '<div class="pf-setting-row">';
+  h += '<div class="pf-setting-label"><span>🎵 语音音质</span></div>';
+  h += '<div class="pf-seg" data-key="voiceQuality">';
+  h += '<button type="button" class="pf-seg-btn' + (stt.voiceQuality !== 'standard' ? ' active' : '') + '" data-val="hd">高清</button>';
+  h += '<button type="button" class="pf-seg-btn' + (stt.voiceQuality === 'standard' ? ' active' : '') + '" data-val="standard">标准</button>';
+  h += '</div>';
+  h += '</div>';
+  h += '<div class="pf-setting-hint" id="voiceQualityHint">' + esc(voiceQualityHint()) + '</div>';
   h += '<div class="pf-setting-row col">';
   h += '<div class="pf-setting-label"><span>🐢 朗读语速</span><span class="pf-setting-val" id="setRateVal">' + stt.speechRate.toFixed(2) + 'x</span></div>';
   h += '<input type="range" class="pf-range" id="setRate" min="0.5" max="1.2" step="0.05" value="' + stt.speechRate + '">';
@@ -181,7 +201,7 @@ function bindSettings() {
       if (stt.vibrateOn) vibrate(30);
     });
   }
-  // 音色 / 方言分段控件
+  // 音质 / 音色 / 方言分段控件
   profileContent.querySelectorAll('.pf-seg').forEach(function (seg) {
     const key = seg.dataset.key;
     seg.querySelectorAll('.pf-seg-btn').forEach(function (btn) {
@@ -191,6 +211,15 @@ function bindSettings() {
         saveSettings();
         seg.querySelectorAll('.pf-seg-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
+        // 音质切换：刷新提示文案 + 刷新诊断卡片播放模式 + 试听
+        if (key === 'voiceQuality') {
+          const hintEl = document.getElementById('voiceQualityHint');
+          if (hintEl) hintEl.textContent = voiceQualityHint();
+          // 重新渲染设置区以刷新"当前播放模式"诊断
+          setTimeout(function () { renderProfileHome(); }, 100);
+          if (stt.soundOn) playText('Hello, this is a voice test.', 'en-US');
+          return;
+        }
         // 试听：用较长的句子让音色/方言差异更易感知
         if (stt.soundOn) {
           if (key === 'zhDialect') {

@@ -231,10 +231,11 @@ function speakBotLine(text, onend) {
   if (last) last.classList.add('speaking');
   const clearHL = function () { if (last) last.classList.remove('speaking'); };
 
-  // 引擎可用性：微信 X5 / 无 TTS 的安卓 WebView，原生不可用 → 走 audio-player 兜底
+  // 高清模式 或 原生不可用 → 走 audio-player（预生成→在线百度→原生兜底）
   const status = (typeof speechEngineStatus === 'function') ? speechEngineStatus() : null;
   const nativeAvailable = status && status.available && status.voiceCount > 0;
-  if (!nativeAvailable && typeof playAudio === 'function') {
+  const hdMode = stt.voiceQuality === 'hd';
+  if ((hdMode || !nativeAvailable) && typeof playAudio === 'function') {
     playAudio(text, 'en-US').then(function () {
       clearHL();
       if (onend) onend();

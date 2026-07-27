@@ -197,6 +197,8 @@ function speak() {
   // 引擎可用性：voices 为空（微信 X5 内核 / 未装 TTS 的安卓 WebView）时原生 TTS 不可用
   const status = speechEngineStatus();
   const nativeAvailable = status.available && status.voiceCount > 0;
+  // 高清模式：用户选百度TTS（自然），跳过原生，走 playAudio（预生成→在线百度→原生兜底）
+  const hdMode = stt.voiceQuality === 'hd';
 
   // 自动播放收尾逻辑（两种路径共用）
   function afterSpeak() {
@@ -212,15 +214,15 @@ function speak() {
     }
   }
 
-  // ---- 路径 A：原生 TTS 不可用，走 audio-player 兜底（预生成音频 → 在线百度 TTS）----
-  if (!nativeAvailable && typeof playAudio === 'function') {
+  // ---- 路径 A：高清模式 或 原生 TTS 不可用 → 走 audio-player（预生成→在线百度→原生兜底）----
+  if ((hdMode || !nativeAvailable) && typeof playAudio === 'function') {
     let pi = 0;
     function playNextViaAP() {
       if (pi >= parts.length) { finishSpeak(); afterSpeak(); return; }
       const part = parts[pi++];
       playAudio(part.text, part.lang, {
         onUnavailable: function () {
-          // 本地+在线均不可用：提示一次后继续下一段，避免卡住
+          // 本地+在线+原生均不可用：提示一次后继续下一段，避免卡住
           if (!speak._apWarned) {
             speak._apWarned = true;
             try {

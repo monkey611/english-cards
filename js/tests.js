@@ -181,6 +181,24 @@ function runTests() {
     _settings = null;
     setVocabLevel('starter');
 
+    log.push('[9b] 语音音质设置（高清/标准）');
+    const defaultStt = loadSettings();
+    ok('默认 voiceQuality=hd', defaultStt.voiceQuality === 'hd', 'val=' + defaultStt.voiceQuality);
+    // 切换到标准模式
+    defaultStt.voiceQuality = 'standard';
+    saveSettings();
+    _settings = null;
+    ok('切换后 voiceQuality=standard', loadSettings().voiceQuality === 'standard', 'val=' + loadSettings().voiceQuality);
+    // 切回高清
+    loadSettings().voiceQuality = 'hd';
+    saveSettings();
+    _settings = null;
+    ok('切回 voiceQuality=hd', loadSettings().voiceQuality === 'hd', 'val=' + loadSettings().voiceQuality);
+    // 持久化检查：重新加载仍为 hd
+    _settings = null;
+    const rawStt = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+    ok('音质设置已持久化', rawStt && rawStt.voiceQuality === 'hd', 'raw=' + (rawStt ? rawStt.voiceQuality : 'null'));
+
     log.push('[10] 音标模块完整性（26字母）');
     const lettersTheme = THEMES.find(function (t) { return t.id === 'phonetics-letters'; });
     ok('存在 phonetics-letters 主题', !!lettersTheme, '');

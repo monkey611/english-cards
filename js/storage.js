@@ -18,7 +18,8 @@ const VOCAB_LEVELS = [
   { id: 'middle', name: '中学', icon: '🎓', desc: '新课标中学词汇' }
 ];
 function defaultSettings() {
-  return { speechRate: 0.85, soundOn: true, vibrateOn: true, voiceGender: 'female', zhDialect: 'mandarin', vocabLevel: 'starter' };
+  // voiceQuality: 'hd' 高清（百度TTS，自然，需联网）/'standard' 标准（系统TTS，离线即时，支持音色/方言切换）
+  return { speechRate: 0.85, soundOn: true, vibrateOn: true, voiceGender: 'female', zhDialect: 'mandarin', vocabLevel: 'starter', voiceQuality: 'hd' };
 }
 function getVocabLevel() { return loadSettings().vocabLevel || 'starter'; }
 function setVocabLevel(level) {
