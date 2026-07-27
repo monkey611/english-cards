@@ -56,6 +56,36 @@ function applyVoice(utterance, baseLang) {
   utterance.voice = v;
 }
 
+// 查询当前设备是否真正支持目标方言的专用 voice（用于给用户明确提示，避免静默兜底困惑）
+// 返回: { supported: bool, voiceName: string|null, fallback: bool }
+function zhDialectSupport() {
+  let voices = [];
+  try { voices = window.speechSynthesis.getVoices() || []; } catch (e) {}
+  const dialect = loadSettings().zhDialect;
+  const want = dialect === 'cantonese' ? 'zh-HK' : 'zh-CN';
+  const norm = function (s) { return String(s || '').toLowerCase().replace(/_/g, '-'); };
+  const low = norm(want);
+  // 精确前缀匹配
+  let hit = voices.filter(function (v) { return norm(v.lang).indexOf(low) === 0; })[0];
+  if (hit) return { supported: true, voiceName: hit.name, fallback: false };
+  // 粤语扩展匹配
+  if (low === 'zh-hk') {
+    hit = voices.filter(function (v) { return /yue|cantonese|\bhk\b|hong\s*kong/i.test((v.lang || '') + ' ' + (v.name || '')); })[0];
+    if (hit) return { supported: true, voiceName: hit.name, fallback: false };
+  }
+  return { supported: false, voiceName: null, fallback: true };
+}
+
+// 中文方言可用性提示（用于设置页/朗读时告知用户当前方言是否真正可用）
+// 返回提示文案；无问题时返回空串
+function zhDialectHint() {
+  const s = zhDialectSupport();
+  if (s.supported) return '';
+  const dialect = loadSettings().zhDialect;
+  if (dialect === 'cantonese') return '当前设备无粤语语音引擎，将用普通话朗读。如需粤语，请在系统添加粤语语音或换设备。';
+  return '当前设备无普通话语音引擎，将用相近语音朗读。';
+}
+
 // Android 兼容：cancel 后延后 100ms 再 speak，并立即 resume() 防止自动暂停
 // （Android Chrome 已知问题：cancel 紧接 speak 会被吞掉；长文朗读中途会自动暂停）
 function safeSpeak(utterance, onend, onerror) {

@@ -109,11 +109,28 @@ function speechRecognitionSupported() {
   return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 }
 
+// 当前环境是否为安全上下文（SpeechRecognition 仅在 HTTPS 或 localhost 下可用）
+function isSecureContextForSR() {
+  // window.isSecureContext 是浏览器原生判断（HTTPS 或 localhost 返回 true）
+  return (typeof window !== 'undefined' && window.isSecureContext === true) ||
+    location.protocol === 'https:' ||
+    location.hostname === 'localhost' ||
+    location.hostname === '127.0.0.';
+}
+
 // 渲染口语练习首页（场景列表）
 function renderSpeakingHome() {
   const supported = speechRecognitionSupported();
+  const secure = isSecureContextForSR();
   let html = '<div class="spk-title">🎤 口语练习</div>';
-  html += '<div class="spk-sub">' + (supported ? '选一个场景，和 AI 对话练口语 ✨' : '部分浏览器不支持语音识别，仍可练习跟读') + '</div>';
+  // 环境提示：不支持识别 / 非安全上下文（service-not-allowed 根因）
+  if (!supported) {
+    html += '<div class="spk-warn">⚠️ 当前浏览器不支持语音识别，仍可点场景练习跟读（不会评分）。</div>';
+  } else if (!secure) {
+    html += '<div class="spk-warn">⚠️ 语音识别需 HTTPS 或本地访问。当前是非安全上下文，按说话可能报 service-not-allowed。建议通过 HTTPS 域名访问。</div>';
+  } else {
+    html += '<div class="spk-sub">选一个场景，和 AI 对话练口语 ✨</div>';
+  }
   html += '<div class="spk-grid">';
   const doneSet = loadSpeakingProgress();
   SPEAKING_SCENARIOS.forEach(function (sc, i) {
@@ -271,6 +288,16 @@ function onMicClick() {
     playLine(idx + 1);
     return;
   }
+  // 非安全上下文（http 非 localhost）：SpeechRecognition 会被拒绝，提示并走跟读模式
+  if (!isSecureContextForSR()) {
+    appendBubble('user', line.en, line.zh, 'miss');
+    _spkState.recognized++;
+    updateProgress();
+    const interim = document.getElementById('spkInterim');
+    if (interim) interim.innerHTML = '⚠️ 语音识别需 HTTPS 访问，当前已切换为跟读模式。<a href="' + esc(location.href) + '" target="_blank" style="color:var(--primary);text-decoration:underline">了解</a>';
+    playLine(idx + 1);
+    return;
+  }
   startRecognition(line);
 }
 
@@ -298,14 +325,38 @@ function startRecognition(line) {
     if (interim) interim.textContent = interimText ? '“' + interimText + '”' : '';
   };
   rec.onerror = function (e) {
-    if (interim) interim.textContent = '识别出错：' + (e.error || '未知') + '，可点跳过';
+    // 针对常见错误给明确提示，避免用户不知所措
+    const err = e.error || '未知';
+    let msg = '';
+    if (err === 'service-not-allowed' || err === 'not-allowed') {
+      msg = '🚫 麦克风权限被拒绝或非 HTTPS 环境。请：1) 允许浏览器麦克风权限；2) 通过 HTTPS 域名访问。已切换为跟读模式。';
+      // 自动切换跟读模式（不计识别成功）
+      appendBubble('user', line.en, line.zh, 'miss');
+      _spkState.recognized++;
+      updateProgress();
+      const idx = _spkState.idx;
+      setTimeout(function () { playLine(idx + 1); }, 1500);
+    } else if (err === 'no-speech') {
+      msg = '🤔 没有听到声音，请靠近麦克风再说一次。可点跳过。';
+    } else if (err === 'audio-capture') {
+      msg = '🎙️ 麦克风设备错误，请检查设备连接。可点跳过。';
+    } else if (err === 'network') {
+      msg = '🌐 网络错误，语音识别需联网。可点跳过。';
+    } else {
+      msg = '识别出错：' + err + '，可点跳过';
+    }
+    if (interim) interim.textContent = msg;
     resetMicAfterRecognition();
   };
   rec.onend = function () {
     if (interim) interim.textContent = '';
     scoreUserAnswer(finalTranscript, line);
   };
-  try { rec.start(); } catch (e) { resetMicAfterRecognition(); }
+  try { rec.start(); } catch (e) {
+    // 启动失败（如已在识别中）：恢复按钮，提示
+    if (interim) interim.textContent = '启动识别失败：' + (e.message || '未知') + '，可点跳过';
+    resetMicAfterRecognition();
+  }
 }
 
 // 结束识别后恢复按钮状态

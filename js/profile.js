@@ -106,6 +106,20 @@ function renderSettings() {
   h += '<button type="button" class="pf-seg-btn' + (stt.zhDialect === 'cantonese' ? ' active' : '') + '" data-val="cantonese">粤语</button>';
   h += '</div>';
   h += '</div>';
+  // 方言可用性提示（设备无对应语音引擎时告知用户）
+  const zhHint = (typeof zhDialectHint === 'function') ? zhDialectHint() : '';
+  if (zhHint) {
+    h += '<div class="pf-setting-hint">⚠️ ' + esc(zhHint) + '</div>';
+  }
+  // 语音引擎列表（让用户看到设备实际有哪些中文 voice，避免误以为代码限制）
+  let zhVoices = [];
+  try { zhVoices = (window.speechSynthesis.getVoices() || []).filter(function (v) { return (v.lang || '').toLowerCase().indexOf('zh') === 0; }); } catch (e) {}
+  if (zhVoices.length) {
+    const list = zhVoices.map(function (v) { return v.name + ' (' + v.lang + ')'; }).join('、');
+    h += '<div class="pf-setting-hint">🎧 设备可用中文语音：' + esc(list) + '</div>';
+  } else {
+    h += '<div class="pf-setting-hint">🎧 设备暂无中文语音引擎，请安装系统中文语音包</div>';
+  }
   return h;
 }
 
@@ -159,8 +173,24 @@ function bindSettings() {
             // 按当前选择的方言路由：粤语→zh-HK，普通话→zh-CN
             const zh = stt.zhDialect === 'cantonese' ? 'zh-HK' : 'zh-CN';
             playText(stt.zhDialect === 'cantonese' ? '你好，今日天晴，我哋一齐去玩啦。' : '你好，今天天气真好，我们一起去玩吧。', zh);
+            // 方言可能无对应 voice：切换后重渲染设置区，让"可用性提示"和"设备语音列表"刷新
+            const support = (typeof zhDialectSupport === 'function') ? zhDialectSupport() : null;
+            if (support && support.fallback) {
+              // 稍延迟提示，避免与试听语音重叠
+              setTimeout(function () {
+                const msg = stt.zhDialect === 'cantonese' ? '当前设备无粤语语音引擎，刚才听到的是普通话兜底发音。如需粤语，请在系统添加粤语语音。' : '当前设备无普通话语音引擎，刚才听到的是相近语音。';
+                alert(msg);
+                // 重新渲染设置区，刷新提示文案与语音列表
+                renderProfileHome();
+              }, 1200);
+            }
           } else {
             playText('Hello, how are you today? Let us learn English.', 'en-US');
+          }
+        } else {
+          // 音效关闭时也刷新提示（用户看不到试听，更需要文字提示）
+          if (key === 'zhDialect') {
+            setTimeout(function () { renderProfileHome(); }, 50);
           }
         }
       });
