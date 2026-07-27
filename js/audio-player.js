@@ -25,18 +25,6 @@ function loadAudioManifest() {
   return _manifestLoading;
 }
 
-// 音频缓存（避免重复创建 Audio 对象）
-const _audioCache = {};
-function getAudioEl(src) {
-  if (_audioCache[src]) return _audioCache[src];
-  try {
-    const a = new Audio(src);
-    a.preload = 'auto';
-    _audioCache[src] = a;
-    return a;
-  } catch (e) { return null; }
-}
-
 // 当前正在播放的 Audio 元素（用于 cancel）
 let _currentAudio = null;
 
@@ -48,34 +36,43 @@ function stopAudioPlayback() {
   }
 }
 
-// 文本归一化为文件名安全字符串（用于匹配 manifest key）
+// 文本归一化为 manifest key（与 gen-audio.js 生成逻辑保持一致）
+// 关键：lang 取语种前缀（en-US→en, zh-CN→zh, zh-HK→zh），否则与 manifest key 不匹配
 function normalizeAudioKey(text, lang) {
   const t = String(text || '').trim().toLowerCase();
-  const l = String(lang || 'en').toLowerCase();
+  const l = String(lang || 'en').toLowerCase().split('-')[0];
   return l + '|' + t;
 }
 
 // 播放本地预生成音频
 // 返回 Promise<bool>：是否成功播放
+// 优化：每次新建 Audio（避免缓存元素 pause/play 冲突），超时 4s（本地应秒播），超时按失败处理
 function playLocalAudio(text, lang) {
   return loadAudioManifest().then(function (manifest) {
     const key = normalizeAudioKey(text, lang);
     const entry = manifest[key];
     if (!entry || !entry.path) return false;
     return new Promise(function (resolve) {
-      const audio = getAudioEl(entry.path);
-      if (!audio) { resolve(false); return; }
       stopAudioPlayback();
+      let audio;
+      try { audio = new Audio(entry.path); } catch (e) { resolve(false); return; }
+      audio.preload = 'auto';
       _currentAudio = audio;
-      audio.currentTime = 0;
-      audio.onended = function () { resolve(true); };
-      audio.onerror = function () { resolve(false); };
-      const p = audio.play();
-      if (p && p.then) {
-        p.then(function () {}).catch(function () { resolve(false); });
-      }
-      // 超时兜底（10秒）
-      setTimeout(function () { resolve(true); }, 10000);
+      let resolved = false;
+      const finish = function (ok) {
+        if (resolved) return;
+        resolved = true;
+        audio.onended = null; audio.onerror = null;
+        resolve(ok);
+      };
+      audio.onended = function () { finish(true); };
+      audio.onerror = function () { finish(false); };
+      // 超时 4 秒（本地音频应秒播，超时说明下载慢，让 remote 接管）
+      setTimeout(function () { finish(false); }, 4000);
+      try {
+        const p = audio.play();
+        if (p && p.then) p.then(function () {}).catch(function () { finish(false); });
+      } catch (e) { finish(false); }
     });
   });
 }
@@ -93,30 +90,33 @@ let _lastRemoteTime = 0;
 function playRemoteAudio(text, lang) {
   return new Promise(function (resolve) {
     const now = Date.now();
-    if (now - _lastRemoteTime < 300) {
-      // 节流：稍后重试一次（不直接失败，避免连续点击丢词）
-      setTimeout(function () { resolve(false); }, 320);
-      return;
-    }
-    _lastRemoteTime = now;
-    const url = buildRemoteTTSUrl(text, lang);
-    const audio = new Audio(url);
-    stopAudioPlayback();
-    _currentAudio = audio;
-    let resolved = false;
-    const finish = function (ok) {
-      if (resolved) return;
-      resolved = true;
-      resolve(ok);
+    const elapsed = now - _lastRemoteTime;
+    const doPlay = function () {
+      _lastRemoteTime = Date.now();
+      const url = buildRemoteTTSUrl(text, lang);
+      let audio;
+      try { audio = new Audio(url); } catch (e) { resolve(false); return; }
+      stopAudioPlayback();
+      _currentAudio = audio;
+      let resolved = false;
+      const finish = function (ok) {
+        if (resolved) return;
+        resolved = true;
+        audio.onended = null; audio.onerror = null;
+        resolve(ok);
+      };
+      audio.onended = function () { finish(true); };
+      audio.onerror = function () { finish(false); };
+      // 超时 5 秒（在线 TTS 首包较慢，超过则让 native 接管）
+      setTimeout(function () { finish(false); }, 5000);
+      try {
+        const p = audio.play();
+        if (p && p.then) p.then(function () {}).catch(function () { finish(false); });
+      } catch (e) { finish(false); }
     };
-    audio.onended = function () { finish(true); };
-    audio.onerror = function () { finish(false); };
-    // 超时 8 秒（在线 TTS 首包较慢）
-    setTimeout(function () { finish(false); }, 8000);
-    try {
-      const p = audio.play();
-      if (p && p.then) p.then(function () {}).catch(function () { finish(false); });
-    } catch (e) { finish(false); }
+    // 节流：距离上次 < 300ms 时等待剩余时间再发，不直接失败（避免多段朗读丢词）
+    if (elapsed < 300) setTimeout(doPlay, 300 - elapsed);
+    else doPlay();
   });
 }
 
@@ -157,8 +157,8 @@ function playNativeTTS(text, lang) {
       let done = false;
       u.onend = function () { if (!done) { done = true; resolve(true); } };
       u.onerror = function () { if (!done) { done = true; resolve(false); } };
-      // 超时兜底 8s
-      setTimeout(function () { if (!done) { done = true; resolve(true); } }, 8000);
+      // 超时兜底 5s
+      setTimeout(function () { if (!done) { done = true; resolve(true); } }, 5000);
       window.speechSynthesis.speak(u);
       try { window.speechSynthesis.resume(); } catch (e) {}
     } catch (e) { resolve(false); }
