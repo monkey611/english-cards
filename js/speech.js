@@ -9,10 +9,33 @@ function speechPitch() {
   return loadSettings().voiceGender === 'male' ? 0.8 : 1.2;
 }
 
+// 语音引擎状态诊断（用于检测安卓 WebView voices 为空等问题）
+// 返回: { available, voiceCount, zhCount, enCount, hint }
+function speechEngineStatus() {
+  if (typeof window === 'undefined' || !window.speechSynthesis) {
+    return { available: false, voiceCount: 0, zhCount: 0, enCount: 0, hint: '当前浏览器不支持语音合成 API' };
+  }
+  let voices = [];
+  try { voices = window.speechSynthesis.getVoices() || []; } catch (e) {}
+  const norm = function (s) { return String(s || '').toLowerCase().replace(/_/g, '-'); };
+  const zh = voices.filter(function (v) { return norm(v.lang).indexOf('zh') === 0; });
+  const en = voices.filter(function (v) { return norm(v.lang).indexOf('en') === 0; });
+  let hint = '';
+  if (!voices.length) {
+    hint = '设备未返回任何语音引擎。Android WebView/未安装 TTS 引擎的设备会无声。建议：在浏览器（Chrome）中打开、或在手机设置→文字转语音中安装中文语音包并设为默认。';
+  } else if (!zh.length) {
+    hint = '设备无中文语音引擎。请在手机设置→文字转语音中安装中文语音包（如 Google TTS）。';
+  } else if (!en.length) {
+    hint = '设备无英文语音引擎，英文朗读可能由中文引擎兜底。';
+  }
+  return { available: voices.length > 0, voiceCount: voices.length, zhCount: zh.length, enCount: en.length, hint: hint, zhVoices: zh.map(function (v) { return v.name + '(' + v.lang + ')'; }) };
+}
+
 // 为 utterance 设置语言(方言感知)与音色(性别匹配)
 // - 始终设置 utterance.lang 为目标语言（粤语→zh-HK，让支持粤语的引擎自动路由）
 // - 优先选择目标语种前缀匹配的 voice，再按性别关键词猜测
 // - 同语系兜底（如粤语无专用 voice 时退回任意 zh voice）确保安卓也能发声
+// - 返回 bool：是否成功匹配到 voice（false 表示 voices 为空，调用方应给用户提示）
 function applyVoice(utterance, baseLang) {
   const stt = loadSettings();
   let targetLang = baseLang || 'en-US';
@@ -21,7 +44,7 @@ function applyVoice(utterance, baseLang) {
 
   let voices = [];
   try { voices = window.speechSynthesis.getVoices() || []; } catch (e) {}
-  if (!voices.length) return;
+  if (!voices.length) return false; // voices 未加载/WebView 禁用，调用方据此提示
 
   // 统一分隔符：voice.lang 可能是 'zh-CN' / 'zh_CN' / 'zh' 等多种格式
   const norm = function (s) { return String(s || '').toLowerCase().replace(/_/g, '-'); };
@@ -40,7 +63,7 @@ function applyVoice(utterance, baseLang) {
   if (!candidates.length) {
     candidates = voices.filter(function (v) { return norm(v.lang).indexOf(fam) === 0; });
   }
-  if (!candidates.length) return;
+  if (!candidates.length) return false;
 
   // 性别关键词猜测（Web Speech API 无标准性别字段，靠 voice 名称）
   const femaleKw = ['female','woman','zira','samantha','victoria','karen','moira','tessa','fiona','aria','jenny','hazel','clara','sara','linda','heather','catherine','susan','allison','ava','zoe','emma','amy','serena','michelle','julia','huihui','yaoyao','xiaoxiao','xiaoyi','xiaochen','xiaohan','xiaomeng','xiaoqiu','xiaoshuang','xiaoyan','xiaorui','hiumaan','tracy','sinji','ting-ting','mei','yue'];
@@ -54,6 +77,7 @@ function applyVoice(utterance, baseLang) {
   const v = hit || candidates[0];
   // 指定 voice（同语系即可，保证发声；引擎按 voice 自身 lang 发音）
   utterance.voice = v;
+  return true;
 }
 
 // 查询当前设备是否真正支持目标方言的专用 voice（用于给用户明确提示，避免静默兜底困惑）
@@ -87,24 +111,47 @@ function zhDialectHint() {
 }
 
 // Android 兼容：cancel 后延后 100ms 再 speak，并立即 resume() 防止自动暂停
-// （Android Chrome 已知问题：cancel 紧接 speak 会被吞掉；长文朗读中途会自动暂停）
+// （Android Chrome 已知问题：cancel 紧接 speak 会被吞掉；长文朗读中途会自动暂停；
+//  另外某些情况下 onend 永不触发导致队列卡死，故增加超时兜底）
 function safeSpeak(utterance, onend, onerror) {
+  let done = false;
+  const finish = function (err) {
+    if (done) return;
+    done = true;
+    if (timer) { clearTimeout(timer); timer = null; }
+    if (err && onerror) onerror(err);
+    else if (onend) onend();
+  };
+  // 超时兜底：按文本长度估算（中文约 4 字/秒，英文约 2.5 词/秒），最少 3 秒，最多 25 秒
+  const text = utterance.text || '';
+  const estSec = Math.max(3, Math.min(25, text.length / 3 + 2));
+  let timer = setTimeout(function () {
+    // 安卓 Chrome 有时 onend 不触发，超时后强制 cancel 并继续队列
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+    finish(new Error('speech timeout'));
+  }, estSec * 1000);
+
   try {
     window.speechSynthesis.cancel();
     setTimeout(function () {
       try {
-        utterance.onend = onend || null;
-        utterance.onerror = onerror || null;
+        utterance.onend = function () { finish(); };
+        utterance.onerror = function (e) { finish(e); };
         window.speechSynthesis.speak(utterance);
         try { window.speechSynthesis.resume(); } catch (e) {}
+        // 安卓保活：长文朗读中途合成会自动暂停，定期 resume
+        if (estSec > 5) {
+          const keepAlive = setInterval(function () {
+            if (done) { clearInterval(keepAlive); return; }
+            try { if (!window.speechSynthesis.speaking) { clearInterval(keepAlive); return; } window.speechSynthesis.resume(); } catch (e) {}
+          }, 5000);
+        }
       } catch (e) {
-        if (onerror) onerror(e);
-        else if (onend) onend();
+        finish(e);
       }
     }, 100);
   } catch (e) {
-    if (onerror) onerror(e);
-    else if (onend) onend();
+    finish(e);
   }
 }
 
@@ -172,7 +219,26 @@ function speak() {
       utterance.rate = stt.speechRate;
       utterance.pitch = speechPitch();
       utterance.volume = 1.0;
-      applyVoice(utterance, part.lang);
+      const voiceOk = applyVoice(utterance, part.lang);
+      if (!voiceOk) {
+        // voices 为空（安卓 WebView）：提示一次并结束朗读，避免卡住按钮
+        if (!speak._engineWarned) {
+          speak._engineWarned = true;
+          const status = speechEngineStatus();
+          const msg = status && status.hint ? status.hint : '当前设备无语音引擎，朗读不可用。';
+          finishSpeak();
+          try {
+            const tip = document.createElement('div');
+            tip.textContent = '🔇 ' + msg;
+            tip.style.cssText = 'position:fixed;left:8px;right:8px;bottom:72px;background:#8a5a00;color:#fff;font-size:12px;padding:10px 14px;border-radius:10px;z-index:9999;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,0.3);';
+            document.body.appendChild(tip);
+            setTimeout(function () { tip.remove(); }, 5000);
+          } catch (e) {}
+        } else {
+          finishSpeak();
+        }
+        return;
+      }
 
       safeSpeak(utterance, function () {
         partIndex++;

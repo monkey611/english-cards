@@ -77,7 +77,22 @@ function bindCalendarNav() {
 // ========== 设置 UI（D4：语速 / 音效 / 振动）==========
 function renderSettings() {
   const stt = loadSettings();
-  let h = '<div class="pf-setting-row col">';
+  // 语音引擎诊断（安卓 WebView voices 为空时引导用户）
+  let engineH = '';
+  const status = (typeof speechEngineStatus === 'function') ? speechEngineStatus() : null;
+  if (status) {
+    const dot = status.available ? '🟢' : '🔴';
+    let info = dot + ' 语音引擎：' + status.voiceCount + ' 个';
+    if (status.zhCount || status.enCount) info += '（中文 ' + status.zhCount + ' / 英文 ' + status.enCount + '）';
+    engineH = '<div class="pf-setting-row col"><div class="pf-setting-hint">' + esc(info) + '</div>';
+    if (status.hint) engineH += '<div class="pf-setting-hint">⚠️ ' + esc(status.hint) + '</div>';
+    if (status.zhVoices && status.zhVoices.length) {
+      engineH += '<div class="pf-setting-hint">🎧 中文语音：' + esc(status.zhVoices.join('、')) + '</div>';
+    }
+    engineH += '</div>';
+  }
+  let h = engineH;
+  h += '<div class="pf-setting-row col">';
   h += '<div class="pf-setting-label"><span>🐢 朗读语速</span><span class="pf-setting-val" id="setRateVal">' + stt.speechRate.toFixed(2) + 'x</span></div>';
   h += '<input type="range" class="pf-range" id="setRate" min="0.5" max="1.2" step="0.05" value="' + stt.speechRate + '">';
   h += '<div class="pf-range-marks"><span>慢</span><span>正常</span><span>快</span></div>';

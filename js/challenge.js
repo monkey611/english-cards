@@ -27,12 +27,32 @@ function zhEmojiMap() {
 function playText(text, lang) {
   const stt = loadSettings();
   if (!stt.soundOn) return;
+  // 首次播放前确保 voices 已加载（安卓 Chrome 有时需用户交互后才加载）
+  try { window.speechSynthesis.getVoices(); } catch (e) {}
   try {
     const u = new SpeechSynthesisUtterance(text);
     u.rate = stt.speechRate;
     u.pitch = speechPitch();
     u.volume = 1.0;
-    applyVoice(u, lang || 'en-US');
+    const ok = applyVoice(u, lang || 'en-US');
+    if (!ok) {
+      // voices 为空（安卓 WebView/未安装 TTS 引擎）：提示一次，避免用户困惑
+      if (!playText._warned) {
+        playText._warned = true;
+        const status = (typeof speechEngineStatus === 'function') ? speechEngineStatus() : null;
+        const msg = (status && status.hint) ? status.hint : '当前设备无语音引擎，朗读不可用。请用 Chrome 浏览器或在手机设置→文字转语音中安装中文语音包。';
+        console.warn('[TTS] ' + msg);
+        // 非阻塞提示，避免打断闯关流程
+        try {
+          const tip = document.createElement('div');
+          tip.textContent = '🔇 ' + msg;
+          tip.style.cssText = 'position:fixed;left:8px;right:8px;bottom:72px;background:#8a5a00;color:#fff;font-size:12px;padding:10px 14px;border-radius:10px;z-index:9999;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,0.3);';
+          document.body.appendChild(tip);
+          setTimeout(function () { tip.remove(); }, 5000);
+        } catch (e) {}
+      }
+      return;
+    }
     safeSpeak(u);
   } catch (e) {}
 }
