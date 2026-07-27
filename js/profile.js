@@ -155,8 +155,13 @@ function bindSettings() {
         btn.classList.add('active');
         // 试听：用较长的句子让音色/方言差异更易感知
         if (stt.soundOn) {
-          if (key === 'zhDialect') playText('你好，今天天气真好，我们一起去玩吧。', 'zh-CN');
-          else playText('Hello, how are you today? Let us learn English.', 'en-US');
+          if (key === 'zhDialect') {
+            // 按当前选择的方言路由：粤语→zh-HK，普通话→zh-CN
+            const zh = stt.zhDialect === 'cantonese' ? 'zh-HK' : 'zh-CN';
+            playText(stt.zhDialect === 'cantonese' ? '你好，今日天晴，我哋一齐去玩啦。' : '你好，今天天气真好，我们一起去玩吧。', zh);
+          } else {
+            playText('Hello, how are you today? Let us learn English.', 'en-US');
+          }
         }
       });
     });

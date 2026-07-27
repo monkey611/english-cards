@@ -578,6 +578,56 @@
       { en: 'Flask', phonetic: '/flɑːsk/', zh: '保温瓶', emoji: '🧴', sentence: 'The flask keeps it warm.', sentenceZh: '保温瓶能保温。' },
       { en: 'Lid', phonetic: '/lɪd/', zh: '盖子', emoji: '🫙', sentence: 'The lid covers the pot.', sentenceZh: '盖子盖住锅。' }
     ]
+  },
+  {
+    id: 'phrases-primary', level: 'primary', name: '💬 小学短句', icon: '💬',
+    items: [
+      { en: 'What day is it today?', zh: '今天星期几？', emoji: '📅', sentence: '', sentenceZh: '' },
+      { en: 'Today is Monday.', zh: '今天是星期一。', emoji: '1️⃣', sentence: '', sentenceZh: '' },
+      { en: 'Can you help me?', zh: '你能帮帮我吗？', emoji: '🆘', sentence: '', sentenceZh: '' },
+      { en: 'Where is the library?', zh: '图书馆在哪里？', emoji: '📚', sentence: '', sentenceZh: '' },
+      { en: 'How do you spell it?', zh: '你怎么拼写它？', emoji: '🔤', sentence: '', sentenceZh: '' },
+      { en: 'I do not understand.', zh: '我不明白。', emoji: '😕', sentence: '', sentenceZh: '' },
+      { en: 'May I borrow a pen?', zh: '我可以借支笔吗？', emoji: '🖊️', sentence: '', sentenceZh: '' },
+      { en: 'It is my turn.', zh: '轮到我了。', emoji: '🔄', sentence: '', sentenceZh: '' },
+      { en: 'Wait a moment, please.', zh: '请等一下。', emoji: '⏳', sentence: '', sentenceZh: '' },
+      { en: 'What does this mean?', zh: '这是什么意思？', emoji: '❓', sentence: '', sentenceZh: '' },
+      { en: 'I am good at math.', zh: '我擅长数学。', emoji: '🔢', sentence: '', sentenceZh: '' },
+      { en: 'Let me try again.', zh: '让我再试一次。', emoji: '🔁', sentence: '', sentenceZh: '' },
+      { en: 'Open your books, please.', zh: '请打开书。', emoji: '📖', sentence: '', sentenceZh: '' },
+      { en: 'Listen carefully.', zh: '仔细听。', emoji: '👂', sentence: '', sentenceZh: '' },
+      { en: 'Write down the answer.', zh: '写下答案。', emoji: '✍️', sentence: '', sentenceZh: '' },
+      { en: 'Raise your hand.', zh: '举手。', emoji: '✋', sentence: '', sentenceZh: '' },
+      { en: 'It is time for class.', zh: '该上课了。', emoji: '🔔', sentence: '', sentenceZh: '' },
+      { en: 'See you after school.', zh: '放学后见。', emoji: '👋', sentence: '', sentenceZh: '' },
+      { en: 'What is your favorite subject?', zh: '你最喜欢的科目是什么？', emoji: '⭐', sentence: '', sentenceZh: '' },
+      { en: 'I like English very much.', zh: '我非常喜欢英语。', emoji: '❤️', sentence: '', sentenceZh: '' },
+      { en: 'How much is it?', zh: '这个多少钱？', emoji: '💰', sentence: '', sentenceZh: '' },
+      { en: 'It is too expensive.', zh: '太贵了。', emoji: '💸', sentence: '', sentenceZh: '' },
+      { en: 'Can I try it on?', zh: '我可以试穿吗？', emoji: '👕', sentence: '', sentenceZh: '' },
+      { en: 'Where is the restroom?', zh: '洗手间在哪里？', emoji: '🚻', sentence: '', sentenceZh: '' },
+      { en: 'Turn left at the corner.', zh: '在拐角左转。', emoji: '⬅️', sentence: '', sentenceZh: '' }
+    ]
+  },
+  {
+    id: 'dialogue-primary', level: 'primary', name: '🗣️ 小学情景对话', icon: '🗣️',
+    items: [
+      { en: 'Good morning, class!', zh: '早上好，同学们！', emoji: '🌅', sentence: 'Good morning, teacher!', sentenceZh: '早上好，老师！', roleA: '老师', roleB: '同学们' },
+      { en: 'What is your name?', zh: '你叫什么名字？', emoji: '🧒', sentence: 'My name is Tom.', sentenceZh: '我叫汤姆。', roleA: '老师', roleB: '汤姆' },
+      { en: 'How old are you?', zh: '你几岁了？', emoji: '🎂', sentence: 'I am eight years old.', sentenceZh: '我八岁了。', roleA: '老师', roleB: '汤姆' },
+      { en: 'What grade are you in?', zh: '你几年级？', emoji: '🏫', sentence: 'I am in Grade Three.', sentenceZh: '我三年级。', roleA: '老师', roleB: '汤姆' },
+      { en: 'Can you spell "cat"?', zh: '你能拼写cat吗？', emoji: '🐱', sentence: 'C-A-T, cat.', sentenceZh: 'C-A-T，猫。', roleA: '老师', roleB: '汤姆' },
+      { en: 'What is this?', zh: '这是什么？', emoji: '❓', sentence: 'It is a pencil.', sentenceZh: '这是一支铅笔。', roleA: '老师', roleB: '汤姆' },
+      { en: 'Whose book is this?', zh: '这是谁的书？', emoji: '📖', sentence: 'It is my book.', sentenceZh: '是我的书。', roleA: '老师', roleB: '汤姆' },
+      { en: 'What time is it?', zh: '几点了？', emoji: '⏰', sentence: 'It is ten o\'clock.', sentenceZh: '十点钟。', roleA: '汤姆', roleB: '老师' },
+      { en: 'May I go out?', zh: '我可以出去吗？', emoji: '🚪', sentence: 'Yes, you may.', sentenceZh: '可以。', roleA: '汤姆', roleB: '老师' },
+      { en: 'Can you repeat that?', zh: '你能重复一遍吗？', emoji: '🔁', sentence: 'Sure, listen carefully.', sentenceZh: '好的，仔细听。', roleA: '汤姆', roleB: '老师' },
+      { en: 'What did you do yesterday?', zh: '你昨天做什么了？', emoji: '📅', sentence: 'I went to the park.', sentenceZh: '我去了公园。', roleA: '老师', roleB: '汤姆' },
+      { en: 'Did you do your homework?', zh: '你做作业了吗？', emoji: '📝', sentence: 'Yes, I finished it.', sentenceZh: '是的，我完成了。', roleA: '老师', roleB: '汤姆' },
+      { en: 'What is your hobby?', zh: '你的爱好是什么？', emoji: '🎨', sentence: 'I like drawing.', sentenceZh: '我喜欢画画。', roleA: '老师', roleB: '汤姆' },
+      { en: 'Can you swim?', zh: '你会游泳吗？', emoji: '🏊', sentence: 'Yes, I can swim well.', sentenceZh: '是的，我游得很好。', roleA: '老师', roleB: '汤姆' },
+      { en: 'What do you want to be?', zh: '你想成为什么？', emoji: '👨‍⚕️', sentence: 'I want to be a doctor.', sentenceZh: '我想当医生。', roleA: '老师', roleB: '汤姆' }
+    ]
   }
 ];
 

@@ -569,6 +569,59 @@
         { en: 'midnight', phonetic: '/ˈmɪdnaɪt/', zh: '午夜', emoji: '🌃', sentence: 'At midnight.', sentenceZh: '在午夜。' },
         { en: 'dawn', phonetic: '/dɔːn/', zh: '黎明', emoji: '🌅', sentence: 'At dawn.', sentenceZh: '在黎明。' }
       ]
+    },
+    {
+      id: 'phrases-middle', name: '💬 中学短句', icon: '💬', level: 'middle',
+      items: [
+        { en: 'Could you do me a favor?', zh: '能帮我个忙吗？', emoji: '🤝', sentence: '', sentenceZh: '' },
+        { en: 'I am looking forward to it.', zh: '我很期待。', emoji: '⭐', sentence: '', sentenceZh: '' },
+        { en: 'What do you mean by that?', zh: '你那样说是什么意思？', emoji: '❓', sentence: '', sentenceZh: '' },
+        { en: 'It depends on the weather.', zh: '这取决于天气。', emoji: '🌤️', sentence: '', sentenceZh: '' },
+        { en: 'I am proud of you.', zh: '我为你骄傲。', emoji: '😊', sentence: '', sentenceZh: '' },
+        { en: 'Do you mind if I sit here?', zh: '你介意我坐这儿吗？', emoji: '🪑', sentence: '', sentenceZh: '' },
+        { en: 'Let me think it over.', zh: '让我仔细想想。', emoji: '🤔', sentence: '', sentenceZh: '' },
+        { en: 'It is none of your business.', zh: '这不关你的事。', emoji: '🚫', sentence: '', sentenceZh: '' },
+        { en: 'I cannot agree with you more.', zh: '我完全同意。', emoji: '✅', sentence: '', sentenceZh: '' },
+        { en: 'What is the matter with you?', zh: '你怎么了？', emoji: '😟', sentence: '', sentenceZh: '' },
+        { en: 'Keep up the good work!', zh: '继续保持！', emoji: '💪', sentence: '', sentenceZh: '' },
+        { en: 'It is a piece of cake.', zh: '小菜一碟。', emoji: '🍰', sentence: '', sentenceZh: '' },
+        { en: 'Do not give up halfway.', zh: '不要半途而废。', emoji: '🏁', sentence: '', sentenceZh: '' },
+        { en: 'Practice makes perfect.', zh: '熟能生巧。', emoji: '🎯', sentence: '', sentenceZh: '' },
+        { en: 'Better late than never.', zh: '迟做总比不做好。', emoji: '⏰', sentence: '', sentenceZh: '' },
+        { en: 'Actions speak louder than words.', zh: '行动胜于言辞。', emoji: '🗣️', sentence: '', sentenceZh: '' },
+        { en: 'Where there is a will, there is a way.', zh: '有志者事竟成。', emoji: '🌟', sentence: '', sentenceZh: '' },
+        { en: 'I will be right back.', zh: '我马上回来。', emoji: '🔙', sentence: '', sentenceZh: '' },
+        { en: 'It is worth trying.', zh: '值得一试。', emoji: '💎', sentence: '', sentenceZh: '' },
+        { en: 'Take it easy.', zh: '别紧张。', emoji: '😌', sentence: '', sentenceZh: '' }
+      ]
+    },
+    {
+      id: 'dialogue-middle', name: '🗣️ 中学情景对话', icon: '🗣️', level: 'middle',
+      items: [
+        { en: 'How was your weekend?', zh: '你周末过得怎么样？', emoji: '📅', sentence: 'It was great. I went hiking.', sentenceZh: '很棒，我去爬山了。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'What do you think of the movie?', zh: '你觉得这部电影怎么样？', emoji: '🎬', sentence: 'I think it is exciting.', sentenceZh: '我觉得很刺激。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'Could you tell me the way to the station?', zh: '能告诉我去车站的路吗？', emoji: '🚉', sentence: 'Go straight and turn left.', sentenceZh: '直走然后左转。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'What are you going to be in the future?', zh: '你将来想做什么？', emoji: '🔮', sentence: 'I want to be a scientist.', sentenceZh: '我想当科学家。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'Why are you learning English?', zh: '你为什么学英语？', emoji: '📚', sentence: 'Because it is useful.', sentenceZh: '因为它很有用。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'Have you ever been to Beijing?', zh: '你去过北京吗？', emoji: '🏙️', sentence: 'Yes, I went there last year.', sentenceZh: '是的，我去年去过。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'What is your favorite book?', zh: '你最喜欢的书是什么？', emoji: '📖', sentence: 'My favorite is Harry Potter.', sentenceZh: '我最喜欢哈利波特。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'Do you like sports?', zh: '你喜欢运动吗？', emoji: '⚽', sentence: 'Yes, I play basketball every day.', sentenceZh: '是的，我每天打篮球。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'What should I do now?', zh: '我现在该怎么办？', emoji: '🤔', sentence: 'You should ask your teacher.', sentenceZh: '你应该问老师。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'May I borrow your dictionary?', zh: '可以借你的字典吗？', emoji: '📕', sentence: 'Sure, here you are.', sentenceZh: '当然，给你。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'How do you study English?', zh: '你怎么学英语？', emoji: '✏️', sentence: 'I read English every morning.', sentenceZh: '我每天早上读英语。', roleA: 'Tom', roleB: 'Lucy' },
+        { en: 'What is your dream?', zh: '你的梦想是什么？', emoji: '🌟', sentence: 'I want to travel the world.', sentenceZh: '我想环游世界。', roleA: 'Tom', roleB: 'Lucy' }
+      ]
+    },
+    {
+      id: 'stories-middle', name: '📖 中学英语美文', icon: '📖', level: 'middle',
+      items: [
+        { en: 'The Value of Time', zh: '时间的价值', emoji: '⏰', story: 'Time is one of the most valuable things in our lives. Once it is gone, it will never come back. Many people waste time on useless things, such as playing games all day or watching too much TV. When they grow old, they will regret it. We should make good use of our time. We should study hard, read books, and learn new skills. Every minute is precious. Remember, lost time is never found again. Let us cherish every moment and work hard for a better future.', storyZh: '时间是我们生命中最有价值的东西之一。它一旦流逝就永远不会回来。许多人把时间浪费在无用的事情上，比如整天玩游戏或看太多电视。当他们变老时会后悔的。我们应该好好利用时间。我们应该努力学习、读书、学习新技能。每一分钟都很珍贵。记住，丢失的时间再也找不回来。让我们珍惜每一刻，为更好的未来而努力。' },
+        { en: 'The Power of Perseverance', zh: '坚持的力量', emoji: '💪', story: 'Perseverance is the key to success. Many great people in history achieved their goals because they never gave up. Thomas Edison failed thousands of times before he invented the light bulb. When others laughed at him, he said, "I have not failed. I have just found thousands of ways that do not work." His perseverance finally brought light to the world. In our daily life, we will meet many difficulties. Sometimes we may feel tired and want to give up. But if we keep trying, we will succeed in the end. Remember, nothing is impossible if you put your heart into it.', storyZh: '坚持是成功的关键。历史上许多伟人之所以能实现目标，是因为他们从不放弃。托马斯·爱迪生在发明电灯泡之前失败了数千次。当别人嘲笑他时，他说，我没有失败，我只是找到了数千种行不通的方法。他的坚持最终为世界带来了光明。在日常生活中，我们会遇到许多困难。有时我们会感到疲惫想放弃。但如果我们继续尝试，最终会成功的。记住，只要用心，没有什么是不可能的。' },
+        { en: 'Protecting Our Environment', zh: '保护我们的环境', emoji: '🌍', story: 'Our planet is facing serious environmental problems. The air is polluted, the water is dirty, and many animals are losing their homes. We must do something to protect the environment. First, we can reduce waste by using less plastic and recycling more. Second, we can save energy by turning off lights when we leave a room and taking shorter showers. Third, we can plant more trees to make the air cleaner. Everyone can make a difference. Even small actions, like picking up litter or riding a bike instead of driving, can help. If we all work together, we can make the world a better place for future generations.', storyZh: '我们的星球正面临严重的环境问题。空气被污染，水变脏了，许多动物正在失去家园。我们必须做些什么来保护环境。首先，我们可以通过少用塑料和更多地回收来减少废物。其次，我们可以通过离开房间时关灯和缩短洗澡时间来节约能源。第三，我们可以种更多的树让空气更清新。每个人都能带来改变。即使是捡垃圾或骑自行车代替开车这样的小行动也能有所帮助。如果我们共同努力，就能为子孙后代让世界变得更美好。' },
+        { en: 'The Joy of Reading', zh: '阅读的乐趣', emoji: '📚', story: 'Reading is a wonderful hobby that can bring us endless joy and knowledge. When we open a book, we enter a new world. We can travel to distant lands, meet interesting characters, and experience exciting adventures without leaving home. Books are also great teachers. They teach us about history, science, and culture. They help us think more deeply and understand the world better. Many successful people are avid readers. They read every day because they know that learning never stops. If you want to grow wiser and happier, develop the habit of reading. Start with books that interest you, and gradually explore different kinds of books. You will find that reading is one of the best things in life.', storyZh: '阅读是一种奇妙的爱好，能给我们带来无尽的快乐和知识。当我们打开一本书时，就进入了一个新世界。我们可以去遥远的地方，遇见有趣的人物，经历激动人心的冒险，而不用离开家。书也是伟大的老师。它们教我们历史、科学和文化。它们帮助我们更深入地思考，更好地理解世界。许多成功人士都是热心的读者。他们每天阅读，因为他们知道学习永无止境。如果你想变得更聪明更快乐，就养成阅读的习惯。从你感兴趣的书开始，逐渐探索不同类型的书。你会发现阅读是生活中最美好的事情之一。' },
+        { en: 'Friendship', zh: '友谊', emoji: '🤝', story: 'Friendship is one of the most precious gifts in our lives. A true friend is someone who stays by your side when you are in trouble. They share your happiness and sadness, and they never judge you. Good friends trust each other and are honest with each other. They help each other grow and become better people. Making friends is easy, but keeping a friendship takes effort. We need to be loyal, kind, and patient. We should listen to our friends and support them when they need help. Sometimes friends may have disagreements, but they can always talk and solve the problems together. A real friendship can last a lifetime. Treasure your friends, because they make your life richer and more meaningful.', storyZh: '友谊是我们生命中最珍贵的礼物之一。真正的朋友是在你遇到困难时留在你身边的人。他们分享你的快乐和悲伤，从不评判你。好朋友相互信任，相互坦诚。他们帮助彼此成长，成为更好的人。交朋友很容易，但维持友谊需要努力。我们需要忠诚、善良和耐心。我们应该倾听朋友，在他们需要帮助时支持他们。有时朋友可能会有分歧，但他们总是可以交流并一起解决问题。真正的友谊可以持续一生。珍惜你的朋友，因为他们让你的生活更丰富、更有意义。' },
+        { en: 'Dreams and Goals', zh: '梦想与目标', emoji: '🌟', story: 'Everyone has dreams. Some people want to be doctors, others want to be teachers or artists. Dreams give us direction and make our lives meaningful. However, a dream without action is just a wish. To make our dreams come true, we must set clear goals and work hard to achieve them. First, we should make a plan. Break a big dream into small, achievable steps. Second, we should take action every day. Even a small step forward brings us closer to our goal. Third, we should never give up. There will be difficulties and failures along the way, but they are part of the journey. Learn from your mistakes and keep moving. Remember, success belongs to those who never stop trying. Hold on to your dreams, and one day they will become reality.', storyZh: '每个人都有梦想。有些人想当医生，其他人想当老师或艺术家。梦想给我们方向，让我们的生活有意义。然而，没有行动的梦想只是愿望。要让梦想成真，我们必须设定明确的目标并努力实现它们。首先，我们应该制定计划。把大梦想分解成小的、可实现的步骤。其次，我们每天都应该采取行动。即使是向前的一小步也会让我们更接近目标。第三，我们永远不应该放弃。一路上会有困难和失败，但它们是旅程的一部分。从错误中学习并继续前进。记住，成功属于那些从不停止尝试的人。坚持你的梦想，总有一天它们会变成现实。' }
+      ]
     }
   ];
 

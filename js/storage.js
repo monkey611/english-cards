@@ -3,8 +3,8 @@ const STORAGE_KEY = 'ec_progress';
 // 词汇题库主题（排除 phonetics 音标 / dialogue / stories / listening 长内容）
 // 含中学（ms-*）主题，按 level 分层使用
 const VOCAB_THEME_IDS = ['pronouns','time','emotions','places','animals','fruits','vegetables','colors','numbers','toys','clothes','home','transport','food','body','weather','actions','shapes','opposites','jobs','family','school','nature','sports','insects','sea','birds','drinks','snacks','music','furniture','plants','adjectives','verbs2','tools','classroom','space','tableware','ms-verbs','ms-nouns-abstract','ms-subjects','ms-society','ms-technology','ms-emotions-adv','ms-adjectives','ms-adverbs','ms-nature-env','ms-health','ms-travel','ms-economy','ms-media','ms-jobs-adv','ms-time-events'];
-// 句子题库主题
-const SENTENCE_THEME_IDS = ['phrases'];
+// 句子题库主题（按 level 分层：phrases=启蒙 / phrases-primary=小学 / phrases-middle=中学）
+const SENTENCE_THEME_IDS = ['phrases','phrases-primary','phrases-middle'];
 // 每日题数与题型分配
 const DAILY_WORD_COUNT = 10;
 const DAILY_SENT_COUNT = 5;

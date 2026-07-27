@@ -31,14 +31,35 @@ function runTests() {
     ok('启蒙级词汇 >= 200', poolStarter.words.length >= 200, 'starter=' + poolStarter.words.length);
     ok('小学级词汇 >= 200', poolPrimary.words.length >= 200, 'primary=' + poolPrimary.words.length);
     ok('中学级词汇 >= 200', poolMiddle.words.length >= 200, 'middle=' + poolMiddle.words.length);
+    // 词汇量递增规律：启蒙 < 小学 < 中学（启蒙最简单最少，中学最多）
+    ok('词汇量 启蒙 < 小学', poolStarter.words.length < poolPrimary.words.length, 'starter=' + poolStarter.words.length + ' primary=' + poolPrimary.words.length);
+    ok('词汇量 小学 < 中学', poolPrimary.words.length < poolMiddle.words.length, 'primary=' + poolPrimary.words.length + ' middle=' + poolMiddle.words.length);
+    // 各级别句子题库均不为空（phrases / phrases-primary / phrases-middle）
+    ok('启蒙句子题库 >= 20', poolStarter.sentences.length >= 20, 'starter sent=' + poolStarter.sentences.length);
+    ok('小学句子题库 >= 15', poolPrimary.sentences.length >= 15, 'primary sent=' + poolPrimary.sentences.length);
+    ok('中学句子题库 >= 15', poolMiddle.sentences.length >= 15, 'middle sent=' + poolMiddle.sentences.length);
     // 验证级别过滤生效：中学题库的词来自 ms-* 中学主题，不含启蒙/小学主题词
     ok('中学题库仅含 ms-* 主题', poolMiddle.words.every(function (w) { return w.themeId.indexOf('ms-') === 0; }), '非ms主题数=' + poolMiddle.words.filter(function(w){return w.themeId.indexOf('ms-')!==0;}).length);
     ok('启蒙题库不含 ms-* 主题', !poolStarter.words.some(function (w) { return w.themeId.indexOf('ms-') === 0; }), '');
     const pool = poolStarter;
     ok('词汇按 en 去重', new Set(pool.words.map(function (w) { return w.en.toLowerCase(); })).size === pool.words.length, 'distinct=' + new Set(pool.words.map(function (w) { return w.en.toLowerCase(); })).size);
-    ok('句子题库 > 20', pool.sentences.length > 20, 'sentences=' + pool.sentences.length);
+    ok('句子题库 > 20 (启蒙)', pool.sentences.length > 20, 'sentences=' + pool.sentences.length);
     ok('词汇项含 en/zh 字段', pool.words.every(function (w) { return w.en && w.zh; }), 'sample=' + pool.words[0].en + '/' + pool.words[0].zh);
     ok('排除 stories/listening/dialogue/phonetics', !pool.words.some(function (w) { return w.themeId === 'stories' || w.themeId === 'listening'; }) && !pool.sentences.some(function (s) { return s.themeId === 'dialogue'; }), '');
+
+    log.push('[2b] 各级别短句/对话/朗读主题完整性');
+    // 启蒙：phrases + dialogue
+    ok('启蒙有 phrases 主题', !!THEMES.find(function (t) { return t.id === 'phrases' && t.level === 'starter'; }), '');
+    ok('启蒙有 dialogue 主题', !!THEMES.find(function (t) { return t.id === 'dialogue' && t.level === 'starter'; }), '');
+    // 小学：phrases-primary + dialogue-primary + stories + listening
+    ok('小学有 phrases-primary', !!THEMES.find(function (t) { return t.id === 'phrases-primary' && t.level === 'primary'; }), '');
+    ok('小学有 dialogue-primary', !!THEMES.find(function (t) { return t.id === 'dialogue-primary' && t.level === 'primary'; }), '');
+    ok('小学有 stories 主题', !!THEMES.find(function (t) { return t.id === 'stories' && t.level === 'primary'; }), '');
+    ok('小学有 listening 主题', !!THEMES.find(function (t) { return t.id === 'listening' && t.level === 'primary'; }), '');
+    // 中学：phrases-middle + dialogue-middle + stories-middle
+    ok('中学有 phrases-middle', !!THEMES.find(function (t) { return t.id === 'phrases-middle' && t.level === 'middle'; }), '');
+    ok('中学有 dialogue-middle', !!THEMES.find(function (t) { return t.id === 'dialogue-middle' && t.level === 'middle'; }), '');
+    ok('中学有 stories-middle 长篇朗读', !!THEMES.find(function (t) { return t.id === 'stories-middle' && t.level === 'middle'; }), '');
 
     log.push('[3] generateDailyQuestions 题数与题型分布');
     const qs = generateDailyQuestions('2026-07-24');

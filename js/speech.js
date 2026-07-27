@@ -23,11 +23,13 @@ function applyVoice(utterance, baseLang) {
   try { voices = window.speechSynthesis.getVoices() || []; } catch (e) {}
   if (!voices.length) return;
 
-  const low = targetLang.toLowerCase();                 // 'zh-hk' / 'zh-cn' / 'en-us'
-  const fam = low.split('-')[0];                        // 'zh' / 'en'
+  // 统一分隔符：voice.lang 可能是 'zh-CN' / 'zh_CN' / 'zh' 等多种格式
+  const norm = function (s) { return String(s || '').toLowerCase().replace(/_/g, '-'); };
+  const low = norm(targetLang);                          // 'zh-hk' / 'zh-cn' / 'en-us'
+  const fam = low.split('-')[0];                         // 'zh' / 'en'
 
-  // 1) 精确前缀匹配
-  let candidates = voices.filter(function (v) { return (v.lang || '').toLowerCase().indexOf(low) === 0; });
+  // 1) 精确前缀匹配（统一分隔符后比较）
+  let candidates = voices.filter(function (v) { return norm(v.lang).indexOf(low) === 0; });
   // 2) 粤语扩展匹配：yue / 名字含 cantonese/hk
   if (low === 'zh-hk' && !candidates.length) {
     candidates = voices.filter(function (v) {
@@ -36,7 +38,7 @@ function applyVoice(utterance, baseLang) {
   }
   // 3) 同语系兜底（确保有候选 voice 可用，避免安卓无声）
   if (!candidates.length) {
-    candidates = voices.filter(function (v) { return (v.lang || '').toLowerCase().indexOf(fam) === 0; });
+    candidates = voices.filter(function (v) { return norm(v.lang).indexOf(fam) === 0; });
   }
   if (!candidates.length) return;
 
@@ -86,9 +88,10 @@ function speak() {
   btnSpeak.innerHTML = '<span class="icon">🔊</span> 朗读中...';
 
   const item = currentTheme.items[currentIndex];
-  var isDialogue = currentTheme.id === 'dialogue';
-  var isListening = currentTheme.id === 'listening';
-  var isStories = currentTheme.id === 'stories';
+  // 用 id 前缀判断，适配各级别新增主题（dialogue-primary / stories-middle 等）
+  var isDialogue = currentTheme.id.indexOf('dialogue') === 0;
+  var isListening = currentTheme.id.indexOf('listening') === 0;
+  var isStories = currentTheme.id.indexOf('stories') === 0;
 
   // 构建朗读序列（中文部分按方言设置确定 lang）
   const zh = zhTargetLang();

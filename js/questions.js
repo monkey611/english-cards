@@ -11,17 +11,17 @@ function seededRandom(seed) {
 
 // 构建题库池：{ words:[{themeId,en,zh,emoji,phonetic}], sentences:[{themeId,en,zh,emoji}] }
 // 词汇按 en 去重（忽略大小写），避免跨主题重复词导致总数虚高 / 与已掌握数不一致
-// level: 可选，指定词汇级别（默认取设置中的 vocabLevel）；句子题库（phrases）始终纳入
+// level: 可选，指定词汇级别（默认取设置中的 vocabLevel）；词汇与句子题库均按 level 过滤
 function buildQuestionPool(level) {
   const lv = level || getVocabLevel();
   const words = [];
   const sentences = [];
   const seenWord = {};
   THEMES.forEach(theme => {
-    // 按级别过滤（句子题库 phrases 始终保留，作为补充题源）
+    // 按级别过滤：词汇题库与句子题库都严格按当前级别
     const themeLevel = theme.level || 'starter';
+    if (themeLevel !== lv) return;
     if (VOCAB_THEME_IDS.indexOf(theme.id) >= 0) {
-      if (themeLevel !== lv) return; // 词汇题库严格按当前级别
       theme.items.forEach(item => {
         if (item.en && item.zh) {
           const key = String(item.en).toLowerCase();

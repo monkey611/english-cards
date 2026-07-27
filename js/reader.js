@@ -1,5 +1,6 @@
 // ========== 统计（按当前级别过滤）==========
 // 词汇数 = 词汇主题(VOCAB_THEME_IDS)内按 en 去重后的数量，与闯关题库/我的页保持一致
+// 短句/对话按 id 前缀判断（phrases* / dialogue*），适配各级别新增主题
 let currentLevel = null; // 当前目录展示的词汇级别（与 settings.vocabLevel 同步；null 时从设置读取）
 function calcStats(level) {
   const lv = level || currentLevel || getVocabLevel();
@@ -11,8 +12,8 @@ function calcStats(level) {
       t.items.forEach(it => {
         if (it.en) { const k = String(it.en).toLowerCase(); if (!seen[k]) { seen[k] = true; words++; } }
       });
-    } else if (t.id === 'phrases') phrases += t.items.length;
-    else if (t.id === 'dialogue') dialogues += t.items.length;
+    } else if (t.id.indexOf('phrases') === 0) phrases += t.items.length;
+    else if (t.id.indexOf('dialogue') === 0) dialogues += t.items.length;
   });
   totalWords.textContent = `${words} 个词汇`;
   totalPhrases.textContent = `${phrases} 个短句`;
@@ -30,12 +31,13 @@ function themeMastery(theme) {
 
 // ========== 主题分组（用于目录分隔符）==========
 // 按主题类型分组：音标 / 词汇 / 短句 / 对话 / 故事 / 听力
+// 用 id 前缀判断，适配各级别新增主题（phrases-primary / dialogue-middle / stories-middle 等）
 function themeSection(theme) {
   if (theme.group === 'phonetics') return 'phonetics';
-  if (theme.id === 'phrases') return 'phrases';
-  if (theme.id === 'dialogue') return 'dialogue';
-  if (theme.id === 'stories') return 'stories';
-  if (theme.id === 'listening') return 'listening';
+  if (theme.id.indexOf('phrases') === 0) return 'phrases';
+  if (theme.id.indexOf('dialogue') === 0) return 'dialogue';
+  if (theme.id.indexOf('stories') === 0) return 'stories';
+  if (theme.id.indexOf('listening') === 0) return 'listening';
   return 'vocab';
 }
 function groupLabel(section) {
@@ -348,7 +350,11 @@ function showCard(animate) {
   if (!currentTheme) return;
   const items = currentTheme.items;
   const item = items[currentIndex];
-  const isDialogue = currentTheme.id === 'dialogue';
+  // 用 id 前缀判断，适配各级别新增主题（dialogue-primary / stories-middle 等）
+  const isDialogue = currentTheme.id.indexOf('dialogue') === 0;
+  const isPhonetics = currentTheme.group === 'phonetics';
+  const isStories = currentTheme.id.indexOf('stories') === 0;
+  const isListening = currentTheme.id.indexOf('listening') === 0;
 
   pageIndicator.textContent = `${currentIndex + 1}/${items.length}`;
   progressFill.style.width = `${((currentIndex + 1) / items.length) * 100}%`;
@@ -405,9 +411,9 @@ function showCard(animate) {
 
     // 显示音标（非音标模块的单词也显示）
     const phonetic = item.phonetic || getPhonetic(item.en);
-    if (phonetic && currentTheme.id !== 'phonetics') {
+    if (phonetic && !isPhonetics) {
       cardEnglish.innerHTML = `${item.en} <span style="font-size:0.5em;font-weight:600;color:var(--text-light);display:block;margin-top:2px">${phonetic}</span>`;
-    } else if (currentTheme.id === 'phonetics') {
+    } else if (isPhonetics) {
       cardEnglish.innerHTML = `${item.en} <span style="font-size:0.55em;font-weight:600;color:var(--text-light);display:block;margin-top:2px">${item.phonetic || ''}</span>`;
     }
 
@@ -421,7 +427,7 @@ function showCard(animate) {
   }
 
   // 音标模块特别处理
-  if (currentTheme.id === 'phonetics') {
+  if (isPhonetics) {
     cardImage.style.fontSize = '72px';
     cardImage.innerHTML = item.emoji;
     cardEnglish.className = 'card-english';
@@ -433,8 +439,8 @@ function showCard(animate) {
     cardChinese.appendChild(mouthHint);
   }
 
-  // 寓言故事模块特别处理
-  if (currentTheme.id === 'stories') {
+  // 寓言故事模块特别处理（适配 stories / stories-middle 等）
+  if (isStories) {
     cardContent.style.display = 'block';
     dialogueArea.style.display = 'none';
     cardImage.style.fontSize = '60px';
@@ -446,7 +452,7 @@ function showCard(animate) {
   }
 
   // 听力练习模块特别处理
-  if (currentTheme.id === 'listening') {
+  if (isListening) {
     cardContent.style.display = 'block';
     dialogueArea.style.display = 'none';
     cardImage.style.fontSize = '60px';

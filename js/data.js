@@ -93,7 +93,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'pronouns', level: 'starter', name: '👤 指示代词', icon: '👤',
+    id: 'pronouns', level: 'primary', name: '👤 指示代词', icon: '👤',
     items: [
       { en: 'I', zh: '我', emoji: '🙋', sentence: 'I am a boy.', sentenceZh: '我是一个男孩。' },
       { en: 'You', zh: '你', emoji: '👉', sentence: 'You are my friend.', sentenceZh: '你是我的朋友。' },
@@ -165,7 +165,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'emotions', level: 'starter', name: '😊 情绪表达', icon: '😊',
+    id: 'emotions', level: 'primary', name: '😊 情绪表达', icon: '😊',
     items: [
       { en: 'Happy', zh: '开心', emoji: '😊', sentence: 'I am happy!', sentenceZh: '我很开心！' },
       { en: 'Sad', zh: '难过', emoji: '😢', sentence: 'Don\'t be sad.', sentenceZh: '别难过。' },
@@ -185,7 +185,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'places', level: 'starter', name: '🏙️ 地点场所', icon: '🏙️',
+    id: 'places', level: 'primary', name: '🏙️ 地点场所', icon: '🏙️',
     items: [
       { en: 'School', zh: '学校', emoji: '🏫', sentence: 'I go to school.', sentenceZh: '我去上学。' },
       { en: 'Park', zh: '公园', emoji: '🌳', sentence: 'Let\'s go to the park.', sentenceZh: '我们去公园吧。' },
@@ -539,7 +539,7 @@ const THEMES = [
     ]
   },
   {
-    id: 'opposites', level: 'starter', name: '🔄 反义词', icon: '🔄',
+    id: 'opposites', level: 'primary', name: '🔄 反义词', icon: '🔄',
     items: [
       { en: 'Big / Small', zh: '大 / 小', emoji: '🐘🐭', sentence: 'The elephant is big, the mouse is small.', sentenceZh: '大象大，老鼠小。' },
       { en: 'Hot / Cold', zh: '热 / 冷', emoji: '🥵🥶', sentence: 'The sun is hot, ice is cold.', sentenceZh: '太阳热，冰冷。' },
