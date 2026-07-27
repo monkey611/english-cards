@@ -523,9 +523,16 @@ function goNext() {
 }
 
 // 预加载当前词和下一个词的音频（消除点击朗读时的下载延迟）
+// 仅在需要走 audio-player 时预加载（高清模式 或 原生TTS不可用如微信X5）
+// 标准模式 + 原生可用时走原生TTS秒播，无需预加载，避免无用网络下载
 function preloadCurrentAndNext() {
   if (!currentTheme || typeof preloadItemAudio !== 'function') return;
   const stt = (typeof loadSettings === 'function') ? loadSettings() : {};
+  const status = (typeof speechEngineStatus === 'function') ? speechEngineStatus() : null;
+  const nativeAvailable = status && status.available && status.voiceCount > 0;
+  // 标准模式 + 原生可用 → 走原生TTS，不预加载
+  if (stt.voiceQuality !== 'hd' && nativeAvailable) return;
+  // 高清模式 或 原生不可用 → 预加载（走 audio-player 路径）
   preloadItemAudio(currentTheme.items[currentIndex], currentTheme.id, stt.zhDialect);
   if (currentIndex < currentTheme.items.length - 1) {
     preloadItemAudio(currentTheme.items[currentIndex + 1], currentTheme.id, stt.zhDialect);

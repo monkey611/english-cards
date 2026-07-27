@@ -75,13 +75,13 @@ function bindCalendarNav() {
 }
 
 // ========== 设置 UI（D4：语速 / 音效 / 振动）==========
-// 音质模式提示文案：高清模式百度TTS不支持音色/方言切换，需告知用户
+// 音质模式提示文案
 function voiceQualityHint() {
   const stt = loadSettings();
   if (stt.voiceQuality === 'hd') {
-    return '高清模式：用百度TTS朗读，音色自然，但男声/女声、普通话/粤语设置在此模式下不生效。预生成内容离线秒播，其他内容需联网。';
+    return '高清模式：用百度TTS朗读，音色自然，但需联网下载（首词稍慢），男声/女声、普通话/粤语设置不生效。';
   }
-  return '标准模式：用系统语音合成，离线即时，支持音色/方言切换。音色偏机械时可切回高清。';
+  return '标准模式（推荐）：用系统语音合成，秒播，支持音色/方言切换。微信/无TTS设备会自动切百度兜底。觉得音色生硬可切高清。';
 }
 
 function renderSettings() {
@@ -112,12 +112,12 @@ function renderSettings() {
     engineH += '</div>';
   }
   let h = engineH;
-  // 语音音质（高清百度TTS / 标准系统TTS）
+  // 语音音质（标准系统TTS 推荐 / 高清百度TTS）
   h += '<div class="pf-setting-row">';
   h += '<div class="pf-setting-label"><span>🎵 语音音质</span></div>';
   h += '<div class="pf-seg" data-key="voiceQuality">';
-  h += '<button type="button" class="pf-seg-btn' + (stt.voiceQuality !== 'standard' ? ' active' : '') + '" data-val="hd">高清</button>';
-  h += '<button type="button" class="pf-seg-btn' + (stt.voiceQuality === 'standard' ? ' active' : '') + '" data-val="standard">标准</button>';
+  h += '<button type="button" class="pf-seg-btn' + (stt.voiceQuality !== 'hd' ? ' active' : '') + '" data-val="standard">标准 推荐</button>';
+  h += '<button type="button" class="pf-seg-btn' + (stt.voiceQuality === 'hd' ? ' active' : '') + '" data-val="hd">高清</button>';
   h += '</div>';
   h += '</div>';
   h += '<div class="pf-setting-hint" id="voiceQualityHint">' + esc(voiceQualityHint()) + '</div>';
